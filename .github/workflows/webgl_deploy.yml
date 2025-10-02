@@ -30,7 +30,7 @@ jobs:
           unityVersion: auto  # Or specify e.g., 2022.3.10f1
 
       - name: Deploy to itch.io
-        uses: https://github.com/itchio/butler@master
+        uses: github.com/itchio/butler@master
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
           CHANNEL: webgl  # Or html5
