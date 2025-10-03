@@ -12,6 +12,17 @@ jobs:
         with:
           lfs: true
 
+
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: true  # Removes GitHub's tool cache
+          android: true     # Removes Android SDK
+          dotnet: true      # Removes .NET SDK
+          haskell: true     # Removes Haskell/GHC
+          large-packages: true  # Removes other large packages like boost
+
+      # Rest of your steps: cache, activate, build, etc.
       - uses: actions/cache@v3
         with:
           path: src/LDJam58/Library
