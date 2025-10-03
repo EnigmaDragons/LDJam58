@@ -34,6 +34,6 @@ jobs:
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
           CHANNEL: webgl  # Or html5
-          ITCH_GAME: butler-test  # From itch.io URL
-          ITCH_USER: ChaosTheLegend
+          ITCH_GAME: ${{vars.ITCH_GAME}}  # From itch.io URL
+          ITCH_USER: ${{vars.ITCH_USER}}
           PACKAGE: build/WebGL
