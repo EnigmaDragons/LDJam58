@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4004128838669767420}
   - component: {fileID: 9195235719473551465}
   - component: {fileID: 2752209597691752132}
+  - component: {fileID: 1212459217934963349}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -58,3 +59,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   _progressionConfig: {fileID: 11400000, guid: e078d58b74ff0493ea0762893f210ba4, type: 2}
+--- !u!114 &1212459217934963349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654443693298657062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7151a305719d5d24b802e130c7e6c7cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.ExhibitPool.ExhibitPoolPicker
+  outputSize: 3
+  exhibitPoolObject: {fileID: 11400000, guid: 47a8574bf4adc6b4bb209bed5c25378e, type: 2}
+  rareChance: 0
+  exoticChance: 0
+  mythicChance: 0

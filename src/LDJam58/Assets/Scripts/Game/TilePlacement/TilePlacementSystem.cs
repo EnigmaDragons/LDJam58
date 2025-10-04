@@ -56,6 +56,8 @@ namespace Game.TilePlacement
         private void Update()
         {
             if(currentState == PlacementState.Disabled) return;
+            if (raycastCamera == null)
+                raycastCamera = Camera.main;
             
             HandlePlacement();
             HandleRotation();
