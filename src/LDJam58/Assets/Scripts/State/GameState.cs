@@ -12,6 +12,7 @@ public sealed class GameState
     // This is necessary to preserve backwards save compatibility.
 
     public int currentPeriodIndex = 0;
+    public int currentNumExhibitsToPickThisPeriod = 0;
     public int currentAppeal = 0;
     public int currentNumVisitingGroups = 0;
 }

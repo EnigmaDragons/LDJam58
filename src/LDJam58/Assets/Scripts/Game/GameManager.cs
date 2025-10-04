@@ -13,6 +13,7 @@ public class GameManager : OnMessage<AdvancePeriod>
     {
         var currentPeriod = GetCurrentPeriod();
         CurrentGameState.UpdateState(gs => {
+            gs.currentNumExhibitsToPickThisPeriod = currentPeriod.NumExhibitsToPick;
             gs.currentAppeal = currentPeriod.TargetAppeal;
             gs.currentNumVisitingGroups = currentPeriod.NumVisitingGroups;
             return gs;

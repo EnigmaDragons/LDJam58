@@ -1,0 +1,97 @@
+Name,Theme,Size,Rarity,Enjoyment,Popularity,Artist Notes,Artist Effort,VFX Effort
+Castle Model,"Fantasy, Model",3x3,Rare,0,0,,0,0
+Tank,"Modern, Warfare, Invention",3x4,Exotic,0,0,,0,0
+Holy Grail,Treasure,2x2,Rare,0,0,,0,0
+Pirate's Chest,"Treasure, Pirate",2x2,Exhibit,0,0,,0,0
+Flamethrower,"Modern, Invention, Warfare, Fire",2x3,Exhibit,0,0,laying down,0,2
+Unicorn Horn,"Beast, Light",2x2,Rare,0,10,,0,1
+Telescope,"Steampunk, Invention, Space",2x3,Exhibit,4,0,bigger steampunk telescope,0,0
+Solar System Model,"Modern, Model, Space",3x3,Mythic,0,0,,0,0
+Tesla Gun,"Steampunk, Warfare, Invention, Lightning",2x3,Exhibit,0,0,laying down,0,2
+Locomotive Model,"Steampunk, Model, Invention",2x3,Rare,0,0,,0,0
+Tesla Coil,"Steampunk, Invention, Lightning",3x3,Rare,0,0,,0,2
+Blueprints,"Steampunk, Invention, Scripts",2x2,Exhibit,0,0,,0,0
+Homunculi in a Vat,"Steampunk, Invention, Gothic",2x2,Rare,0,0,,0,0
+Fossilized Amber,"Beast, Earth",2x2,Exhibit,0,0,,0,0
+Original Steam Engine,"Steampunk, Invention",2x2,Mythic,0,0,,0,0
+Witches Cauldron,Gothic,2x2,Exhibit,0,0,,0,2
+Grimoire,"Gothic, Scripts, Shadow",2x2,Exhibit,0,0,,0,1
+Necronomicon,"Gothic, Scripts, Shadow",2x2,Mythic,0,0,,0,1
+Dragonstone,"Earth, Fire",2x2,Rare,0,0,,0,1
+Kraken Tentacle,"Beast, Pirate",2x3,Mythic,0,0,laying down,0,0
+Crystal Ball,Arcane,2x2,Exhibit,0,0,,0,1
+Moonflower Lily (glows),"Botanical, Light",2x2,Exhibit,0,0,,0,1
+Heart's Root,"Botanical, Gothic",2x2,Exhibit,0,0,,0,0
+Bloodvine (thorned),"Botanical, Gothic",2x2,Exhibit,0,0,,0,0
+Mandrake,"Botanical, Beast",2x2,Exotic,0,0,,0,0
+Stormbloom Orchid (lightning particles),"Botanical, Lightning",2x2,Exotic,0,0,,0,2
+Aether Lotus (floats),"Botanical, Arcane",2x2,Rare,0,0,,0,0
+Draconic Thorn (fiery),"Botanical, Fire",2x2,Mythic,0,0,,0,2
+Chalice Mushroom (fairy circle),Botanical,2x2,Rare,0,0,,0,1
+Aether Crystal (floats),"Earth, Arcane",2x2,Rare,0,0,,0,1
+Pyramid Model,"Fantasy, Model",3x3,Rare,0,0,,0,0
+Ziggurat Model,"Fantasy, Model",3x3,Rare,0,0,,0,0
+Colisseum Model,"Fantasy, Model",3x3,Rare,0,0,,0,0
+Gothic Cathedral,"Gothic, Model",3x3,Rare,0,0,,0,0
+Wizard Tower Model,"Fantasy, Model",2x2,Rare,0,0,,0,0
+Clocktower Model,"Steampunk, Invention, Model",2x2,Rare,0,0,,0,0
+Clockwork Wings,"Steampunk, Invention",2x3,Exotic,0,0,standing up,0,0
+Glowing Sword,"Fantasy, Warfare",2x3,Exhibit,0,0,laying down,0,1
+Dragon Egg,"Fantasy, Beast",2x2,Rare,0,0,,0,0
+Spellbook,"Scripts, Arcane",2x2,Rare,0,0,,0,0
+Phoenix Feather,"Beast, Fire",2x2,Rare,0,0,,0,1
+Rune Stone,"Gothic, Earth, Arcane",2x2,Exhibit,0,0,,0,1
+Book of Shadows,"Gothic, Scripts, Shadow",2x2,Exotic,0,0,,0,2
+Mothman Wings,"Beast, Gothic",2x3,Exotic,0,0,standing up,0,0
+Mimic Remains,"Beast, Treasure",2x2,Exotic,0,0,,0,0
+Megladon Tooth,"Beast, Pirate",2x3,Exotic,0,0,laying down,0,0
+Void Stone,"Earth, Gothic, Shadow",2x2,Exhibit,0,0,,0,2
+Blimp Model,"Steampunk, Model, Invention",3x3,Rare,0,0,,0,0
+Magic Staff,"Fantasy, Warfare, Arcane",2x3,Exhibit,0,0,laying down,0,0
+Ballista Model,"Warfare, Model",2x2,Exhibit,0,0,,0,0
+Bow & Arrows,"Fantasy, Warfare",2x2,Exhibit,0,0,,0,0
+Crossbow,"Warfare, Invention",2x2,Exhibit,0,0,,0,0
+Rifle,"Steampunk, Warfare, Invention",2x3,Exhibit,0,0,laying down,0,0
+Shield,"Fantasy, Warfare",2x2,Exhibit,0,0,,0,0
+Starstone,"Earth, Space",2x2,Rare,0,0,,0,0
+Floating Island Model,"Fantasy, Model",3x3,Exotic,0,0,,0,0
+Ghostweed,"Pirate, Botanical",2x2,Rare,0,0,,0,0
+Brass Flower,"Steampunk, Botanical",2x2,Exhibit,0,0,,0,0
+Portal Door,"Fantasy, Arcane",3x2,Rare,0,0,standing up doorway,0,0
+The Art of War,"Scripts, Warfare",2x2,Mythic,0,0,the book,0,0
+Jeweled Crown,"Fantasy, Treasure",2x2,Rare,0,0,,0,0
+Throne,"Fantasy, Treasure",2x2,Exhibit,0,0,,0,0
+Moon Rock,"Modern, Earth, Space",2x2,Exhibit,0,0,,0,0
+Space Rocket,"Modern, Invention, Space",3x3,Mythic,0,0,standing up,0,0
+Space Suit,"Modern, Space",2x2,Exhibit,0,0,standing up,0,0
+Tallest Skyscraper Model,"Modern, Model",2x2,Exotic,0,0,,0,0
+Giant Spider,"Gothic, Beast",2x2,Exhibit,0,0,,0,0
+Wands,"Warfare, Arcane",2x2,Exhibit,0,0,a collection of wnads,0,0
+Ghost Urn,"Gothic, Pirate",2x2,Exhibit,0,0,,0,2
+Ship in a Bottle,"Model, Pirate",2x3,Exhibit,0,0,if i get to it ill add water to the bottle that moves,0,2
+Starchart,"Pirate, Space, Scripts",2x2,Exhibit,0,0,,0,0
+Treasure Map,"Treasure, Scripts, Pirate",2x2,Exhibit,0,0,,0,0
+Giant Pearl,"Treasure, Pirate",2x2,Exhibit,0,0,,0,1
+Exotic Beastiary,"Scripts, Beast",2x2,Exhibit,0,0,a book,0,0
+Meteorite,"Earth, Space",2x2,Exotic,0,0,,0,0
+Black Hole Model,"Modern, Model, Space",2x2,Rare,0,0,all vfx,0,3
+Supernova Model,"Modern, Model, Space",2x2,Rare,0,0,all vfx,0,3
+Mini Nuke,"Modern, Warfare, Invention",2x2,Rare,0,0,standing,0,0
+Eternal Storm Cloud,Lightning,2x2,,0,0,all vfx,0,3
+Fiery Sword,"Warfare, Fire",2x3,Exotic,0,0,laying down,0,1
+Spell Scrolls,"Scripts, Arcane",2x2,,0,0,,0,0
+Cyclops Eye,"Fantasy, Beast",2x2,,0,0,,0,0
+Dragon Claw,"Beast, Warfare",2x2,,0,0,,0,0
+Royal Scepter,"Fantasy, Treasure",2x3,Rare,0,0,laying down,0,0
+Jolly Roger Flag,"Pirate, Model",2x2,,0,0,,0,0
+Ice Palace Model,"Model, Fantasy, Ice",3x3,,0,0,,0,0
+Volcano Model,"Model, Fire",3x3,Exhibit,0,0,,0,0
+Volcanic Rock,"Fire, Earth",2x2,,0,0,,0,0
+Frozen Heart,"Ice, Gothic",2x2,,0,0,,0,0
+Cryo Chamber,"Modern, Ice, Invention",2x2,,0,0,standing,0,0
+Beast In Ice,"Beast, Ice",3x3,,0,0,"big ice block with hints of the beast inside (you can be vague, an eye, a claw on the edge)",0,0
+Wizard Battle Model,"Fantasy, Model, Warfare",3x3,,0,0,minitures,0,0
+Modern Battle Model,"Modern, Model, Warfare",3x3,,0,0,minitures,0,0
+Spaceship Battle Model,"Space, Model, Warfare",3x3,,0,0,"maybe dont do this one, but i thought it would be cool lmao",0,0
+Medieval Battle Model,"Fantasy, Model, Warfare",3x3,,0,0,"swords, shields, spears (i would die for a little dragon model but its your life do what you want)",0,0
+Naval Battle Model,"Pirate, Model, Warfare",3x3,,0,0,minitures,0,0

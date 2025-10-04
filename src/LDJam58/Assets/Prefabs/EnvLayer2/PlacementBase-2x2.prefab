@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 192307279226021421}
   - component: {fileID: -1670902221786033753}
+  - component: {fileID: 4427772185083621963}
   m_Layer: 3
   m_Name: PlacementBase-2x2
   m_TagString: Untagged
@@ -48,7 +49,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d52a17abb9634d74baa1de61bf43ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShowChildrenDuringPlacing
-  children: []
+--- !u!65 &4427772185083621963
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7145783445333871189}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4, y: 1, z: 4}
+  m_Center: {x: 2, y: 0.5, z: 2}
 --- !u!1001 &1839640019813252370
 PrefabInstance:
   m_ObjectHideFlags: 0
