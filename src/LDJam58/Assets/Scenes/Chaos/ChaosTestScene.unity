@@ -278,7 +278,7 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.1
---- !u!1 &946025614
+--- !u!1 &631300521
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -286,76 +286,42 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 946025616}
-  - component: {fileID: 946025615}
-  - component: {fileID: 946025617}
+  - component: {fileID: 631300523}
+  - component: {fileID: 631300522}
   m_Layer: 0
-  m_Name: NPCNavigation
+  m_Name: StartSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &946025615
+--- !u!114 &631300522
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 946025614}
+  m_GameObject: {fileID: 631300521}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Script: {fileID: 11500000, guid: d3a0aaa0ffb4499b9448e796808058eb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
-  m_SerializedVersion: 0
-  m_AgentTypeID: 0
-  m_CollectObjects: 0
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 328
-  m_UseGeometry: 1
-  m_DefaultArea: 0
-  m_GenerateLinks: 0
-  m_IgnoreNavMeshAgent: 1
-  m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
-  m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 1e56f4bb9eec0de4a8b54ad90aba13f5, type: 2}
-  m_BuildHeightMesh: 0
---- !u!4 &946025616
+  m_EditorClassIdentifier: Assembly-CSharp::Devtools.SpawnNpcStart
+--- !u!4 &631300523
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 946025614}
+  m_GameObject: {fileID: 631300521}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.47536, y: -0, z: 4.27637}
+  m_LocalPosition: {x: 21.73481, y: 0, z: 8.83269}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &946025617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 946025614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b8c763adce94b4081475049d0499a42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.NPC.NpcNavigation
-  navMeshSurface: {fileID: 946025615}
 --- !u!1 &1274007313
 GameObject:
   m_ObjectHideFlags: 0
@@ -1922,26 +1888,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!1 &2493017129610420742
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7602079622600241421}
-  - component: {fileID: 7602079622600241422}
-  - component: {fileID: 7602079622600241423}
-  - component: {fileID: 7602079622600241424}
-  - component: {fileID: 7602079622600241425}
-  m_Layer: 9
-  m_Name: NPC
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1001 &2554541238236386374
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2087,99 +2033,74 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 534090195}
   m_SourcePrefab: {fileID: 100100000, guid: 410eaac569ace56448fa830161a495a9, type: 3}
---- !u!4 &7602079622600241421
-Transform:
+--- !u!1001 &5272650741342323573
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2493017129610420742}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.18, y: 0, z: 1.46}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!195 &7602079622600241422
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2493017129610420742}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 5000
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 0
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!114 &7602079622600241423
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2493017129610420742}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 581bf829286646afaa02f2a01d97dc83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.NPC.NpcAgentController
-  navMeshAgent: {fileID: 7602079622600241422}
-  npcNavigation: {fileID: 946025617}
-  npcModelPool: {fileID: 11400000, guid: 9f9daf71f614bce49a87ec16285ab813, type: 2}
-  lookTime: 2
-  standTime: 2
-  reactTime: 4
-  lookDistance: 1.5
---- !u!136 &7602079622600241424
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2493017129610420742}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7602079622600241425
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2493017129610420742}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11bff34480ec41feae07e89073081232, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.NPC.NpcSmoothReturn
-  smoothReturnSpeed: 3.5
-  maxReturnDistance: 10
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5293852832151931434, guid: 20de29ce690b64d42af1dd84eb4302f6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 21.73481
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293852832151931434, guid: 20de29ce690b64d42af1dd84eb4302f6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293852832151931434, guid: 20de29ce690b64d42af1dd84eb4302f6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.83268
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293852832151931434, guid: 20de29ce690b64d42af1dd84eb4302f6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293852832151931434, guid: 20de29ce690b64d42af1dd84eb4302f6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293852832151931434, guid: 20de29ce690b64d42af1dd84eb4302f6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293852832151931434, guid: 20de29ce690b64d42af1dd84eb4302f6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293852832151931434, guid: 20de29ce690b64d42af1dd84eb4302f6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293852832151931434, guid: 20de29ce690b64d42af1dd84eb4302f6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293852832151931434, guid: 20de29ce690b64d42af1dd84eb4302f6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7377499129520094133, guid: 20de29ce690b64d42af1dd84eb4302f6,
+        type: 3}
+      propertyPath: m_Name
+      value: NPCSpawner
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 20de29ce690b64d42af1dd84eb4302f6, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2192,5 +2113,5 @@ SceneRoots:
   - {fileID: 1470270830}
   - {fileID: 1948493536}
   - {fileID: 1274007316}
-  - {fileID: 946025616}
-  - {fileID: 7602079622600241421}
+  - {fileID: 5272650741342323573}
+  - {fileID: 631300523}
