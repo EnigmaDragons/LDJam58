@@ -16,12 +16,15 @@ public class ExhibitPickerView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _tagsLabel;
     [SerializeField] private Button _pickButton;
     
-    private ExhibitTileType exhibitTileType;
+    private ExhibitTileType _exhibitTileType;
     public void Init(ExhibitTileType exhibits)
     {
-        exhibitTileType = exhibits;
+        _exhibitTileType = exhibits;
         _pickButton.onClick.AddListener(PickExhibit);
-        _exhibitImage.sprite = exhibits.ExhibitSprite;
+        
+        // Handle missing sprite gracefully
+        _exhibitImage.sprite = exhibits.ExhibitSprite ?? GetDefaultSprite();
+        
         _exhibitNameLabel.Init("Name", exhibits.DisplayName);
         _sizeLabel.Init("Size", exhibits.Size.x + "x" + exhibits.Size.y);
         _rarityLabel.Init("Rarity", exhibits.Rarity.ToString());
@@ -34,10 +37,17 @@ public class ExhibitPickerView : MonoBehaviour
             return withSpaces;
         }));
     }
+    
+    private Sprite GetDefaultSprite()
+    {
+        // Try to load a default sprite from Resources or use Unity's default
+        var defaultSprite = Resources.Load<Sprite>("DefaultExhibitSprite");
+        return defaultSprite;
+    }
 
     private void PickExhibit()
     {
-        Message.Publish(new StartPlacement(exhibitTileType));
+        Message.Publish(new StartPlacement(_exhibitTileType));
         Message.Publish(new ClosePickMenu());
     }
 }

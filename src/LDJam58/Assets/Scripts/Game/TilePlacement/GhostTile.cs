@@ -78,9 +78,15 @@ namespace Game.TilePlacement
         private void SetCollidersToTrigger()
         {
             var colliders = GetComponentsInChildren<Collider>(true);
-            foreach (var col in colliders)
-            {
-                col.isTrigger = true;
+            foreach (Collider col in colliders)
+            {         
+                if (col is MeshCollider meshCollider)
+                {
+                    if (meshCollider.convex)
+                    {
+                        col.isTrigger = true;
+                    }
+                }
             }
         }
         

@@ -12,7 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a438788d66e44752bbeb1fbe84fcb637, type: 3}
   m_Name: ExhibitPool
   m_EditorClassIdentifier: Assembly-CSharp::Game.ExhibitPool.ExhibitPoolObject
-  exhibits:
-  - {fileID: 11400000, guid: d1ee513753ebc464aaa758942529d9a8, type: 2}
-  - {fileID: 11400000, guid: a641a01a3b3024cc4935cfd2274f32fb, type: 2}
-  - {fileID: 11400000, guid: d5714ab0ce2bc41a58569ded1e112d55, type: 2}
+  csvFile: {fileID: 4900000, guid: f2a1b1cdd08904ab2aca6015d7aa08ec, type: 3}

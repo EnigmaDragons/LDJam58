@@ -251,54 +251,5 @@ public class ExhibitSourceEditorWindow : OdinEditorWindow
     }
 }
 
-[Serializable]
-public class ExhibitSourceData
-{
-    [TableColumnWidth(120)]
-    [SerializeField] private string _name = "";
-    
-    [TableColumnWidth(150)]
-    [SerializeField] private string _theme = "";
-    
-    [TableColumnWidth(60)]
-    [SerializeField] private string _size = "";
-    
-    [TableColumnWidth(80)]
-    [SerializeField] private string _rarity = "";
-
-    [TableColumnWidth(80)]
-    [SerializeField] private int _enjoyment;
-    
-    [TableColumnWidth(80)]
-    [SerializeField] private int _popularity;
-
-    [TableColumnWidth(200)]
-    [SerializeField] private string _artistNotes = "";
-    
-    [TableColumnWidth(80)]
-    [SerializeField] private int _artistEffort;
-    
-    [TableColumnWidth(80)]
-    [SerializeField] private int _vfxEffort;
-
-    public string Name => _name;
-    public string Theme => _theme;
-    public string Size => _size;
-    public string Rarity => _rarity;
-    public int Enjoyment => _enjoyment;
-    public int Popularity => _popularity;
-    public string ArtistNotes => _artistNotes;
-    public int ArtistEffort => _artistEffort;
-    public int VfxEffort => _vfxEffort;
-
-    public void SetName(string value) => _name = value;
-    public void SetTheme(string value) => _theme = value;
-    public void SetSize(string value) => _size = value;
-    public void SetRarity(string value) => _rarity = value;
-    public void SetEnjoyment(int value) => _enjoyment = value;
-    public void SetPopularity(int value) => _popularity = value;
-    public void SetArtistNotes(string value) => _artistNotes = value;
-    public void SetArtistEffort(int value) => _artistEffort = value;
-    public void SetVfxEffort(int value) => _vfxEffort = value;
-}
+// ExhibitSourceData class moved to main app - see ExhibitSourceData.cs
 #endif

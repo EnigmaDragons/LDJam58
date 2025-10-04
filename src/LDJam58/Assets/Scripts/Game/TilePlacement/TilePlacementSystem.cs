@@ -45,7 +45,10 @@ namespace Game.TilePlacement
             if(raycastCamera == null) raycastCamera = Camera.main;
             targetRotation =  Quaternion.identity;
             currentState = PlacementState.NoTarget;
-            ghostTile.UpdatePlaceable(exhibitTileType.ExhibitPrefab);
+            if(exhibitTileType != null && exhibitTileType.ExhibitPrefab == null) 
+                Log.Error("Could Not Load Exhibit Prefab for " + exhibitTileType.DisplayName);
+            if (exhibitTileType != null)
+                ghostTile.UpdatePlaceable(exhibitTileType.ExhibitPrefab);
         }
 
         [Button]

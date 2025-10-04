@@ -30,7 +30,7 @@ namespace Game.ExhibitPool
             viableTags = new HashSet<ExhibitTag>();
             foreach (var exhibit in exhibitPoolObject.Exhibits)
             {
-                exhibitPool.Add(exhibit);
+                exhibitPool.Add(ExhibitDataConverter.ConvertToExhibitTileType(exhibit));
             }
             //RecalculateViableTags();
         }
