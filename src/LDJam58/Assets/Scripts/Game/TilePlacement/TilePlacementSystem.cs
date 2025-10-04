@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Game.TilePlacement
 {
-    public class TilePlacementSystem : OnMessage<StartPlacement>
+    public class TilePlacementSystem : OnMessage<StartPlacement, StopPlacement>
     {
         [Header("Scene objects")]
         [SerializeField]
@@ -42,6 +42,7 @@ namespace Game.TilePlacement
         [Button]
         public void StartPlacing()
         {
+            if(raycastCamera == null) raycastCamera = Camera.main;
             targetRotation =  Quaternion.identity;
             currentState = PlacementState.NoTarget;
             ghostTile.UpdatePlaceable(exhibitTileType.ExhibitPrefab);
@@ -56,8 +57,6 @@ namespace Game.TilePlacement
         private void Update()
         {
             if(currentState == PlacementState.Disabled) return;
-            if (raycastCamera == null)
-                raycastCamera = Camera.main;
             
             HandlePlacement();
             HandleRotation();
@@ -130,6 +129,11 @@ namespace Game.TilePlacement
         {
             exhibitTileType = msg.exhibit;
             StartPlacing();
+        }
+
+        protected override void Execute(StopPlacement msg)
+        {
+            StopPlacing();
         }
     }
 }
