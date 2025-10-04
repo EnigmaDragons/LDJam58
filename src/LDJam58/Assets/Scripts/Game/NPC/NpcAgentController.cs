@@ -30,16 +30,14 @@ namespace Game.NPC
         [SerializeField]
         private NavMeshAgent  navMeshAgent;
         [SerializeField]
-        private NpcNavigation npcNavigation;
-        [SerializeField]
         private NpcModelPool npcModelPool;
-
+        
         [SerializeField] private float lookTime;
         [SerializeField] private float standTime;
         [SerializeField] private float reactTime;
         [SerializeField] private float lookDistance;
 
-
+        private NpcNavigation npcNavigation;
         private ExhibitTileType currentExhibitTile;
         private NpcObject npcObject;
         private Animator animator;
@@ -53,6 +51,11 @@ namespace Game.NPC
             
             var inst = Instantiate(npcObject.prefab, transform);
             animator = inst.GetComponent<Animator>();
+        }
+
+        public void Init(NpcNavigation npcNavigation)
+        {
+            this.npcNavigation = npcNavigation;
         }
 
         private void GetMood()
@@ -96,14 +99,26 @@ namespace Game.NPC
             MoveToPosition(targetPosition);
         }
 
+        private void Update()
+        {
+            if (state == State.Looking)
+            {
+                var targetRotation = Quaternion.LookRotation(targetPosition - transform.position);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+            }
+        }
+
         [Button]
-        private void StartPickCoroutine()
+        public void StartPickCoroutine()
         {
             StartCoroutine(NpcStateMachine());
         }
 
         private IEnumerator NpcStateMachine()
         {
+            //Make sure that NPC is initialized
+            yield return new WaitForEndOfFrame();
+            
             while (true)
             {
                 if (state == State.Standing)
