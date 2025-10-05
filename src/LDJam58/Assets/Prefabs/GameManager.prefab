@@ -73,6 +73,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Game.ExhibitPool.ExhibitPoolPicker
   outputSize: 3
   exhibitPoolObject: {fileID: 11400000, guid: 47a8574bf4adc6b4bb209bed5c25378e, type: 2}
-  rareChance: 0
-  exoticChance: 0
-  mythicChance: 0
+  rareChance: 0.28
+  exoticChance: 0.14
+  mythicChance: 0.02

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game.Exhibits;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
@@ -24,10 +25,11 @@ namespace Game.TilePlacement
         [SerializeField] 
         private GameObject textVisuals;
         [SerializeField]
-        private TMP_Text enjoymentText;
+        private ExhibitEnjoymentDisplay enjoymentDisplay;
         
         public GameObject GhostPlaceable => ghostPlaceable;
         private GameObject ghostPlaceable;
+        private ExhibitPrefab ghostPrefab;
         private List<Renderer> ghostRenderers;
 
         public bool IsOverlapping { get; private set; }
@@ -61,11 +63,14 @@ namespace Game.TilePlacement
             ghostRenderers = new List<Renderer>();
         }
 
-        public void UpdatePlaceable(GameObject placeable)
+        public void UpdatePlaceable(ExhibitTileType exhibitTileType)
         {
             if(ghostPlaceable != null) Destroy(ghostPlaceable);
             
-            ghostPlaceable = Instantiate(placeable, transform);
+            ghostPlaceable = Instantiate(exhibitTileType.ExhibitPrefab, transform);
+            ghostPrefab = ghostPlaceable.GetComponent<ExhibitPrefab>();
+            ghostPrefab.Init(exhibitTileType);
+            enjoymentDisplay.SetDisplayExhibit(ghostPrefab, true);
             //change all the instance layers to Ghost
             SetLayerRecursively(ghostPlaceable, LayerMask.NameToLayer(ghostLayerMask));
             CollectRenderers(ghostPlaceable);
@@ -97,7 +102,7 @@ namespace Game.TilePlacement
         public void UpdateGhostScore(int baseScore, int newGhostScore)
         {
             textVisuals.SetActive(true);
-            enjoymentText.text = newGhostScore.ToString();
+            enjoymentDisplay.DoGhostBusters(newGhostScore);
             
             if(newGhostScore > baseScore) UpdateMaterial(highScoreMaterial);
             else if (newGhostScore < baseScore)  UpdateMaterial(lowScoreMaterial);

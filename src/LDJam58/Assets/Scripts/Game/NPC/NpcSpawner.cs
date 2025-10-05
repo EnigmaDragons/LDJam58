@@ -13,6 +13,7 @@ namespace Game.NPC
         [SerializeField]
         private Transform spawnPoint;
         
+        [Button]
         private void SpawnNpcs(int npcCount)
         {
             for (int i = 0; i < npcCount; i++)
