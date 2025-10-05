@@ -9,4 +9,5 @@ public class ExhibitState
     public List<ExhibitTag> tags;
     public string roomId;
     public Vector2Int[] adjacencies;
+    public int calculatedEnjoyment;
 }

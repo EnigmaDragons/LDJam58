@@ -20,5 +20,6 @@
         Theme_Shadow = 2015,
         Theme_Warfare = 2016,
         Theme_Treasure = 2017,
-        Theme_Pirate = 2018
+        Theme_Pirate = 2018,
+        Theme_Gothic = 2019
     }
