@@ -9,6 +9,7 @@ namespace Game.ExhibitPool
     {
         [SerializeField] private TextAsset csvFile;
         
+        
         private List<ExhibitSourceData> _loadedExhibits;
         
         public List<ExhibitSourceData> Exhibits 
