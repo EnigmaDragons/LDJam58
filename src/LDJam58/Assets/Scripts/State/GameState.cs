@@ -15,4 +15,6 @@ public sealed class GameState
     public int currentNumExhibitsToPickThisPeriod = 0;
     public int currentAppeal = 0;
     public int currentNumVisitingGroups = 0;
+
+    public bool isPicking = false;
 }

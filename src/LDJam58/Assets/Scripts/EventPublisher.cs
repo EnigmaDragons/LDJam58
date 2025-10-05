@@ -1,5 +1,11 @@
-public static class EventPublisher
+using Game.Messages;
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "EventPublisher", menuName = "EventPublisher")]
+public class EventPublisher : ScriptableObject
 {
     public static void FadeInScene() => Message.Publish(new UiFadeInRequested());
     public static void FadeOutScene() => Message.Publish(new UiFadeOutRequested());
+
+    public static void StartExhibitPick() => Message.Publish(new StartExhibitPick());
 }

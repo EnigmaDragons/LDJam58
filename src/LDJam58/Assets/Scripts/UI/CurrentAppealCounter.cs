@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 
 // TODO: Juice the Change!
-public class CurrentGroupCounter : MonoBehaviour
+public class CurrentAppealCounter : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _counterText;
 
@@ -18,12 +18,12 @@ public class CurrentGroupCounter : MonoBehaviour
 
     private void Start()
     {
-        UpdateCounter(CurrentGameState.ReadOnly.currentNumVisitingGroups);
+        UpdateCounter(CurrentGameState.ReadOnly.currentAppeal);
     }
 
     private void OnGameStateChanged(GameStateChanged msg)
     {
-        UpdateCounter(msg.State.currentNumVisitingGroups);
+        UpdateCounter(msg.State.currentAppeal);
     }
 
     private void UpdateCounter(int newValue)

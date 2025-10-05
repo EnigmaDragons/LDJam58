@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5fb60a1068304b6582f783d53f05e63, type: 3}
-  m_Name: Day2
-  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Game.Progression.ProgressionPeriodConfig
-  _targetAppeal: 100
-  _numVisitingGroups: 20
+  m_Script: {fileID: 11500000, guid: ab2639384579746eda7fc28f621412db, type: 3}
+  m_Name: EventPublisher
+  m_EditorClassIdentifier: Assembly-CSharp::EventPublisher

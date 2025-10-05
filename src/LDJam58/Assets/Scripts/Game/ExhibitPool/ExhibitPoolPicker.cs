@@ -132,6 +132,16 @@ namespace Game.ExhibitPool
 
         protected override void Execute(StartExhibitPick msg)
         {
+            if (CurrentGameState.ReadOnly.isPicking)
+            {
+                return;
+            }
+
+            CurrentGameState.UpdateState(gs => {
+                gs.isPicking = true;
+                return gs;
+            });
+
             var list = PickRandomExhibits();
             var payload = new BeginPickThree(list.ToArray());
             Message.Publish(payload);
