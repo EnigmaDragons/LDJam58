@@ -155,7 +155,7 @@ MonoBehaviour:
   _edgeThicknessPercent: 0.1
   _allowRotation: 1
   _rotationSpeed: 90
-  _zoomSpeed: 300
+  _zoomSpeed: 600
   _minZoom: 20
   _maxZoom: 60
   _zoomSmoothing: 0.12
