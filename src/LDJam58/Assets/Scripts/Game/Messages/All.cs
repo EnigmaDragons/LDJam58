@@ -44,3 +44,13 @@ public class UnlockCameraMovement
 {
 
 }
+
+public class RotationChanged
+{
+    public float RotationAngle;
+
+    public RotationChanged(float rotationAngle)
+    {
+        RotationAngle = rotationAngle;
+    }
+}

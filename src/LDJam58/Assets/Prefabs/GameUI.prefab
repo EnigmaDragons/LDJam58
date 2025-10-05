@@ -226,6 +226,7 @@ GameObject:
   - component: {fileID: 2767106609386932900}
   - component: {fileID: 277866991148735041}
   - component: {fileID: 8442360985654841213}
+  - component: {fileID: 8423750072595836717}
   m_Layer: 5
   m_Name: GameUI
   m_TagString: Untagged
@@ -359,6 +360,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CurrentNumExhibitsRemainingCounter
   _counterText: {fileID: 1249827875158030766}
+--- !u!114 &8423750072595836717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248908507783098123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ead595ec577146699de435ba74587b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HideTargetWhilePlacing
+  target: {fileID: 2197963917561079150}
 --- !u!1 &1549099490095306990
 GameObject:
   m_ObjectHideFlags: 0

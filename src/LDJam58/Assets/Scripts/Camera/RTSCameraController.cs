@@ -9,6 +9,7 @@ namespace Assets.Scripts
     /// - Middle-mouse drag panning
     /// - Mouse wheel zoom (orthographic or perspective)
     /// - Optional yaw rotation (Q/E)
+    /// - Spacebar to instantly reset to starting position (preserves zoom)
     /// - Smoothing and world-bounds clamping
     /// Attach to a Camera. For top-down, set a tilt (e.g., 60°) and position above ground.
     /// </summary>
@@ -44,6 +45,7 @@ namespace Assets.Scripts
         private float _desiredZoom; // perspective: desired height; ortho: size
         private bool _hasMoveInputThisFrame;
         private bool _hasZoomInputThisFrame;
+        private Vector3 _startingPosition;
         
 
         private void Awake()
@@ -52,6 +54,7 @@ namespace Assets.Scripts
             if (_cachedCamera == null)
                 _cachedCamera = Camera.main;
 
+            _startingPosition = transform.position;
             _desiredPosition = transform.position;
 
             if (_cachedCamera != null && _cachedCamera.orthographic)
@@ -70,10 +73,19 @@ namespace Assets.Scripts
             if (!_movementEnabled)
                 return;
 
+            HandleResetInput();
             HandleMovementInput();
             HandleRotationInput();
             HandleZoomInput();
             ApplyDesiredTransform();
+        }
+
+        private void HandleResetInput()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                ResetToStartingPosition();
+            }
         }
 
         private void HandleMovementInput()
@@ -197,6 +209,15 @@ namespace Assets.Scripts
             }
         }
 
+        private void ResetToStartingPosition()
+        {
+            // Reset position to starting position while preserving zoom
+            var currentZoom = _desiredZoom;
+            _desiredPosition = _startingPosition;
+            _desiredPosition.y = currentZoom; // Preserve zoom level
+            transform.position = _desiredPosition; // Instantly apply without smoothing
+        }
+
     private void GetPlanarAxes(out Vector3 forward, out Vector3 right)
     {
         float yawRad = transform.eulerAngles.y * Mathf.Deg2Rad;
@@ -237,11 +258,13 @@ namespace Assets.Scripts
         protected override void Execute(LockCameraMovement msg)
         {
             _movementEnabled = false;
+            Debug.Log("LockCameraMovement");
         }
 
         protected override void Execute(UnlockCameraMovement msg)
         {
             _movementEnabled = true;
+            Debug.Log("UnlockCameraMovement");
         }
     }
 }

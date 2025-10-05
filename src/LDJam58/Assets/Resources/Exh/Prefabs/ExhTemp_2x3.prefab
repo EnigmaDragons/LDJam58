@@ -26,7 +26,7 @@ PrefabInstance:
     - target: {fileID: 4895068662852609989, guid: fbfb7c1240cff964c9b65c7b97175e21,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.96
+      value: 0.04000002
       objectReference: {fileID: 0}
     - target: {fileID: 4895068662852609989, guid: fbfb7c1240cff964c9b65c7b97175e21,
         type: 3}
@@ -36,7 +36,7 @@ PrefabInstance:
     - target: {fileID: 4895068662852609989, guid: fbfb7c1240cff964c9b65c7b97175e21,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.03
+      value: 0.030000059
       objectReference: {fileID: 0}
     - target: {fileID: 4895068662852609989, guid: fbfb7c1240cff964c9b65c7b97175e21,
         type: 3}
@@ -97,6 +97,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 623554401504536876, guid: d261bed08cbee435ca9871d6ce235008,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1075087224902652157, guid: d261bed08cbee435ca9871d6ce235008,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2739727840767528566, guid: d261bed08cbee435ca9871d6ce235008,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3004817409961131525, guid: d261bed08cbee435ca9871d6ce235008,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6332508117270218288, guid: d261bed08cbee435ca9871d6ce235008,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6439022185940863025, guid: d261bed08cbee435ca9871d6ce235008,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -147,10 +172,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7912554797328081588, guid: d261bed08cbee435ca9871d6ce235008,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8265718702803296250, guid: d261bed08cbee435ca9871d6ce235008,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8378449061268860337, guid: d261bed08cbee435ca9871d6ce235008,
         type: 3}
       propertyPath: m_Name
-      value: ExhibitBase-2x3 Variant
+      value: ExhTemp_2x3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

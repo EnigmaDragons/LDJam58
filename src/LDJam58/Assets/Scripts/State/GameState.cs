@@ -17,4 +17,5 @@ public sealed class GameState
     public int currentNumVisitingGroups = 0;
 
     public bool isPicking = false;
+    public bool isPlacing = false;
 }

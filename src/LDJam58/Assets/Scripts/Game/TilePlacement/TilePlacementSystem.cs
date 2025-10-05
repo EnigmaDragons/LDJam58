@@ -42,13 +42,19 @@ namespace Game.TilePlacement
         [Button]
         public void StartPlacing()
         {
+            CurrentGameState.UpdateState(gs => {
+                gs.isPlacing = true;
+                return gs;
+            });
             if(raycastCamera == null) raycastCamera = Camera.main;
-            targetRotation =  Quaternion.identity;
+            targetRotation = Quaternion.identity;
+            ghostTile.transform.rotation = targetRotation; // Reset ghost tile rotation
             currentState = PlacementState.NoTarget;
             if(exhibitTileType != null && exhibitTileType.ExhibitPrefab == null) 
                 Log.Error("Could Not Load Exhibit Prefab for " + exhibitTileType.DisplayName);
             if (exhibitTileType != null)
                 ghostTile.UpdatePlaceable(exhibitTileType.ExhibitPrefab);
+            Message.Publish(new RotationChanged(targetRotation.eulerAngles.y));
         }
 
         [Button]
@@ -73,6 +79,14 @@ namespace Game.TilePlacement
             {
                 targetRotation *= Quaternion.Euler(0f, -90f, 0f);
                 ghostTile.transform.rotation = targetRotation;
+                Message.Publish(new RotationChanged(targetRotation.eulerAngles.y));
+            }
+            
+            if (Input.GetMouseButtonDown(1)) // Right mouse button
+            {
+                targetRotation *= Quaternion.Euler(0f, 90f, 0f); // Clockwise rotation
+                ghostTile.transform.rotation = targetRotation;
+                Message.Publish(new RotationChanged(targetRotation.eulerAngles.y));
             }
         }
         
@@ -115,6 +129,7 @@ namespace Game.TilePlacement
             inst.transform.SetParent(grid.transform);
             Message.Publish(new ExhibitPlaced(inst, exhibitTileType));
             DisableGhostObject();
+            StopPlacing();
         }
 
 

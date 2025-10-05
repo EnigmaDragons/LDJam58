@@ -1,6 +1,7 @@
+using Game.Messages;
 using UnityEngine;
 
-public class GameManager : OnMessage<AdvancePeriod>
+public class GameManager : OnMessage<AdvancePeriod, BeginPickThree, StartPlacement, StopPlacement, ExhibitPlaced>
 {
     [SerializeField] private ProgressionConfig _progressionConfig;
 
@@ -41,5 +42,38 @@ public class GameManager : OnMessage<AdvancePeriod>
         });
 
         InitStateForCurrentPeriod();
+    }
+
+    protected override void Execute(BeginPickThree msg)
+    {
+        CurrentGameState.UpdateState(gs => {
+            gs.currentNumExhibitsToPickThisPeriod -= 1;
+            return gs;
+        });
+    }
+
+    protected override void Execute(StartPlacement msg)
+    {
+        CurrentGameState.UpdateState(gs => {
+            gs.isPicking = false;
+            gs.isPlacing = true;
+            return gs;
+        });
+    }
+
+    protected override void Execute(StopPlacement msg)
+    {
+        CurrentGameState.UpdateState(gs => {
+            gs.isPlacing = false;
+            return gs;
+        });
+    }
+
+    protected override void Execute(ExhibitPlaced msg)
+    {
+        CurrentGameState.UpdateState(gs => {
+            gs.isPlacing = false;
+            return gs;
+        });
     }
 }
