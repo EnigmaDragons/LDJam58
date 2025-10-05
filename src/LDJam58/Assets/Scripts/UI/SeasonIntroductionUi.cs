@@ -14,6 +14,9 @@ public class SeasonIntroductionUi : OnMessage<SeasonInitialized>
     [SerializeField] private CanvasGroup _numVisitingGroupsGroup;
     [SerializeField] private TextMeshProUGUI _numVisitingGroupsText;
 
+    [SerializeField] private CanvasGroup _numExhibitsToPickGroup;
+    [SerializeField] private TextMeshProUGUI _numExhibitsToPickGroupText;
+
     private Sequence _sequence;
 
     protected override void Execute(SeasonInitialized msg)
@@ -34,17 +37,23 @@ public class SeasonIntroductionUi : OnMessage<SeasonInitialized>
         _decorLine.localScale = new Vector3(0f, lineScale.y, lineScale.z);
 
         var title = _seasonTitle;
-        title.SetText("New Season Started");
+        title.SetText("Season " + (CurrentGameState.ReadOnly.currentSeasonIndex + 1) + " Started");
         var titleScale = title.transform.localScale;
         title.transform.localScale = new Vector3(0f, titleScale.y, titleScale.z);
         Message.Publish(new LockCameraMovement());
 
         _targetAppealGroup.alpha = 0f;
         _numVisitingGroupsGroup.alpha = 0f;
+        _numExhibitsToPickGroup.alpha = 0f;
+
+        _numExhibitsToPickGroupText.text = period.NumExhibitsToPick.ToString();
+        _numVisitingGroupsText.text = period.NumVisitingGroups.ToString();
+        _targetAppealText.text = period.TargetAppeal.ToString();
 
         var seq = DOTween.Sequence();
         seq.Append(_decorLine.DOScaleX(1f, 1f).SetEase(Ease.OutCubic));
         seq.Append(title.transform.DOScaleX(1f, 1f).SetEase(Ease.OutBack));
+        seq.Append(_numExhibitsToPickGroup.DOFade(1f, 1f));
         seq.Append(_targetAppealGroup.DOFade(1f, 1f));
         seq.Append(_numVisitingGroupsGroup.DOFade(1f, 1f));
         seq.OnComplete(() => {
@@ -61,6 +70,7 @@ public class SeasonIntroductionUi : OnMessage<SeasonInitialized>
         _sequence?.Kill(true);
         _decorLine?.DOKill();
         _seasonTitle?.DOKill();
+        _numExhibitsToPickGroup?.DOKill();
         _targetAppealGroup?.DOKill();
         _numVisitingGroupsGroup?.DOKill();
     }
