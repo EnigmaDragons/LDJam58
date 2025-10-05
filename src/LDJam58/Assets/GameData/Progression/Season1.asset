@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5fb60a1068304b6582f783d53f05e63, type: 3}
   m_Name: Season1
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Game.Progression.ProgressionPeriodConfig
-  _numExhibitsToPick: 8
-  _targetAppeal: 50
-  _numVisitingGroups: 10
+  _numExhibitsToPick: 6
+  _targetAppeal: 500
+  _numVisitingGroups: 8
