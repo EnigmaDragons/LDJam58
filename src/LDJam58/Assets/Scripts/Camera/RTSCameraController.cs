@@ -258,11 +258,13 @@ namespace Assets.Scripts
         protected override void Execute(LockCameraMovement msg)
         {
             _movementEnabled = false;
+            Debug.Log("LockCameraMovement");
         }
 
         protected override void Execute(UnlockCameraMovement msg)
         {
             _movementEnabled = true;
+            Debug.Log("UnlockCameraMovement");
         }
     }
 }

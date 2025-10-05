@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 192307279226021421}
   - component: {fileID: -1670902221786033753}
   - component: {fileID: 4427772185083621963}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: PlacementBase-2x2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,8 +68,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4, y: 1, z: 4}
-  m_Center: {x: 2, y: 0.5, z: 2}
+  m_Size: {x: 3.8, y: 3.8, z: 3.8}
+  m_Center: {x: 2, y: 2, z: 2}
 --- !u!1001 &1839640019813252370
 PrefabInstance:
   m_ObjectHideFlags: 0

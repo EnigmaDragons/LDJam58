@@ -89,10 +89,50 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 652350576837810563}
     m_Modifications:
+    - target: {fileID: 1896706954169759058, guid: fbfa5a0136ef1468593901943b6fa70b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2443706896204823721, guid: fbfa5a0136ef1468593901943b6fa70b,
         type: 3}
       propertyPath: m_Name
       value: PlacementBase-3x3 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2443706896204823721, guid: fbfa5a0136ef1468593901943b6fa70b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3379688703973837310, guid: fbfa5a0136ef1468593901943b6fa70b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3865243059432274777, guid: fbfa5a0136ef1468593901943b6fa70b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4449255823776478206, guid: fbfa5a0136ef1468593901943b6fa70b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4499453654376059036, guid: fbfa5a0136ef1468593901943b6fa70b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6699128675420587773, guid: fbfa5a0136ef1468593901943b6fa70b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7709863420044677692, guid: fbfa5a0136ef1468593901943b6fa70b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7761691222382175276, guid: fbfa5a0136ef1468593901943b6fa70b,
         type: 3}
@@ -142,6 +182,16 @@ PrefabInstance:
     - target: {fileID: 7761691222382175276, guid: fbfa5a0136ef1468593901943b6fa70b,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793936076465060052, guid: fbfa5a0136ef1468593901943b6fa70b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9213757065918343598, guid: fbfa5a0136ef1468593901943b6fa70b,
+        type: 3}
+      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

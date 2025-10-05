@@ -2,7 +2,6 @@ using Game.Messages;
 using UnityEngine;
 using DG.Tweening;
 
-// TODO: Juice the Change!
 public class PickThreeController : OnMessage<BeginPickThree, ClosePickMenu>
 {
     [SerializeField] private CanvasGroup _panelGroup;
@@ -23,6 +22,7 @@ public class PickThreeController : OnMessage<BeginPickThree, ClosePickMenu>
         _three.gameObject.SetActive(false);
         _panelGroup.alpha = 0f;
         _panelGroup.gameObject.SetActive(false);
+        Message.Publish(new UnlockCameraMovement());
     }
 
     protected override void AfterEnable()

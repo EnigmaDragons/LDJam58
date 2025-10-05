@@ -1,27 +1,27 @@
+using System;
 using UnityEngine;
-using Game.Messages;
-using Game.TilePlacement;
 
-namespace Assets.Scripts.World
-{
 public class ShowChildrenDuringPlacing : OnMessage<StartPlacement, StopPlacement>
 {
+    private Renderer[] cachedRenderers = Array.Empty<Renderer>();
+
     protected override void AfterEnable()
     {
-        foreach (Transform child in transform)
-            child.gameObject.SetActive(false);
+        cachedRenderers = GetComponentsInChildren<Renderer>();
+        var shouldBeActive = CurrentGameState.ReadOnly.isPlacing;
+        foreach (var renderer in cachedRenderers)
+            renderer.enabled = shouldBeActive;
     }
 
     protected override void Execute(StartPlacement msg)
     {
-        foreach (Transform child in transform)
-            child.gameObject.SetActive(true);
+        foreach (var renderer in cachedRenderers)
+            renderer.enabled = true;
     }
 
     protected override void Execute(StopPlacement msg)
     {
-        foreach (Transform child in transform)
-            child.gameObject.SetActive(false);
+        foreach (var renderer in cachedRenderers)
+            renderer.enabled = false;
     }
-}
 }

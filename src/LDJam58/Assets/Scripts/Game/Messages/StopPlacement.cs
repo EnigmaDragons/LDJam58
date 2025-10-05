@@ -1,6 +1,4 @@
-﻿namespace Game.TilePlacement
+﻿
+public class StopPlacement
 {
-    public class StopPlacement
-    {
-    }
 }

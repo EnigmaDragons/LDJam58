@@ -14,11 +14,11 @@ public class LockCameraWhileTargetActive : MonoBehaviour
         _targetIsActive = target.activeSelf;
         if (_targetIsActive)
         {
-            Message.Publish(new UnlockCameraMovement());
+            Message.Publish(new LockCameraMovement());
         }
         else
         {
-            Message.Publish(new LockCameraMovement());
+            Message.Publish(new UnlockCameraMovement());
         }
     }
 }

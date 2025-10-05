@@ -42,6 +42,10 @@ namespace Game.TilePlacement
         [Button]
         public void StartPlacing()
         {
+            CurrentGameState.UpdateState(gs => {
+                gs.isPlacing = true;
+                return gs;
+            });
             if(raycastCamera == null) raycastCamera = Camera.main;
             targetRotation =  Quaternion.identity;
             currentState = PlacementState.NoTarget;

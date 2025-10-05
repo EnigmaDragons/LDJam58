@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 1328877250489844163}
   - component: {fileID: 3553433685225716131}
   - component: {fileID: 456037281549793261}
-  - component: {fileID: 8707537426610280895}
-  m_Layer: 0
+  - component: {fileID: 3139672500576902270}
+  m_Layer: 3
   m_Name: GridSquare-1x1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8707537426610280895
+--- !u!64 &3139672500576902270
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,10 +105,10 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
