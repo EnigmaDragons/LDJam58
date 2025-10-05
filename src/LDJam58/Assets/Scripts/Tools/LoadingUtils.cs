@@ -46,7 +46,7 @@ public static class LoadingUtils
         if (string.IsNullOrEmpty(displayName))
             return "";
 
-        var result = displayName.Replace(" ", "_")
+        var result = displayName.Replace(" ", "")
                                .Replace("'", "")
                                .Replace("\"", "")
                                .Replace(",", "")
