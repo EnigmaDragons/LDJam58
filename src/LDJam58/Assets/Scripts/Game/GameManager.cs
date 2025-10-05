@@ -88,6 +88,7 @@ public class GameManager : OnMessage<AdvancePeriod, BeginPickThree, StartPlaceme
 
     protected override void Execute(OpenMuseum msg)
     {
+        CurrentGameState.UpdateState(x => x.isShowingMuseum = true);
         CurrentGameState.CalculateRoundScore();
         Message.Publish(new SummarizeSeason());
     }
