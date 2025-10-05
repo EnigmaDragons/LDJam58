@@ -119,6 +119,7 @@ namespace Game.TilePlacement
             inst.transform.SetParent(grid.transform);
             Message.Publish(new ExhibitPlaced(inst, exhibitTileType));
             DisableGhostObject();
+            StopPlacing();
         }
 
 

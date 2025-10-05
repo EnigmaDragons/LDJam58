@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class ShowChildrenDuringPlacing : OnMessage<StartPlacement, StopPlacement>
+public class ShowChildrenDuringPlacing : OnMessage<StartPlacement, StopPlacement, ExhibitPlaced>
 {
     private Renderer[] cachedRenderers = Array.Empty<Renderer>();
 
@@ -20,6 +20,12 @@ public class ShowChildrenDuringPlacing : OnMessage<StartPlacement, StopPlacement
     }
 
     protected override void Execute(StopPlacement msg)
+    {
+        foreach (var renderer in cachedRenderers)
+            renderer.enabled = false;
+    }
+
+    protected override void Execute(ExhibitPlaced msg)
     {
         foreach (var renderer in cachedRenderers)
             renderer.enabled = false;

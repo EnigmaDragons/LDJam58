@@ -1,6 +1,7 @@
+using Game.Messages;
 using UnityEngine;
 
-public class HideTargetWhilePlacing : OnMessage<StartPlacement, StopPlacement>
+public class HideTargetWhilePlacing : OnMessage<StartPlacement, StopPlacement, ExhibitPlaced>
 {
     [SerializeField] private GameObject target;
 
@@ -10,6 +11,11 @@ public class HideTargetWhilePlacing : OnMessage<StartPlacement, StopPlacement>
     }
 
     protected override void Execute(StopPlacement msg)
+    {
+        target.SetActive(true);
+    }
+
+    protected override void Execute(ExhibitPlaced msg)
     {
         target.SetActive(true);
     }
