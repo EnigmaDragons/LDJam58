@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GameManager : OnMessage<AdvancePeriod>
+public class GameManager : OnMessage<AdvancePeriod, BeginPickThree>
 {
     [SerializeField] private ProgressionConfig _progressionConfig;
 
@@ -41,5 +41,13 @@ public class GameManager : OnMessage<AdvancePeriod>
         });
 
         InitStateForCurrentPeriod();
+    }
+
+    protected override void Execute(BeginPickThree msg)
+    {
+        CurrentGameState.UpdateState(gs => {
+            gs.currentNumExhibitsToPickThisPeriod -= 1;
+            return gs;
+        });
     }
 }
