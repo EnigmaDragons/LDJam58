@@ -18,12 +18,12 @@ public class CurrentAppealCounter : MonoBehaviour
 
     private void Start()
     {
-        UpdateCounter(CurrentGameState.ReadOnly.currentAppeal);
+        UpdateCounter(CurrentGameState.ReadOnly.currentTargetAppeal);
     }
 
     private void OnGameStateChanged(GameStateChanged msg)
     {
-        UpdateCounter(msg.State.currentAppeal);
+        UpdateCounter(msg.State.currentTargetAppeal);
     }
 
     private void UpdateCounter(int newValue)

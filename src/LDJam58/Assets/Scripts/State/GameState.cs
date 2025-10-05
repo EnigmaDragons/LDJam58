@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 [Serializable]
 public sealed class GameState
@@ -10,12 +11,13 @@ public sealed class GameState
     
     // All enums used in this class should have specified integer values.
     // This is necessary to preserve backwards save compatibility.
-
-    public int currentPeriodIndex = 0;
+    public int currentSeasonIndex = 0;
     public int currentNumExhibitsToPickThisPeriod = 0;
-    public int currentAppeal = 0;
-    public int currentNumVisitingGroups = 0;
+    public int currentTargetAppeal = 0;
+    public List<Group> currentGroups = new List<Group>();
 
     public bool isPicking = false;
     public bool isPlacing = false;
+    
+    
 }
