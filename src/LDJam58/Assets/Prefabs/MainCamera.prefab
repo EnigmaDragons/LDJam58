@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RTSCameraController
   _moveSpeed: 20
-  _useEdgeScroll: 1
+  _useEdgeScroll: 0
   _edgeThicknessPercent: 0.1
   _allowRotation: 1
   _rotationSpeed: 90
