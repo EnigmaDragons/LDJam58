@@ -144,8 +144,9 @@ public static class CurrentGameState
         return ReadOnly.Exhibits[exhibit.DisplayName].calculatedEnjoyment;
     }
 
-    public static void RemoveGhosts()
+    public static void CallGhostBusters()
     {
+        //Ghostbusters remove ghosts
         UpdateState(state =>
         {
             foreach (var room in state.Rooms.Values)

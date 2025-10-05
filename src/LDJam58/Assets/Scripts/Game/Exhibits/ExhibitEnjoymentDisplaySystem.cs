@@ -24,6 +24,7 @@ namespace Game.Exhibits
         public void StopSystem()
         {
             isActive = false;
+            exhibitEnjoymentDisplay.DisableDisplay();
         }
 
         private void Update()

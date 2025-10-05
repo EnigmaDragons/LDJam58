@@ -54,7 +54,7 @@ namespace Game.TilePlacement
             if(exhibitTileType != null && exhibitTileType.ExhibitPrefab == null) 
                 Log.Error("Could Not Load Exhibit Prefab for " + exhibitTileType.DisplayName);
             if (exhibitTileType != null)
-                ghostTile.UpdatePlaceable(exhibitTileType.ExhibitPrefab);
+                ghostTile.UpdatePlaceable(exhibitTileType);
             Message.Publish(new RotationChanged(targetRotation.eulerAngles.y));
         }
 
@@ -144,7 +144,7 @@ namespace Game.TilePlacement
             var inst= Instantiate(exhibitTileType.ExhibitPrefab, ghostTile.transform.position, ghostTile.transform.rotation);
             inst.GetComponent<ExhibitPrefab>().Init(exhibitTileType);
             inst.transform.SetParent(grid.transform);
-            CurrentGameState.RemoveGhosts();
+            CurrentGameState.CallGhostBusters();
             CurrentGameState.UpdatePlacedExhibit(exhibitTileType, roomId, placedNodes, false);
             Message.Publish(new ExhibitPlaced(inst, exhibitTileType));
             DisableGhostObject();
