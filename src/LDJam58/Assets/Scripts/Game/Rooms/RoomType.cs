@@ -1,9 +1,11 @@
-using UnityEngine;
+using System;
 
-[CreateAssetMenu(fileName = "RoomType", menuName = "RoomType")]
-public class RoomType : ScriptableObject
+[Serializable]
+public class RoomType
 {
     public string Name;
     public ExhibitTag[] Requirement;
-    public ExhibitTagMultiplier[] Multipliers;
+    public int Multiplier;
+
+    public bool GivesAdjacencyBonus => Requirement.Length > 1;
 }
