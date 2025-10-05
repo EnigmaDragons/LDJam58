@@ -81,7 +81,7 @@ public static class CurrentGameState
                     .Select(x => room.exhibitIds[x])
                     .Distinct()
                     .Select(x => state.Exhibits[x]);
-                exhibit.calculatedEnjoyment = exhibit.baseEnjoyment + adjacentExhibits.Sum(x => CalculateAdjacencyBonus(exhibit.tags, x.tags));
+                exhibit.calculatedEnjoyment = Math.Max(0, exhibit.baseEnjoyment + adjacentExhibits.Sum(x => CalculateAdjacencyBonus(exhibit.tags, x.tags)));
             }
         });
         Message.Publish(new ScoresUpdated());
