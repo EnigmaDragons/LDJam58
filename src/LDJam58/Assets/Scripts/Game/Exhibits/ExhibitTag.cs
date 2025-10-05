@@ -1,3 +1,5 @@
+    using System.Linq;
+
     public enum ExhibitTag
     {
         None = 0,
@@ -22,4 +24,9 @@
         Theme_Treasure = 2017,
         Theme_Pirate = 2018,
         Theme_Gothic = 2019
+    }
+
+    public static class ExhibitTagExtensions
+    {
+        public static string UserFriendlyText(this ExhibitTag tag) => tag.ToString().Split('_').Last();
     }

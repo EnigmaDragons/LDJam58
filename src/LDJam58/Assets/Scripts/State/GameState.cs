@@ -17,9 +17,8 @@ public sealed class GameState
     public List<Group> currentGroups = new List<Group>();
     public Dictionary<string, RoomState> Rooms = new Dictionary<string, RoomState>();
     public Dictionary<string, ExhibitState> Exhibits = new Dictionary<string, ExhibitState>();
-
+    public int seasonScore;
+    
     public bool isPicking = false;
     public bool isPlacing = false;
-
-
 }

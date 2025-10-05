@@ -7,4 +7,6 @@ public class RoomState
 {
     public bool open;
     public Dictionary<Vector2Int, string> exhibitIds;
+
+    public int seasonScore;
 }

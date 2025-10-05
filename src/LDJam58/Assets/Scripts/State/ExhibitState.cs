@@ -5,9 +5,12 @@ using UnityEngine;
 [Serializable]
 public class ExhibitState
 {
+    public string name;
     public int baseEnjoyment;
     public List<ExhibitTag> tags;
     public string roomId;
     public Vector2Int[] adjacencies;
     public int calculatedEnjoyment;
+
+    public int seasonScore;
 }
