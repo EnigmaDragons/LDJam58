@@ -108,7 +108,6 @@ namespace Game.TilePlacement
             currentState = PlacementState.GhostPlacement;
             
             var cellSize = grid.cellSize;
-            Vector3Int oldTagetCell = targetCell;
             
             targetCell = grid.WorldToCell(hit.point+cellSize/2);
             var targetPosition = grid.CellToWorld(targetCell);
@@ -116,10 +115,11 @@ namespace Game.TilePlacement
             //make a ray from target position and upward
             
             ghostTile.transform.position = targetPosition;
+            ghostTile.PositionWasUpdated(targetCell);
             
             if(ghostTile.IsOverlapping) return;
             
-            if (oldTagetCell != targetCell)
+            if (ghostTile.StateChanged())
             {
                 var roomId = RoomId.GetRoomId(hit.collider.transform);
                 var placedNodes = GetGhostOccupiedCells();
