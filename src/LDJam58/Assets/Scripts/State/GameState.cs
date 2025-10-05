@@ -20,4 +20,6 @@ public sealed class GameState
 
     public bool isPicking = false;
     public bool isPlacing = false;
+
+
 }

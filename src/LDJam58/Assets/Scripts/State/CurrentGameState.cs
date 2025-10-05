@@ -37,7 +37,7 @@ public static class CurrentGameState
             return;
         }
 
-        UpdateState(_ =>
+        UpdateState(state =>
         {
             var adjacencies = new HashSet<Vector2Int>(); 
             foreach (var node in nodes)
@@ -46,15 +46,16 @@ public static class CurrentGameState
                     gameState.Rooms[roomId] = new RoomState();
                 if (!gameState.Rooms[roomId].exhibitIds.ContainsKey(node))
                     gameState.Rooms[roomId].exhibitIds[node] = exhibit.DisplayName;
-                gameState.Rooms[roomId].exhibitIds[node] = exhibit.DisplayName;
                 foreach (var vector in gameState.Rooms[roomId].exhibitIds.Keys)
+                    state.Rooms[roomId].exhibitIds[vector] = exhibit.DisplayName;
+                foreach (var vector in state.Rooms[roomId].exhibitIds.Keys)
                 {
                     var directions = new Vector2Int[] { node + Vector2Int.up, node + Vector2Int.left, node + Vector2Int.left, node + Vector2Int.right };
                     if (directions.Any(x => x == vector))
                         adjacencies.Add(vector);
                 }
             }
-            gameState.Exhibits[exhibit.DisplayName] = new ExhibitState
+            state.Exhibits[exhibit.DisplayName] = new ExhibitState
             {
                 roomId = roomId,
                 tags = exhibit.Tags,
@@ -62,5 +63,57 @@ public static class CurrentGameState
                 adjacencies = adjacencies.Where(x => nodes.All(node => node != x)).ToArray()
             };
         });
+        CalculateExhibitEnjoyment(roomId);
+    }
+
+    public static int CalculateRoundScore()
+        => gameState.currentGroups.Sum(CalculateGroupScore);
+
+    public static int CalculateGroupScore(Group group)
+        => gameState.Exhibits.Values.Sum(x => CalculateGroupExhibitScore(group, x));
+
+    public static int CalculateGroupExhibitScore(Group group, ExhibitState exhibit)
+    {
+        var groupInterest = 1 + group.Fascinations.Count(x => exhibit.tags.Contains(x)) - group.Disinterests.Count(x => exhibit.tags.Contains(x));
+        if (groupInterest < 0)
+            groupInterest = 0;
+        return group.peopleCount * groupInterest * exhibit.calculatedEnjoyment;
+    }
+    
+    public static void CalculateExhibitEnjoyment(string roomId)
+    {
+        UpdateState(state =>
+        {
+            var room = state.Rooms[roomId];
+            var exhibitIds = room.exhibitIds.Select(x => x.Value).Where(x => !string.IsNullOrEmpty(x)).Distinct();
+            foreach (var exhibitId in exhibitIds)
+            {
+                var exhibit = state.Exhibits[exhibitId];
+                var adjacentExhibits = exhibit.adjacencies
+                    .Select(x => room.exhibitIds[x])
+                    .Where(x => !string.IsNullOrEmpty(x))
+                    .Distinct()
+                    .Select(x => state.Exhibits[x]);
+                exhibit.calculatedEnjoyment = exhibit.baseEnjoyment + adjacentExhibits.Sum(x => CalculateAdjacencyBonus(exhibit.tags, x.tags));
+            }
+        });
+    }
+
+    public static int CalculateAdjacencyBonus(List<ExhibitTag> exhibitTags, List<ExhibitTag> adjacentExhibitTags)
+    {
+        var synergy = 0;
+        var disynergy = 0;
+        foreach (var synergyTag in TagSynergies.All)
+        {
+            if ((exhibitTags.Contains(synergyTag.Tag1) && adjacentExhibitTags.Contains(synergyTag.Tag2)) 
+                    || (exhibitTags.Contains(synergyTag.Tag2) && adjacentExhibitTags.Contains(synergyTag.Tag1)))
+            {
+                if (synergyTag.SynergyValue > 0)
+                    synergy += synergyTag.SynergyValue;
+                else
+                    disynergy += synergyTag.SynergyValue;
+            }
+        }
+        return synergy > 0 ? synergy : disynergy;
     }
 }

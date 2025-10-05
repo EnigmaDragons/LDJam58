@@ -9,4 +9,5 @@ public class ExhibitState
     public List<ExhibitTag> tags = new List<ExhibitTag>();
     public string roomId;
     public Vector2Int[] adjacencies = new Vector2Int[0];
+    public int calculatedEnjoyment;
 }
