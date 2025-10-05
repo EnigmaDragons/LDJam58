@@ -18,12 +18,12 @@ public class CurrentGroupCounter : MonoBehaviour
 
     private void Start()
     {
-        UpdateCounter(CurrentGameState.ReadOnly.currentNumVisitingGroups);
+        UpdateCounter(CurrentGameState.ReadOnly.currentGroups.Count);
     }
 
     private void OnGameStateChanged(GameStateChanged msg)
     {
-        UpdateCounter(msg.State.currentNumVisitingGroups);
+        UpdateCounter(msg.State.currentGroups.Count);
     }
 
     private void UpdateCounter(int newValue)

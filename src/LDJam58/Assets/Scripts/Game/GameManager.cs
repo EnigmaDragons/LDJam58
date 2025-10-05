@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Game.Messages;
 using UnityEngine;
 
@@ -15,8 +17,8 @@ public class GameManager : OnMessage<AdvancePeriod, BeginPickThree, StartPlaceme
         var currentPeriod = GetCurrentPeriod();
         CurrentGameState.UpdateState(gs => {
             gs.currentNumExhibitsToPickThisPeriod = currentPeriod.NumExhibitsToPick;
-            gs.currentAppeal = currentPeriod.TargetAppeal;
-            gs.currentNumVisitingGroups = currentPeriod.NumVisitingGroups;
+            gs.currentTargetAppeal = currentPeriod.TargetAppeal;
+            gs.currentGroups = Enumerable.Range(0, currentPeriod.NumVisitingGroups).Select(_ => VisitorGenerator.Generate(ExhibitTag.None, new HashSet<ExhibitTag>())).ToList();
             return gs;
         });
 
@@ -25,19 +27,19 @@ public class GameManager : OnMessage<AdvancePeriod, BeginPickThree, StartPlaceme
 
     private ProgressionPeriodConfig GetCurrentPeriod()
     {
-        return _progressionConfig.GetPeriod(CurrentGameState.ReadOnly.currentPeriodIndex);
+        return _progressionConfig.GetPeriod(CurrentGameState.ReadOnly.currentSeasonIndex);
     }
 
     protected override void Execute(AdvancePeriod msg)
     {
-        if (CurrentGameState.ReadOnly.currentPeriodIndex + 1 >= _progressionConfig.Count)
+        if (CurrentGameState.ReadOnly.currentSeasonIndex + 1 >= _progressionConfig.Count)
         {
             Message.Publish(new GameWon());
             return;
         } 
 
         CurrentGameState.UpdateState(gs => {
-            gs.currentPeriodIndex++;
+            gs.currentSeasonIndex++;
             return gs;
         });
 
