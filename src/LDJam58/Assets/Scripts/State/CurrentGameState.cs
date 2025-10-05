@@ -132,4 +132,39 @@ public static class CurrentGameState
             exhibit.seasonScore += score;
         });
     }
+
+    // Zavi please populate this function so I can dynamically display total enjoyment score on hover
+    // - Chaos
+    
+    public static int GetExhibitEnjoymentScore(ExhibitPrefab exhibit)
+    {
+        var finalScore = exhibit.ExhibitTileType.Enjoyment;
+        
+        //This is where the magic happens
+        
+        
+        
+        
+        return finalScore;
+    }
+
+    // This one as well so I can display new score on the ghost object
+    public static int GetGhostExhibitEnjoymentScore(ExhibitTileType exhibit, string roomId, Vector2Int[] nodes)
+    {
+        //to test it I will just select fist node and check if it's a multiple of 3
+        //This is a test
+        var node1 = nodes.First();
+        var nodeId = node1.x +  node1.y;
+
+        var bonus = 0;
+        if (nodeId % 3 == 0) bonus = 1;
+        if (nodeId % 3 == 1) bonus = -1;
+        
+        return exhibit.Enjoyment + bonus;
+    }
+
+    public static int GetExhibitBaseScore(ExhibitTileType exhibit)
+    {
+        return exhibit.Enjoyment;
+    }
 }

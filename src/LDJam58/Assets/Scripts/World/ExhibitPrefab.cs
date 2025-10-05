@@ -5,9 +5,16 @@ public class ExhibitPrefab : MonoBehaviour
 {
     [SerializeField] private WorldExhibitUI worldUi;
 
+    private ExhibitTileType exhibitTileType;
+    
+    
+    public ExhibitTileType ExhibitTileType => exhibitTileType;
+    
     public void Init(ExhibitTileType exhibit)
     {
          worldUi.Init(exhibit);
-         worldUi.gameObject.SetActive(true);
+         exhibitTileType = exhibit;
+         //worldUi.gameObject.SetActive(true);
     }
+    
 }

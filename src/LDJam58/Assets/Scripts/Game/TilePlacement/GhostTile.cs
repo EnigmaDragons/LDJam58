@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -13,8 +15,18 @@ namespace Game.TilePlacement
         [SerializeField]
         private Material errorMaterial;
         [SerializeField]
+        private Material highScoreMaterial;
+        [SerializeField]
         private Material ghostMaterial;
+        [SerializeField]
+        private Material lowScoreMaterial;
+
+        [SerializeField] 
+        private GameObject textVisuals;
+        [SerializeField]
+        private TMP_Text enjoymentText;
         
+        public GameObject GhostPlaceable => ghostPlaceable;
         private GameObject ghostPlaceable;
         private List<Renderer> ghostRenderers;
 
@@ -22,6 +34,8 @@ namespace Game.TilePlacement
         private void OnTriggerEnter(Collider other)
         {
             IsOverlapping = true;
+            
+            textVisuals.SetActive(false);
             UpdateMaterial(errorMaterial);
         }
 
@@ -33,7 +47,11 @@ namespace Game.TilePlacement
 
         private void OnTriggerStay(Collider other)
         {
-            if(!IsOverlapping) UpdateMaterial(errorMaterial);
+            if (!IsOverlapping)
+            {
+                textVisuals.SetActive(false);
+                UpdateMaterial(errorMaterial);
+            }
             IsOverlapping = true;
         }
 
@@ -59,11 +77,13 @@ namespace Game.TilePlacement
         public void DisablePlaceable()
         {
             if(ghostPlaceable != null) ghostPlaceable.SetActive(false);
+            textVisuals.SetActive(false);
         }
 
         public void EnablePlaceable()
         {
             if(ghostPlaceable != null) ghostPlaceable.SetActive(true);
+            textVisuals.SetActive(true);
         }
         
         private void UpdateMaterial(Material material)
@@ -74,6 +94,16 @@ namespace Game.TilePlacement
             }
         }
 
+        public void UpdateGhostScore(int baseScore, int newGhostScore)
+        {
+            textVisuals.SetActive(true);
+            enjoymentText.text = newGhostScore.ToString();
+            
+            if(newGhostScore > baseScore) UpdateMaterial(highScoreMaterial);
+            else if (newGhostScore < baseScore)  UpdateMaterial(lowScoreMaterial);
+            else UpdateMaterial(ghostMaterial);
+        }
+        
         private void SetCollidersToTrigger()
         {
             var colliders = GetComponentsInChildren<Collider>(true);

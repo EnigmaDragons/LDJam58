@@ -90,7 +90,8 @@ namespace Game.TilePlacement
                 Message.Publish(new RotationChanged(targetRotation.eulerAngles.y));
             }
         }
-        
+
+        private Vector3Int targetCell;
         private void HandlePlacement()
         {
             var ray = raycastCamera.ScreenPointToRay(Input.mousePosition);
@@ -107,14 +108,25 @@ namespace Game.TilePlacement
             currentState = PlacementState.GhostPlacement;
             
             var cellSize = grid.cellSize;
-            var targetCell = grid.WorldToCell(hit.point+cellSize/2);
+            Vector3Int oldTagetCell = targetCell;
+            
+            targetCell = grid.WorldToCell(hit.point+cellSize/2);
             var targetPosition = grid.CellToWorld(targetCell);
             
             //make a ray from target position and upward
             
             ghostTile.transform.position = targetPosition;
-
+            
             if(ghostTile.IsOverlapping) return;
+            
+            if (oldTagetCell != targetCell)
+            {
+                var roomId = RoomId.GetRoomId(hit.collider.transform);
+                var placedNodes = GetGhostOccupiedCells();
+                var baseScore = CurrentGameState.GetExhibitBaseScore(exhibitTileType);
+                var ghostScore = CurrentGameState.GetGhostExhibitEnjoymentScore(exhibitTileType, roomId, placedNodes);
+                ghostTile.UpdateGhostScore(baseScore, ghostScore);
+            }
             
             //unghost on click
             if (Input.GetMouseButtonDown(0))
@@ -147,7 +159,7 @@ namespace Game.TilePlacement
             }
 
             // Get the ghost tile's child object (the actual ghost exhibit)
-            var ghostExhibit = ghostTile.transform.GetChild(0);
+            var ghostExhibit = ghostTile.GhostPlaceable.transform;
             if (ghostExhibit == null) 
             {
                 Debug.Log("GetGhostOccupiedCells: No child found in ghost tile");
