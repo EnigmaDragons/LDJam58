@@ -1,0 +1,94 @@
+# https://game.ci/docs/github/builder#complete-example
+name: Build project
+
+on: 
+  workflow_dispatch:
+    inputs:
+      platforms:
+        description: 'Platforms to build'
+        required: true
+        type: choice
+        default: 'WebGL'
+        options:
+          - WebGL
+          - StandaloneWindows64
+          - StandaloneOSX
+          - All
+
+env:
+  PROJECT_PATH: './src/LDJam58'
+
+jobs:
+  buildForAllSupportedPlatforms:
+    name: Build for ${{ matrix.targetPlatform }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        targetPlatform: 
+          - ${{ inputs.platforms == 'All' && 'WebGL' || inputs.platforms }}
+          - ${{ inputs.platforms == 'All' && 'StandaloneWindows64' || null }}
+          - ${{ inputs.platforms == 'All' && 'StandaloneOSX' || null }}
+        exclude:
+          - targetPlatform: null
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: true
+
+      - uses: ./.github/actions/setup-environment
+
+      - name: Assemble Build Tag
+        run: |
+          RELEASE_TAG="${{ env.PROJECT_NAME }}-v${VERSION_NUMBER}-${{ matrix.targetPlatform }}"
+          echo "RELEASE_TAG=$RELEASE_TAG" >> $GITHUB_ENV
+          echo "Release Tag: $RELEASE_TAG"
+
+      - uses: actions/cache@v4
+        with:
+          path: ${{ env.PROJECT_PATH }}/Library
+          key: Library-${{ matrix.targetPlatform }}-${{ hashFiles('**/ProjectSettings/ProjectVersion.txt') }}
+          restore-keys: |
+            Library-${{ matrix.targetPlatform }}-
+            Library-
+
+      - name: Free Disk Space
+        uses: jlumbroso/free-disk-space@v1.3.1
+        with:
+          # If all 6 are enabled, it can free ~33GiB, bur consumes ~9mins
+          # Adjust as needed to balance speed vs space
+          # tool-cache: true  # Removes GitHub's tool cache
+          android: true     # Removes Android SDK, ~9.6GiB
+          # dotnet: true      # Removes .NET SDK, ~3.3GiB
+          haskell: true     # Removes Haskell/GHC, ~6.2GiB
+          # docker-images: true # 0B
+          # large-packages: true  # Removes other large packages like boost, ~4.6GiB
+
+      - uses: game-ci/unity-builder@v4
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }} # For personal licenses
+          # UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }} # For professional licenses
+        with:
+          projectPath: ${{ env.PROJECT_PATH }}
+          targetPlatform: ${{ matrix.targetPlatform }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.RELEASE_TAG }}
+          path: build/${{ matrix.targetPlatform }}
+          retention-days: 7
+
+      - name: Create release tag
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+        run: |
+          echo "Creating tag: $RELEASE_TAG"
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag $RELEASE_TAG
+          git push origin $RELEASE_TAG
+          echo "BUILD_TAG=$RELEASE_TAG" >> $GITHUB_ENV
+          echo "::notice title=Build Tag Created::Tag $RELEASE_TAG created for build artifacts"
