@@ -15,6 +15,10 @@ on:
           - StandaloneOSX
           - All
 
+permissions:
+  contents: write
+  actions: read
+
 env:
   PROJECT_PATH: './src/LDJam58'
 
