@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Game.Messages;
+using Sirenix.Utilities;
 using UnityEngine;
 
 public class GameManager : OnMessage<AdvancePeriod, BeginPickThree, StartPlacement, StopPlacement, ExhibitPlaced, OpenMuseum>
@@ -19,6 +20,9 @@ public class GameManager : OnMessage<AdvancePeriod, BeginPickThree, StartPlaceme
             gs.currentNumExhibitsToPickThisPeriod = currentPeriod.NumExhibitsToPick;
             gs.currentTargetAppeal = currentPeriod.TargetAppeal;
             gs.currentGroups = Enumerable.Range(0, currentPeriod.NumVisitingGroups).Select(_ => VisitorGenerator.Generate(ExhibitTag.None, new HashSet<ExhibitTag>())).ToList();
+            gs.seasonScore = 0;
+            gs.Rooms.Values.ForEach(x => x.seasonScore = 0);
+            gs.Exhibits.Values.ForEach(x => x.seasonScore = 0);
             return gs;
         });
 
