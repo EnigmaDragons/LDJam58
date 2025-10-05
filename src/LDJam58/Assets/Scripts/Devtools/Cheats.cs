@@ -33,6 +33,12 @@ public class Cheats : MonoBehaviour
                 Debug.Log("UI Hover: No UI element detected");
             }
         }
+
+        if (isHoldingLeftShift && Input.GetKey(KeyCode.W))
+            EventPublisher.PublishGameWon();
+
+        if (isHoldingLeftShift && Input.GetKey(KeyCode.L))
+            EventPublisher.PublishGameLost();
     }
 #endif
 }

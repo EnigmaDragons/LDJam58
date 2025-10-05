@@ -61,7 +61,7 @@ PrefabInstance:
     - target: {fileID: 7249729236021535672, guid: 828ba6c85afd9400794c54a72ec0c145,
         type: 3}
       propertyPath: m_Name
-      value: Ex_Aether Variant
+      value: AetherCrystal
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -104,7 +104,7 @@ PrefabInstance:
     - target: {fileID: 932457267538587879, guid: a4a66f2a01751b9409f2ac47ea8b4959,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 932457267538587879, guid: a4a66f2a01751b9409f2ac47ea8b4959,
         type: 3}
@@ -114,7 +114,7 @@ PrefabInstance:
     - target: {fileID: 932457267538587879, guid: a4a66f2a01751b9409f2ac47ea8b4959,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 932457267538587879, guid: a4a66f2a01751b9409f2ac47ea8b4959,
         type: 3}
