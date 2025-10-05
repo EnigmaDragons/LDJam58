@@ -52,10 +52,24 @@ public static class CurrentGameState
                 adjacencies = adjacencies.Where(x => nodes.All(node => node != x)).ToArray()
             };
         });
-        CalculateEnjoyment(roomId);
+        CalculateExhibitEnjoyment(roomId);
+    }
+
+    public static int CalculateRoundScore()
+        => gameState.currentGroups.Sum(CalculateGroupScore);
+
+    public static int CalculateGroupScore(Group group)
+        => gameState.Exhibits.Values.Sum(x => CalculateGroupExhibitScore(group, x));
+
+    public static int CalculateGroupExhibitScore(Group group, ExhibitState exhibit)
+    {
+        var groupInterest = 1 + group.Fascinations.Count(x => exhibit.tags.Contains(x)) - group.Disinterests.Count(x => exhibit.tags.Contains(x));
+        if (groupInterest < 0)
+            groupInterest = 0;
+        return group.peopleCount * groupInterest * exhibit.calculatedEnjoyment;
     }
     
-    public static void CalculateEnjoyment(string roomId)
+    public static void CalculateExhibitEnjoyment(string roomId)
     {
         UpdateState(state =>
         {
