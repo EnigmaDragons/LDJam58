@@ -66,6 +66,7 @@ public class GameOverMinimalUI : OnMessage<GameLost>
     
     private void ShowGameOver()
     {
+        _mainCanvas.gameObject.SetActive(true);
         _animationSequence?.Kill(true);
         
         // Pick random failure message
