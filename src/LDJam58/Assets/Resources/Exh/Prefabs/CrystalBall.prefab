@@ -11,17 +11,17 @@ PrefabInstance:
     - target: {fileID: 2430737303855593541, guid: 828ba6c85afd9400794c54a72ec0c145,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.34338
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2430737303855593541, guid: 828ba6c85afd9400794c54a72ec0c145,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2430737303855593541, guid: 828ba6c85afd9400794c54a72ec0c145,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.92642
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2430737303855593541, guid: 828ba6c85afd9400794c54a72ec0c145,
         type: 3}
@@ -61,7 +61,7 @@ PrefabInstance:
     - target: {fileID: 7249729236021535672, guid: 828ba6c85afd9400794c54a72ec0c145,
         type: 3}
       propertyPath: m_Name
-      value: CrystalBall Variant
+      value: CrystalBall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
