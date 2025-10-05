@@ -12,7 +12,7 @@ public static class LoadingUtils
         if (string.IsNullOrEmpty(displayName))
             return GetMissingExhibitSprite();
 
-        var fileFriendlyName = MakeFileFriendly(displayName);
+        var fileFriendlyName = displayName.FileFriendlyName();
         var resourcePath = $"Exh/Sprites/{fileFriendlyName}";
 
         if (SpriteCache.TryGetValue(resourcePath, out var cachedSprite))
@@ -41,39 +41,12 @@ public static class LoadingUtils
         return _missingExhibitSprite;
     }
 
-    private static string MakeFileFriendly(string displayName)
-    {
-        if (string.IsNullOrEmpty(displayName))
-            return "";
-
-        var result = displayName.Replace(" ", "")
-                               .Replace("'", "")
-                               .Replace("\"", "")
-                               .Replace(",", "")
-                               .Replace("(", "")
-                               .Replace(")", "")
-                               .Replace("[", "")
-                               .Replace("]", "")
-                               .Replace("{", "")
-                               .Replace("}", "")
-                               .Replace("!", "")
-                               .Replace("?", "")
-                               .Replace(":", "")
-                               .Replace(";", "")
-                               .Replace("/", "_")
-                               .Replace("\\", "_")
-                               .Replace(".", "_")
-                               .Replace("-", "_");
-
-        return result;
-    }
-
     public static GameObject LoadPrefabOrDefault(string displayName, Vector2Int size)
     {
         if (string.IsNullOrEmpty(displayName))
             return GetFallbackPrefab(size);
 
-        var fileFriendlyName = MakeFileFriendly(displayName);
+        var fileFriendlyName = displayName.FileFriendlyName();
         var resourcePath = $"Exh/Prefabs/{fileFriendlyName}";
 
         if (PrefabCache.TryGetValue(resourcePath, out var cachedPrefab))
