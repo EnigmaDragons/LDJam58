@@ -31,12 +31,14 @@ namespace Game.TilePlacement
         private GameObject ghostPlaceable;
         private ExhibitPrefab ghostPrefab;
         private List<Renderer> ghostRenderers;
+        
+        bool stateChanged = false;
 
         public bool IsOverlapping { get; private set; }
         private void OnTriggerEnter(Collider other)
         {
             IsOverlapping = true;
-            
+            stateChanged = true;
             textVisuals.SetActive(false);
             UpdateMaterial(errorMaterial);
         }
@@ -44,6 +46,7 @@ namespace Game.TilePlacement
         private void OnTriggerExit(Collider other)
         {
             IsOverlapping = false;
+            stateChanged = true;
             UpdateMaterial(ghostMaterial);
         }
 
@@ -53,6 +56,7 @@ namespace Game.TilePlacement
             {
                 textVisuals.SetActive(false);
                 UpdateMaterial(errorMaterial);
+                stateChanged = true;
             }
             IsOverlapping = true;
         }
@@ -152,6 +156,29 @@ namespace Game.TilePlacement
             foreach (Transform child in obj.transform)
             {
                 SetLayerRecursively(child.gameObject, newLayer);
+            }
+        }
+
+        public bool StateChanged()
+        {
+            if (stateChanged)
+            {
+                stateChanged = false;
+                return true;
+            }
+                
+            return false;
+        }
+
+        
+        Vector3Int oldPosition;
+
+        public void PositionWasUpdated(Vector3Int newPosition)
+        {
+            if (oldPosition != newPosition)
+            {
+                stateChanged = true;
+                oldPosition = newPosition;
             }
         }
     }
