@@ -36,11 +36,11 @@ public class SeasonSummaryScreen : OnMessage<SummarizeSeason>
         ui.SetActive(true);
         
         //Top Group
-        var topGroup = gameState.currentGroups.OrderByDescending(x => x.seasonScore).First();
+        var topGroup = gameState.currentGroups.OrderByDescending(x => x.SeasonScore).First();
         topGroupQuantity.text = $"Visitors: {topGroup.peopleCount.ToString()}";
         topGroupFascinations.text = $"Fascinations: {DisplayTags(topGroup.Fascinations)}";
         topGroupDisinterests.text = $"Disinterests: {DisplayTags(topGroup.Disinterests)}";
-        topGroupScore.text = $"Total Appeal: {topGroup.seasonScore.ToString()}" ;
+        topGroupScore.text = $"Total Appeal: {topGroup.SeasonScore.ToString()}" ;
         
         //Top Exhibit
         var topExhibit = gameState.Exhibits.Values.OrderByDescending(x => x.seasonScore).First();
