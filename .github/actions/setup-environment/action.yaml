@@ -8,7 +8,7 @@ runs:
       run: |
         echo "SHORT_SHA=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
         echo "PROJECT_PATH=./src/LDJam58" >> $GITHUB_ENV
-        echo "ITCH_IO_PROJECT=enigmadragons" >> $GITHUB_ENV
+        echo "ITCH_IO_USER=enigmadragons" >> $GITHUB_ENV
         echo "PROJECT_NAME=genius-gallery" >> $GITHUB_ENV
 
     - name: Assemble Build Tag
