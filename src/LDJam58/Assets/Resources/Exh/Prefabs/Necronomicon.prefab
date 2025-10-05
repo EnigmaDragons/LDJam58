@@ -61,7 +61,7 @@ PrefabInstance:
     - target: {fileID: 7249729236021535672, guid: 828ba6c85afd9400794c54a72ec0c145,
         type: 3}
       propertyPath: m_Name
-      value: Necronomicon Variant
+      value: Necronomicon
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -124,22 +124,22 @@ PrefabInstance:
     - target: {fileID: 7950909879921317757, guid: 7ced390b281835f4593f603d71e0675e,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 7950909879921317757, guid: 7ced390b281835f4593f603d71e0675e,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7950909879921317757, guid: 7ced390b281835f4593f603d71e0675e,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 7950909879921317757, guid: 7ced390b281835f4593f603d71e0675e,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7950909879921317757, guid: 7ced390b281835f4593f603d71e0675e,
         type: 3}
@@ -149,7 +149,7 @@ PrefabInstance:
     - target: {fileID: 7950909879921317757, guid: 7ced390b281835f4593f603d71e0675e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 7950909879921317757, guid: 7ced390b281835f4593f603d71e0675e,
         type: 3}

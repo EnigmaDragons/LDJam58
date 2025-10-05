@@ -17,5 +17,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Final-DontTOUCH/CreditsScene.unity
     guid: 514d334c5df4df64f87ea2cadf28e400
+  - enabled: 1
+    path: Assets/Scenes/Pipeline/PhotoStudio.unity
+    guid: e0f8c93b131e647f79b540448849fec2
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

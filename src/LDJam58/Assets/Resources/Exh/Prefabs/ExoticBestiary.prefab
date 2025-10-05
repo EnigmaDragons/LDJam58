@@ -61,7 +61,7 @@ PrefabInstance:
     - target: {fileID: 7249729236021535672, guid: 828ba6c85afd9400794c54a72ec0c145,
         type: 3}
       propertyPath: m_Name
-      value: ExoticBestiary Variant
+      value: ExoticBestiary
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -124,22 +124,22 @@ PrefabInstance:
     - target: {fileID: 6900957764462534697, guid: 587abd17f01be184ab9933ef6aea22e5,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 6900957764462534697, guid: 587abd17f01be184ab9933ef6aea22e5,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6900957764462534697, guid: 587abd17f01be184ab9933ef6aea22e5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 6900957764462534697, guid: 587abd17f01be184ab9933ef6aea22e5,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6900957764462534697, guid: 587abd17f01be184ab9933ef6aea22e5,
         type: 3}
@@ -149,7 +149,7 @@ PrefabInstance:
     - target: {fileID: 6900957764462534697, guid: 587abd17f01be184ab9933ef6aea22e5,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 6900957764462534697, guid: 587abd17f01be184ab9933ef6aea22e5,
         type: 3}

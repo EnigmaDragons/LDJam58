@@ -41,7 +41,7 @@ PrefabInstance:
     - target: {fileID: 2483450052567117562, guid: 8f8713c1187df6a41a6c2213f84c81ff,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 2483450052567117562, guid: 8f8713c1187df6a41a6c2213f84c81ff,
         type: 3}
@@ -51,7 +51,7 @@ PrefabInstance:
     - target: {fileID: 2483450052567117562, guid: 8f8713c1187df6a41a6c2213f84c81ff,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 2483450052567117562, guid: 8f8713c1187df6a41a6c2213f84c81ff,
         type: 3}
@@ -66,7 +66,7 @@ PrefabInstance:
     - target: {fileID: 2483450052567117562, guid: 8f8713c1187df6a41a6c2213f84c81ff,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 2483450052567117562, guid: 8f8713c1187df6a41a6c2213f84c81ff,
         type: 3}
@@ -150,7 +150,7 @@ PrefabInstance:
     - target: {fileID: 7249729236021535672, guid: 828ba6c85afd9400794c54a72ec0c145,
         type: 3}
       propertyPath: m_Name
-      value: ArtOfWar Variant
+      value: TheArtOfWar
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

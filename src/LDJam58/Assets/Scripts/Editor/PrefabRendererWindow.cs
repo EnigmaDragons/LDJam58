@@ -3,126 +3,70 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 using System.IO;
+using System.Collections.Generic;
 
 public class PrefabRendererWindow : EditorWindow
 {
-    private GameObject prefabToRender;
-    private Vector3 renderPosition = new Vector3(1000, 0, 1000);
-    private float cameraDistance = 5f;
-    private float cameraHeight = 2f;
-    private string outputFileName = "prefab_render";
-    private bool isRendering = false;
-    private string statusMessage = "";
-    private Vector2 scrollPosition;
+    private GameObject _prefabToRender;
+    private bool _isRendering;
+    private string _statusMessage;
+    private Vector2 _scrollPosition;
     
-    private const string PREF_RENDER_POSITION_X = "PrefabRenderer_PositionX";
-    private const string PREF_RENDER_POSITION_Y = "PrefabRenderer_PositionY";
-    private const string PREF_RENDER_POSITION_Z = "PrefabRenderer_PositionZ";
-    private const string PREF_CAMERA_DISTANCE = "PrefabRenderer_CameraDistance";
-    private const string PREF_CAMERA_HEIGHT = "PrefabRenderer_CameraHeight";
-    private const string PREF_OUTPUT_FILENAME = "PrefabRenderer_OutputFilename";
+    private const string PhotostudioScenePath = "Assets/Scenes/Pipeline/PhotoStudio.unity";
+    
+    // Batch processing variables
+    private List<GameObject> _prefabsToProcess;
+    private int _currentPrefabIndex;
 
     [MenuItem("Tools/Prefab Renderer")]
     public static void ShowWindow()
     {
         var window = GetWindow<PrefabRendererWindow>("Prefab Renderer");
-        window.minSize = new Vector2(350, 400);
-    }
-
-    private void OnEnable()
-    {
-        renderPosition.x = EditorPrefs.GetFloat(PREF_RENDER_POSITION_X, 1000f);
-        renderPosition.y = EditorPrefs.GetFloat(PREF_RENDER_POSITION_Y, 0f);
-        renderPosition.z = EditorPrefs.GetFloat(PREF_RENDER_POSITION_Z, 1000f);
-        cameraDistance = EditorPrefs.GetFloat(PREF_CAMERA_DISTANCE, 5f);
-        cameraHeight = EditorPrefs.GetFloat(PREF_CAMERA_HEIGHT, 2f);
-        outputFileName = EditorPrefs.GetString(PREF_OUTPUT_FILENAME, "prefab_render");
+        window.minSize = new Vector2(350, 300);
     }
 
     private void OnGUI()
     {
-        scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+        _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
         
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("Prefab Renderer", EditorStyles.boldLabel);
-        EditorGUILayout.HelpBox("Renders a prefab in a distant corner and saves as a 400x400 JPG image.", MessageType.Info);
+        EditorGUILayout.HelpBox("Renders a prefab in PhotoStudio scene using Main Camera and PhotoSpot. Saves to Resources/Exh/Sprites.", MessageType.Info);
         EditorGUILayout.Space(10);
 
         // Prefab selection
-        EditorGUI.BeginChangeCheck();
-        prefabToRender = (GameObject)EditorGUILayout.ObjectField(
+        _prefabToRender = (GameObject)EditorGUILayout.ObjectField(
             "Prefab to Render", 
-            prefabToRender, 
+            _prefabToRender, 
             typeof(GameObject), 
             false
         );
-        if (EditorGUI.EndChangeCheck())
-        {
-            // Auto-generate filename based on prefab name
-            if (prefabToRender != null)
-            {
-                outputFileName = SanitizeFileName(prefabToRender.name);
-                EditorPrefs.SetString(PREF_OUTPUT_FILENAME, outputFileName);
-            }
-        }
-
-        EditorGUILayout.Space(10);
-
-        // Render position
-        EditorGUILayout.LabelField("Render Position", EditorStyles.miniBoldLabel);
-        EditorGUI.BeginChangeCheck();
-        renderPosition = EditorGUILayout.Vector3Field("Position", renderPosition);
-        if (EditorGUI.EndChangeCheck())
-        {
-            EditorPrefs.SetFloat(PREF_RENDER_POSITION_X, renderPosition.x);
-            EditorPrefs.SetFloat(PREF_RENDER_POSITION_Y, renderPosition.y);
-            EditorPrefs.SetFloat(PREF_RENDER_POSITION_Z, renderPosition.z);
-        }
-
-        EditorGUILayout.Space(10);
-
-        // Camera settings
-        EditorGUILayout.LabelField("Camera Settings", EditorStyles.miniBoldLabel);
-        EditorGUI.BeginChangeCheck();
-        cameraDistance = EditorGUILayout.FloatField("Distance from Object", cameraDistance);
-        if (EditorGUI.EndChangeCheck())
-        {
-            EditorPrefs.SetFloat(PREF_CAMERA_DISTANCE, cameraDistance);
-        }
-
-        EditorGUI.BeginChangeCheck();
-        cameraHeight = EditorGUILayout.FloatField("Camera Height", cameraHeight);
-        if (EditorGUI.EndChangeCheck())
-        {
-            EditorPrefs.SetFloat(PREF_CAMERA_HEIGHT, cameraHeight);
-        }
-
-        EditorGUILayout.Space(10);
-
-        // Output filename
-        EditorGUILayout.LabelField("Output Settings", EditorStyles.miniBoldLabel);
-        EditorGUI.BeginChangeCheck();
-        outputFileName = EditorGUILayout.TextField("Output Filename", outputFileName);
-        if (EditorGUI.EndChangeCheck())
-        {
-            EditorPrefs.SetString(PREF_OUTPUT_FILENAME, outputFileName);
-        }
 
         EditorGUILayout.Space(10);
 
         // Render button
-        GUI.enabled = !isRendering && prefabToRender != null;
-        if (GUILayout.Button(isRendering ? "Rendering..." : "Render Prefab", GUILayout.Height(30)))
+        GUI.enabled = !_isRendering && _prefabToRender != null;
+        if (GUILayout.Button(_isRendering ? "Rendering..." : "Render Prefab", GUILayout.Height(30)))
         {
             RenderPrefab();
         }
         GUI.enabled = true;
+        
+        EditorGUILayout.Space(10);
+        
+        // Photograph All button
+        GUI.enabled = !_isRendering;
+        if (GUILayout.Button(_isRendering ? "Processing..." : "Photograph All Prefabs", GUILayout.Height(30)))
+        {
+            PhotographAllPrefabs();
+        }
+        GUI.enabled = true;
 
         // Status message
-        if (!string.IsNullOrEmpty(statusMessage))
+        if (!string.IsNullOrEmpty(_statusMessage))
         {
             EditorGUILayout.Space(10);
-            EditorGUILayout.HelpBox(statusMessage, MessageType.Info);
+            EditorGUILayout.HelpBox(_statusMessage, MessageType.Info);
         }
 
         EditorGUILayout.EndScrollView();
@@ -130,15 +74,15 @@ public class PrefabRendererWindow : EditorWindow
 
     private void RenderPrefab()
     {
-        if (prefabToRender == null)
+        if (_prefabToRender == null)
         {
-            statusMessage = "ERROR: Please select a prefab to render!";
+            _statusMessage = "ERROR: Please select a prefab to render!";
             EditorUtility.DisplayDialog("Error", "Please select a prefab to render.", "OK");
             return;
         }
 
-        isRendering = true;
-        statusMessage = "Setting up render scene...";
+        _isRendering = true;
+        _statusMessage = "Setting up render scene...";
         Repaint();
 
         try
@@ -147,38 +91,63 @@ public class PrefabRendererWindow : EditorWindow
             var originalScene = SceneManager.GetActiveScene();
             var originalScenePath = originalScene.path;
             
-            // Create a temporary scene for rendering
-            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            // Load PhotoStudio scene
+            _statusMessage = "Loading PhotoStudio scene...";
+            Repaint();
+            EditorSceneManager.OpenScene(PhotostudioScenePath, OpenSceneMode.Single);
             
-            // Create the prefab instance
-            var prefabInstance = PrefabUtility.InstantiatePrefab(prefabToRender) as GameObject;
-            prefabInstance.transform.position = renderPosition;
+            // Force update to ensure scene is loaded
+            EditorApplication.QueuePlayerLoopUpdate();
             
-            // Create a camera to look at the prefab
-            var cameraGO = new GameObject("RenderCamera");
-            var camera = cameraGO.AddComponent<Camera>();
+            // Find Main Camera
+            var mainCamera = Camera.main;
+            if (mainCamera == null)
+            {
+                _statusMessage = "ERROR: Main Camera not found in PhotoStudio scene!";
+                EditorUtility.DisplayDialog("Error", "Main Camera not found in PhotoStudio scene!", "OK");
+                _isRendering = false;
+                Repaint();
+                return;
+            }
             
-            // Position camera to look at the prefab
-            var lookDirection = Vector3.forward;
-            var cameraPos = renderPosition + lookDirection * cameraDistance + Vector3.up * cameraHeight;
-            cameraGO.transform.position = cameraPos;
-            cameraGO.transform.LookAt(renderPosition + Vector3.up * cameraHeight * 0.5f);
+            // Find PhotoSpot
+            var photoSpot = GameObject.FindGameObjectWithTag("PhotoSpot");
+            if (photoSpot == null)
+            {
+                _statusMessage = "ERROR: GameObject with 'PhotoSpot' tag not found!";
+                EditorUtility.DisplayDialog("Error", "GameObject with 'PhotoSpot' tag not found!", "OK");
+                _isRendering = false;
+                Repaint();
+                return;
+            }
             
-            // Set up camera for rendering
-            camera.clearFlags = CameraClearFlags.SolidColor;
-            camera.backgroundColor = Color.black;
-            camera.orthographic = false;
-            camera.fieldOfView = 60f;
-            
-            // Create a render texture
-            var renderTexture = new RenderTexture(400, 400, 24);
-            camera.targetTexture = renderTexture;
-            
-            statusMessage = "Rendering...";
+            _statusMessage = "Spawning prefab...";
             Repaint();
             
+            // Create the prefab instance at PhotoSpot position
+            var prefabInstance = PrefabUtility.InstantiatePrefab(_prefabToRender) as GameObject;
+            if (prefabInstance != null)
+            {
+                prefabInstance.transform.position = photoSpot.transform.position;
+                prefabInstance.transform.rotation = photoSpot.transform.rotation;
+                
+                // Deactivate PlacementBase children
+                DeactivatePlacementBaseChildren(prefabInstance);
+            }
+            
+            // Force update to ensure prefab is positioned
+            EditorApplication.QueuePlayerLoopUpdate();
+            EditorApplication.QueuePlayerLoopUpdate();
+            
+            _statusMessage = "Rendering...";
+            Repaint();
+            
+            // Set up camera for rendering
+            var renderTexture = new RenderTexture(400, 400, 24);
+            mainCamera.targetTexture = renderTexture;
+            
             // Force render
-            camera.Render();
+            mainCamera.Render();
             
             // Read the render texture
             RenderTexture.active = renderTexture;
@@ -191,36 +160,33 @@ public class PrefabRendererWindow : EditorWindow
             var jpgData = texture2D.EncodeToJPG(80);
             
             // Create output directory if it doesn't exist
-            var outputDir = Path.Combine(Application.dataPath, "Generated");
+            var outputDir = Path.Combine(Application.dataPath, "Resources", "Exh", "Sprites");
             if (!Directory.Exists(outputDir))
             {
                 Directory.CreateDirectory(outputDir);
             }
             
-            // Save the image
-            var timestamp = System.DateTime.Now.ToString("yyyyMMdd_HHmmss");
-            var filename = $"{outputFileName}_{timestamp}.jpg";
+            // Save the image with prefab name
+            var filename = SanitizeFileName(_prefabToRender.name) + ".jpg";
             var filepath = Path.Combine(outputDir, filename);
             File.WriteAllBytes(filepath, jpgData);
             
             // Clean up
             DestroyImmediate(texture2D);
             DestroyImmediate(renderTexture);
-            DestroyImmediate(prefabInstance);
-            DestroyImmediate(cameraGO);
+            if (prefabInstance != null)
+            {
+                DestroyImmediate(prefabInstance);
+            }
+            mainCamera.targetTexture = null;
             
             // Return to the original scene
             if (!string.IsNullOrEmpty(originalScenePath))
             {
                 EditorSceneManager.OpenScene(originalScenePath);
             }
-            else
-            {
-                // If the original scene was unsaved, create a new empty scene
-                EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            }
             
-            statusMessage = $"Successfully rendered and saved to: {filepath}";
+            _statusMessage = $"Successfully rendered and saved to: {filepath}";
             AssetDatabase.Refresh();
             
             Debug.Log($"Prefab rendered and saved to: {filepath}");
@@ -228,22 +194,204 @@ public class PrefabRendererWindow : EditorWindow
         }
         catch (System.Exception ex)
         {
-            statusMessage = $"ERROR: {ex.Message}";
+            _statusMessage = $"ERROR: {ex.Message}";
             Debug.LogError($"Prefab render error: {ex}");
             EditorUtility.DisplayDialog("Error", $"Failed to render prefab:\n{ex.Message}", "OK");
         }
         finally
         {
-            isRendering = false;
+            _isRendering = false;
             Repaint();
+        }
+    }
+    
+    private void PhotographAllPrefabs()
+    {
+        if (_isRendering)
+        {
+            return;
+        }
+
+        // Find all prefabs in Resources/Exh/Prefabs
+        var prefabGuids = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets/Resources/Exh/Prefabs" });
+        _prefabsToProcess = new List<GameObject>();
+
+        foreach (var guid in prefabGuids)
+        {
+            var path = AssetDatabase.GUIDToAssetPath(guid);
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            
+            if (prefab != null && !prefab.name.StartsWith("Exh"))
+            {
+                _prefabsToProcess.Add(prefab);
+            }
+        }
+
+        if (_prefabsToProcess.Count == 0)
+        {
+            _statusMessage = "No prefabs found to photograph!";
+            EditorUtility.DisplayDialog("No Prefabs", "No prefabs found in Resources/Exh/Prefabs (excluding Exh prefabs).", "OK");
+            return;
+        }
+
+        _isRendering = true;
+        _currentPrefabIndex = 0;
+        _statusMessage = $"Found {_prefabsToProcess.Count} prefabs to photograph. Starting batch process...";
+        Repaint();
+
+        // Start the batch processing
+        EditorApplication.update += ProcessNextPrefab;
+    }
+
+    private void ProcessNextPrefab()
+    {
+        if (_currentPrefabIndex >= _prefabsToProcess.Count)
+        {
+            // All done
+            EditorApplication.update -= ProcessNextPrefab;
+            _isRendering = false;
+            _statusMessage = "Batch photography complete!";
+            Repaint();
+            EditorUtility.DisplayDialog("Batch Complete", "All prefabs have been photographed successfully!", "OK");
+            AssetDatabase.Refresh();
+            return;
+        }
+
+        var currentPrefab = _prefabsToProcess[_currentPrefabIndex];
+        _statusMessage = $"Photographing: {currentPrefab.name} ({_currentPrefabIndex + 1}/{_prefabsToProcess.Count})";
+        Repaint();
+
+        try
+        {
+            // Store the original scene
+            var originalScene = SceneManager.GetActiveScene();
+            var originalScenePath = originalScene.path;
+            
+            // Load PhotoStudio scene
+            EditorSceneManager.OpenScene(PhotostudioScenePath, OpenSceneMode.Single);
+            
+            // Force update to ensure scene is loaded
+            EditorApplication.QueuePlayerLoopUpdate();
+            
+            // Find Main Camera
+            var mainCamera = Camera.main;
+            if (mainCamera == null)
+            {
+                _statusMessage = $"ERROR: Main Camera not found for {currentPrefab.name}!";
+                Repaint();
+                _currentPrefabIndex++;
+                return;
+            }
+            
+            // Find PhotoSpot
+            var photoSpot = GameObject.FindGameObjectWithTag("PhotoSpot");
+            if (photoSpot == null)
+            {
+                _statusMessage = $"ERROR: PhotoSpot not found for {currentPrefab.name}!";
+                Repaint();
+                _currentPrefabIndex++;
+                return;
+            }
+            
+            // Create the prefab instance at PhotoSpot position
+            var prefabInstance = PrefabUtility.InstantiatePrefab(currentPrefab) as GameObject;
+            if (prefabInstance != null)
+            {
+                prefabInstance.transform.position = photoSpot.transform.position;
+                prefabInstance.transform.rotation = photoSpot.transform.rotation;
+                
+                // Deactivate PlacementBase children
+                DeactivatePlacementBaseChildren(prefabInstance);
+            }
+            
+            // Force update to ensure prefab is positioned
+            EditorApplication.QueuePlayerLoopUpdate();
+            EditorApplication.QueuePlayerLoopUpdate();
+            
+            // Set up camera for rendering
+            var renderTexture = new RenderTexture(400, 400, 24);
+            mainCamera.targetTexture = renderTexture;
+            
+            // Force render
+            mainCamera.Render();
+            
+            // Read the render texture
+            RenderTexture.active = renderTexture;
+            var texture2D = new Texture2D(400, 400, TextureFormat.RGB24, false);
+            texture2D.ReadPixels(new Rect(0, 0, 400, 400), 0, 0);
+            texture2D.Apply();
+            RenderTexture.active = null;
+            
+            // Convert to JPG and save
+            var jpgData = texture2D.EncodeToJPG(80);
+            
+            // Create output directory if it doesn't exist
+            var outputDir = Path.Combine(Application.dataPath, "Resources", "Exh", "Sprites");
+            if (!Directory.Exists(outputDir))
+            {
+                Directory.CreateDirectory(outputDir);
+            }
+            
+            // Save the image with prefab name
+            var filename = SanitizeFileName(currentPrefab.name) + ".jpg";
+            var filepath = Path.Combine(outputDir, filename);
+            File.WriteAllBytes(filepath, jpgData);
+            
+            // Clean up
+            DestroyImmediate(texture2D);
+            DestroyImmediate(renderTexture);
+            if (prefabInstance != null)
+            {
+                DestroyImmediate(prefabInstance);
+            }
+            mainCamera.targetTexture = null;
+            
+            // Return to the original scene
+            if (!string.IsNullOrEmpty(originalScenePath))
+            {
+                EditorSceneManager.OpenScene(originalScenePath);
+            }
+            
+            Debug.Log($"Prefab photographed: {currentPrefab.name}");
+            
+            // Move to next prefab
+            _currentPrefabIndex++;
+        }
+        catch (System.Exception ex)
+        {
+            _statusMessage = $"ERROR photographing {currentPrefab.name}: {ex.Message}";
+            Debug.LogError($"Prefab render error for {currentPrefab.name}: {ex}");
+            _currentPrefabIndex++;
+            Repaint();
+        }
+    }
+    
+    private void DeactivatePlacementBaseChildren(GameObject parent)
+    {
+        var childrenToDeactivate = new List<GameObject>();
+        
+        // Find all children with names starting with "PlacementBase"
+        for (int i = 0; i < parent.transform.childCount; i++)
+        {
+            var child = parent.transform.GetChild(i).gameObject;
+            if (child.name.StartsWith("PlacementBase"))
+            {
+                childrenToDeactivate.Add(child);
+            }
+        }
+        
+        // Deactivate found children
+        foreach (var child in childrenToDeactivate)
+        {
+            child.SetActive(false);
         }
     }
 
     private string SanitizeFileName(string fileName)
     {
         // Remove invalid characters and convert to lowercase
-        var invalidChars = System.IO.Path.GetInvalidFileNameChars();
-        var sanitized = fileName.ToLower();
+        var invalidChars = Path.GetInvalidFileNameChars();
+        var sanitized = fileName;
         
         foreach (var invalidChar in invalidChars)
         {

@@ -61,7 +61,7 @@ PrefabInstance:
     - target: {fileID: 7249729236021535672, guid: 828ba6c85afd9400794c54a72ec0c145,
         type: 3}
       propertyPath: m_Name
-      value: Spellbook Variant
+      value: Spellbook
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -119,22 +119,22 @@ PrefabInstance:
     - target: {fileID: 1189548650115324651, guid: d89ad07553ef31b4ba966a1d4d4cbaeb,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 1189548650115324651, guid: d89ad07553ef31b4ba966a1d4d4cbaeb,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1189548650115324651, guid: d89ad07553ef31b4ba966a1d4d4cbaeb,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 1189548650115324651, guid: d89ad07553ef31b4ba966a1d4d4cbaeb,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1189548650115324651, guid: d89ad07553ef31b4ba966a1d4d4cbaeb,
         type: 3}
@@ -144,7 +144,7 @@ PrefabInstance:
     - target: {fileID: 1189548650115324651, guid: d89ad07553ef31b4ba966a1d4d4cbaeb,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 1189548650115324651, guid: d89ad07553ef31b4ba966a1d4d4cbaeb,
         type: 3}
