@@ -39,6 +39,9 @@ public class Cheats : MonoBehaviour
 
         if (isHoldingLeftShift && Input.GetKey(KeyCode.L))
             EventPublisher.PublishGameLost();
+
+        if (isHoldingLeftShift && Input.GetKey(KeyCode.S))
+            EventPublisher.SeasonInitializedCheat();
     }
 #endif
 }

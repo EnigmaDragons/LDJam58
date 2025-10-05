@@ -17,5 +17,5 @@ MonoBehaviour:
   audioClip: {fileID: 8300000, guid: 40afe7168aa1e4eabb452f5a92a6f3d7, type: 3}
   introBoundary: 0
   loopingBoundary: 0
-  nonLooping: 1
-  loopWholeAudio: 0
+  nonLooping: 0
+  loopWholeAudio: 1
