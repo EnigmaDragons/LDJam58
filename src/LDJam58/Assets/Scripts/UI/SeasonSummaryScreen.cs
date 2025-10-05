@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -23,7 +24,12 @@ public class SeasonSummaryScreen : OnMessage<SummarizeSeason>
     [SerializeField] private TextMeshProUGUI peopleCount;
     [SerializeField] private TextMeshProUGUI groupCount;
     [SerializeField] private Button continueButton;
-    
+
+    private void Awake()
+    {
+        continueButton.onClick.AddListener(Continue);
+    }
+
     protected override void Execute(SummarizeSeason msg)
     {
         var gameState = CurrentGameState.ReadOnly;
@@ -52,4 +58,12 @@ public class SeasonSummaryScreen : OnMessage<SummarizeSeason>
     
     private string DisplayTags(IEnumerable<ExhibitTag> tags)
         => string.Join(", ", tags.Select(x => x.UserFriendlyText()));
+
+    private void Continue()
+    {
+        if (CurrentGameState.ReadOnly.seasonScore >= CurrentGameState.ReadOnly.currentTargetAppeal)
+            Message.Publish(new NavigateToSceneRequested("CreditsScene"));
+        else
+            Message.Publish(new GameLost());
+    }
 }
