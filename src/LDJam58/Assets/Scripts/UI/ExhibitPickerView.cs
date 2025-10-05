@@ -14,7 +14,7 @@ public class ExhibitPickerView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _rarityLabel;
     [SerializeField] private OneToElevenMeter _enjoymentMeter;
     [SerializeField] private OneToElevenMeter _popularityMeter;
-    [SerializeField] private TextMeshProUGUI _tagsLabel;
+    [SerializeField] private TagsDisplayView _tagsView;
     [SerializeField] private Button _pickButton;
     
     private ExhibitTileType _exhibitTileType;
@@ -31,12 +31,7 @@ public class ExhibitPickerView : MonoBehaviour
         _enjoymentMeter.SetValue(exhibits.Enjoyment);
         _rarityLabel.text = exhibits.Rarity.ToString();
         _popularityMeter.SetValue(exhibits.Popularity);
-        _tagsLabel.text = string.Join(", ", exhibits.Tags.Select(t => {
-            var s = t.ToString();
-            var noUnderscore = s.Contains("_") ? s.Substring(s.IndexOf('_') + 1) : s;
-            var withSpaces = System.Text.RegularExpressions.Regex.Replace(noUnderscore, "(\\B[A-Z])", " $1");
-            return withSpaces;
-        }));
+        _tagsView.SetTags(exhibits.Tags);
     }
     
     private Sprite GetDefaultSprite()
