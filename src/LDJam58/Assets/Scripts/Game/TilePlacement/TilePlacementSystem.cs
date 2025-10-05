@@ -144,7 +144,8 @@ namespace Game.TilePlacement
             var inst= Instantiate(exhibitTileType.ExhibitPrefab, ghostTile.transform.position, ghostTile.transform.rotation);
             inst.GetComponent<ExhibitPrefab>().Init(exhibitTileType);
             inst.transform.SetParent(grid.transform);
-            CurrentGameState.UpdatePlacedExhibit(exhibitTileType, roomId, placedNodes);
+            CurrentGameState.RemoveGhosts();
+            CurrentGameState.UpdatePlacedExhibit(exhibitTileType, roomId, placedNodes, false);
             Message.Publish(new ExhibitPlaced(inst, exhibitTileType));
             DisableGhostObject();
             StopPlacing();

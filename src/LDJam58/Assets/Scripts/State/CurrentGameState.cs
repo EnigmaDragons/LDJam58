@@ -31,12 +31,7 @@ public static class CurrentGameState
         Message.Publish(new GameStateChanged(gameState));
     }
 
-    public static void InitRoom(string roomId, bool open, Vector2Int[] nodes)
-    {
-        UpdateState(state => state.Rooms[roomId] = new RoomState { open = open, exhibitIds = nodes.ToDictionary(x => x, _ => "")});
-    }
-
-    public static void UpdatePlacedExhibit(ExhibitTileType exhibit, string roomId, Vector2Int[] nodes)
+    public static void UpdatePlacedExhibit(ExhibitTileType exhibit, string roomId, Vector2Int[] nodes, bool isGhost)
     {
         if (roomId == null)
         {
@@ -61,12 +56,13 @@ public static class CurrentGameState
                 roomId = roomId,
                 tags = exhibit.Tags,
                 baseEnjoyment = exhibit.Enjoyment,
-                adjacencies = filteredAdjacentNodes
+                adjacencies = filteredAdjacentNodes,
+                isGhost = isGhost
             };
         });
         CalculateExhibitEnjoyment(roomId);
     }
-
+    
     public static void CalculateExhibitEnjoyment(string roomId)
     {
         UpdateState(state =>
@@ -80,8 +76,10 @@ public static class CurrentGameState
                     .Where(x => room.exhibitIds.ContainsKey(x))
                     .Select(x => room.exhibitIds[x])
                     .Distinct()
-                    .Select(x => state.Exhibits[x]);
-                exhibit.calculatedEnjoyment = Math.Max(0, exhibit.baseEnjoyment + adjacentExhibits.Sum(x => CalculateAdjacencyBonus(exhibit.tags, x.tags)));
+                    .Select(x => state.Exhibits[x])
+                    .ToArray();
+                exhibit.calculatedEnjoyment = Math.Max(0, exhibit.baseEnjoyment + adjacentExhibits.Where(x => !x.isGhost).Sum(x => CalculateAdjacencyBonus(exhibit.tags, x.tags)));
+                exhibit.ghostEnjoyment = exhibit.calculatedEnjoyment + Math.Max(0, exhibit.baseEnjoyment + adjacentExhibits.Where(x => x.isGhost).Sum(x => CalculateAdjacencyBonus(exhibit.tags, x.tags)));;
             }
         });
         Message.Publish(new ScoresUpdated());
@@ -128,39 +126,39 @@ public static class CurrentGameState
                 groupInterest = 0;
             var score = group.peopleCount * groupInterest * exhibit.calculatedEnjoyment;
             state.seasonScore += score;
-            group.seasonScore += score;
+            //group.ExhibitReactions[exhibit.name];
+            group.ScoredExhibits[exhibit.name] = score;
             exhibit.seasonScore += score;
         });
     }
-
-    // Zavi please populate this function so I can dynamically display total enjoyment score on hover
-    // - Chaos
     
     public static int GetExhibitEnjoymentScore(ExhibitPrefab exhibit)
     {
-        var finalScore = exhibit.ExhibitTileType.Enjoyment;
-        
-        //This is where the magic happens
-        
-        
-        
-        
-        return finalScore;
+        return ReadOnly.Exhibits[exhibit.ExhibitTileType.DisplayName].calculatedEnjoyment;
     }
 
     // This one as well so I can display new score on the ghost object
     public static int GetGhostExhibitEnjoymentScore(ExhibitTileType exhibit, string roomId, Vector2Int[] nodes)
     {
-        //to test it I will just select fist node and check if it's a multiple of 3
-        //This is a test
-        var node1 = nodes.First();
-        var nodeId = node1.x +  node1.y;
+        UpdatePlacedExhibit(exhibit, roomId, nodes, true);
+        return ReadOnly.Exhibits[exhibit.DisplayName].calculatedEnjoyment;
+    }
 
-        var bonus = 0;
-        if (nodeId % 3 == 0) bonus = 1;
-        if (nodeId % 3 == 1) bonus = -1;
-        
-        return exhibit.Enjoyment + bonus;
+    public static void RemoveGhosts()
+    {
+        UpdateState(state =>
+        {
+            foreach (var room in state.Rooms.Values)
+            {
+                var nodes = room.exhibitIds.ToArray();
+                foreach (var node in nodes)
+                {
+                    var exhibit = state.Exhibits[node.Value];
+                    if (exhibit.isGhost)
+                        room.exhibitIds.Remove(node.Key);
+                }
+            }
+        });
     }
 
     public static int GetExhibitBaseScore(ExhibitTileType exhibit)

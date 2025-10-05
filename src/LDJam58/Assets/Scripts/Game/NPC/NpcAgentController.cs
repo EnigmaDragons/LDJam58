@@ -7,6 +7,15 @@ using UnityEngine.AI;
 
 namespace Game.NPC
 {
+    public enum NpcMood
+    {
+        Excited = 4,
+        Happy = 3,
+        Interested = 2,
+        Neutral = 1,
+        Angry = 0
+    }
+    
     public class NpcAgentController : MonoBehaviour
     {
         private enum State
@@ -16,16 +25,6 @@ namespace Game.NPC
             Looking = 2,
             Reacting = 3
         }
-        
-        private enum Mood
-        {
-            Excited = 4,
-            Happy = 3,
-            Interested = 2,
-            Neutral = 1,
-            Angry = 0
-        }
-        
         
         [SerializeField]
         private NavMeshAgent  navMeshAgent;
@@ -41,7 +40,7 @@ namespace Game.NPC
         private ExhibitTileType currentExhibitTile;
         private NpcObject npcObject;
         private Animator animator;
-        private Mood mood;
+        private NpcMood _npcMood;
         private State state;
         private Vector3 targetPosition;
         
@@ -63,27 +62,27 @@ namespace Game.NPC
             var score = npcObject.GetExhibitScore(currentExhibitTile);
             if (score > 10)
             {
-                mood = Mood.Excited;
+                _npcMood = NpcMood.Excited;
             }
             else if (score > 6)
             {
-                mood = Mood.Happy;
+                _npcMood = NpcMood.Happy;
             }
             else if (score > 3)
             {
-                mood = Mood.Interested;
+                _npcMood = NpcMood.Interested;
             }
             else if (score > 0)
             {
-                mood = Mood.Neutral;
+                _npcMood = NpcMood.Neutral;
             }
             else if (score < 0)
             {
-                mood = Mood.Angry;
+                _npcMood = NpcMood.Angry;
             }
-            print($"Evaluated:{currentExhibitTile.DisplayName} with score:{score}, mood:{mood}");
+            print($"Evaluated:{currentExhibitTile.DisplayName} with score:{score}, mood:{_npcMood}");
 
-            animator.SetInteger("mood", (int)mood);
+            animator.SetInteger("mood", (int)_npcMood);
         }
         
         private void MoveToPosition(Vector3 position)
