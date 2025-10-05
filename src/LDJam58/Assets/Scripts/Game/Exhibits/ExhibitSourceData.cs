@@ -24,6 +24,8 @@ public class ExhibitSourceData
     public int ArtistEffort => _artistEffort;
     public int VfxEffort => _vfxEffort;
 
+    public string FileFriendlyName => _name.FileFriendlyName();
+
     public void SetName(string value) => _name = value;
     public void SetTheme(string value) => _theme = value;
     public void SetSize(string value) => _size = value;
