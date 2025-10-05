@@ -171,6 +171,9 @@ public class PrefabRendererWindow : EditorWindow
             var filepath = Path.Combine(outputDir, filename);
             File.WriteAllBytes(filepath, jpgData);
             
+            // Configure sprite import settings for the new asset
+            ConfigureSpriteImportSettings(filepath);
+            
             // Clean up
             DestroyImmediate(texture2D);
             DestroyImmediate(renderTexture);
@@ -337,6 +340,9 @@ public class PrefabRendererWindow : EditorWindow
             var filepath = Path.Combine(outputDir, filename);
             File.WriteAllBytes(filepath, jpgData);
             
+            // Configure sprite import settings for the new asset
+            ConfigureSpriteImportSettings(filepath);
+            
             // Clean up
             DestroyImmediate(texture2D);
             DestroyImmediate(renderTexture);
@@ -411,5 +417,31 @@ public class PrefabRendererWindow : EditorWindow
         sanitized = sanitized.Trim('_');
         
         return string.IsNullOrEmpty(sanitized) ? "prefab_render" : sanitized;
+    }
+    
+    private void ConfigureSpriteImportSettings(string filepath)
+    {
+        // Get the relative path from Assets folder
+        var relativePath = filepath.Replace(Application.dataPath, "Assets");
+        
+        // Import the asset to make it available in the project
+        AssetDatabase.ImportAsset(relativePath);
+        
+        // Get the texture importer
+        var textureImporter = AssetImporter.GetAtPath(relativePath) as TextureImporter;
+        if (textureImporter != null)
+        {
+            // Configure as Sprite (2D and UI)
+            textureImporter.textureType = TextureImporterType.Sprite;
+            
+            // Set sprite mode to Single
+            textureImporter.spriteImportMode = SpriteImportMode.Single;
+            
+            // Apply the changes
+            EditorUtility.SetDirty(textureImporter);
+            textureImporter.SaveAndReimport();
+            
+            Debug.Log($"Configured sprite import settings for: {relativePath}");
+        }
     }
 }

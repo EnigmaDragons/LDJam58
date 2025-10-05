@@ -2,8 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Game.Messages;
+using UnityEngine.EventSystems;
 
-public class ExhibitPickerView : MonoBehaviour
+public class ExhibitPickerView : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Image _exhibitImage;
     [SerializeField] private TextMeshProUGUI _exhibitNameLabel;
@@ -27,7 +28,24 @@ public class ExhibitPickerView : MonoBehaviour
     [SerializeField] private Sprite _exoticBackFrameSprite;
     [SerializeField] private Sprite _mythicBackFrameSprite;
     
+    [SerializeField] private Sprite _commonHoverSprite;
+    [SerializeField] private Sprite _rareHoverSprite;
+    [SerializeField] private Sprite _exoticHoverSprite;
+    [SerializeField] private Sprite _mythicHoverSprite;
+    
+    [SerializeField] private Image _hoverImage;
+    
     private ExhibitTileType _exhibitTileType;
+    
+    private void Start()
+    {
+        // Initially hide hover image
+        if (_hoverImage != null)
+        {
+            _hoverImage.gameObject.SetActive(false);
+        }
+    }
+    
     public void Init(ExhibitTileType exhibits)
     {
         _exhibitTileType = exhibits;
@@ -78,6 +96,35 @@ public class ExhibitPickerView : MonoBehaviour
                 _ => _commonBackFrameSprite
             };
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (_hoverImage != null && _exhibitTileType != null)
+        {
+            _hoverImage.sprite = GetHoverSpriteForRarity(_exhibitTileType.Rarity);
+            _hoverImage.gameObject.SetActive(true);
+        }
+    }
+    
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (_hoverImage != null)
+        {
+            _hoverImage.gameObject.SetActive(false);
+        }
+    }
+    
+    private Sprite GetHoverSpriteForRarity(ExhibitRarity rarity)
+    {
+        return rarity switch
+        {
+            ExhibitRarity.Common => _commonHoverSprite,
+            ExhibitRarity.Rare => _rareHoverSprite,
+            ExhibitRarity.Exotic => _exoticHoverSprite,
+            ExhibitRarity.Mythic => _mythicHoverSprite,
+            _ => _commonHoverSprite
+        };
     }
 
     private void PickExhibit()
