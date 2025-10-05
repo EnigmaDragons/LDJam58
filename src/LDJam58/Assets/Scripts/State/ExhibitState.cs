@@ -6,7 +6,7 @@ using UnityEngine;
 public class ExhibitState
 {
     public int baseEnjoyment;
-    public List<ExhibitTag> tags;
+    public List<ExhibitTag> tags = new List<ExhibitTag>();
     public string roomId;
-    public Vector2Int[] adjacencies;
+    public Vector2Int[] adjacencies = new Vector2Int[0];
 }

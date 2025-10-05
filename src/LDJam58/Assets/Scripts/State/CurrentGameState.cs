@@ -31,11 +31,21 @@ public static class CurrentGameState
 
     public static void UpdatePlacedExhibit(ExhibitTileType exhibit, string roomId, Vector2Int[] nodes)
     {
+        if (roomId == null)
+        {
+            Debug.LogError("Game State: UpdatePlacedExhibit: RoomId is null");
+            return;
+        }
+
         UpdateState(_ =>
         {
             var adjacencies = new HashSet<Vector2Int>(); 
             foreach (var node in nodes)
             {
+                if (!gameState.Rooms.ContainsKey(roomId))
+                    gameState.Rooms[roomId] = new RoomState();
+                if (!gameState.Rooms[roomId].exhibitIds.ContainsKey(node))
+                    gameState.Rooms[roomId].exhibitIds[node] = exhibit.DisplayName;
                 gameState.Rooms[roomId].exhibitIds[node] = exhibit.DisplayName;
                 foreach (var vector in gameState.Rooms[roomId].exhibitIds.Keys)
                 {

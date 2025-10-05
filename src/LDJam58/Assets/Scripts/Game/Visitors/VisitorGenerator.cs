@@ -22,10 +22,10 @@ public static class VisitorGenerator
     public static Group Generate(ExhibitTag fascination, HashSet<ExhibitTag> exhibitTags)
     {
         var takeAmount = fascination == ExhibitTag.None ? groupFascinations : groupFascinations - 1;
-        var fascinations = allTags.Where(x => fascination != x).TakeRandom(takeAmount).ToList();
+        var fascinations = AllTags().Where(x => fascination != x).TakeRandom(takeAmount).ToList();
         if (fascination != ExhibitTag.None)
             fascinations.Add(fascination);
-        var disinterests = allTags.Where(x => !exhibitTags.Contains(x)).TakeRandom(groupDisinterests).ToList();
+        var disinterests = AllTags().Where(x => !exhibitTags.Contains(x)).TakeRandom(groupDisinterests).ToList();
         return new Group { peopleCount = Rng.Int(minPeople, maxPeople + 1), Fascinations = fascinations.ToArray(), Disinterests = disinterests.ToArray() };
     }
 }
