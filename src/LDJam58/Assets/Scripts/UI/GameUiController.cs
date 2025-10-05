@@ -57,15 +57,16 @@ public class GameUiController : MonoBehaviour
         var gameState = CurrentGameState.ReadOnly;
         var exhibitsRemaining = gameState.currentNumExhibitsToPickThisPeriod;
         var isPlacing = gameState.isPlacing;
+        var isPicking = gameState.isPicking;
         var isShowingMuseum = gameState.isShowingMuseum;
 
         // Add Exhibit Button: Show when not placing AND when there are exhibits left to place
-        var showAddExhibitButton = !isPlacing && exhibitsRemaining > 0;
+        var showAddExhibitButton = !isPicking && !isPlacing && exhibitsRemaining > 0;
         if (addExhibitButton != null)
             addExhibitButton.SetActive(showAddExhibitButton);
 
         // Open Museum Button: Show when not placing AND when there are 0 exhibits left
-        var showOpenMuseumButton = !isPlacing && exhibitsRemaining == 0 && !isShowingMuseum;
+        var showOpenMuseumButton = !isPicking && !isPlacing && exhibitsRemaining == 0 && !isShowingMuseum;
         if (openMuseumButton != null)
             openMuseumButton.SetActive(showOpenMuseumButton);
     }

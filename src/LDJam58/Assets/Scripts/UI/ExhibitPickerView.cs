@@ -8,12 +8,13 @@ using Game.Messages;
 public class ExhibitPickerView : MonoBehaviour
 {
     [SerializeField] private Image _exhibitImage;
-    [SerializeField] private KeyValueLabel _exhibitNameLabel;
-    [SerializeField] private KeyValueLabel _sizeLabel;
-    [SerializeField] private KeyValueLabel _rarityLabel;
-    [SerializeField] private KeyValueLabel _enjoymentLabel;
-    [SerializeField] private KeyValueLabel _popularityLabel;
-    [SerializeField] private TextMeshProUGUI _tagsLabel;
+    [SerializeField] private TextMeshProUGUI _exhibitNameLabel;
+
+    [SerializeField] private TextMeshProUGUI _sizeLabel;
+    [SerializeField] private TextMeshProUGUI _rarityLabel;
+    [SerializeField] private OneToElevenMeter _enjoymentMeter;
+    [SerializeField] private OneToElevenMeter _popularityMeter;
+    [SerializeField] private TagsDisplayView _tagsView;
     [SerializeField] private Button _pickButton;
     
     private ExhibitTileType _exhibitTileType;
@@ -25,17 +26,12 @@ public class ExhibitPickerView : MonoBehaviour
         // Handle missing sprite gracefully
         _exhibitImage.sprite = exhibits.ExhibitSprite ?? GetDefaultSprite();
         
-        _exhibitNameLabel.Init("Name", exhibits.DisplayName);
-        _sizeLabel.Init("Size", exhibits.Size.x + "x" + exhibits.Size.y);
-        _rarityLabel.Init("Rarity", exhibits.Rarity.ToString());
-        _enjoymentLabel.Init("Enjoyment", exhibits.Enjoyment.ToString());
-        _popularityLabel.Init("Popularity", exhibits.Popularity.ToString());
-        _tagsLabel.text = string.Join(", ", exhibits.Tags.Select(t => {
-            var s = t.ToString();
-            var noUnderscore = s.Contains("_") ? s.Substring(s.IndexOf('_') + 1) : s;
-            var withSpaces = System.Text.RegularExpressions.Regex.Replace(noUnderscore, "(\\B[A-Z])", " $1");
-            return withSpaces;
-        }));
+        _exhibitNameLabel.text = exhibits.DisplayName;
+        _sizeLabel.text = exhibits.Size.x + "x" + exhibits.Size.y;
+        _enjoymentMeter.SetValue(exhibits.Enjoyment);
+        _rarityLabel.text = exhibits.Rarity.ToString();
+        _popularityMeter.SetValue(exhibits.Popularity);
+        _tagsView.SetTags(exhibits.Tags);
     }
     
     private Sprite GetDefaultSprite()
