@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5fb60a1068304b6582f783d53f05e63, type: 3}
-  m_Name: Season3
+  m_Name: Season4
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Game.Progression.ProgressionPeriodConfig
-  _numExhibitsToPick: 10
-  _targetAppeal: 8000
-  _numVisitingGroups: 24
+  _numExhibitsToPick: 14
+  _targetAppeal: 20000
+  _numVisitingGroups: 32
