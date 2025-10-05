@@ -7,7 +7,7 @@ namespace Game.TilePlacement
 {
     public class TilePlacementSystem : OnMessage<StartPlacement, StopPlacement>
     {
-        private const bool debug = false;
+        private bool debug = false;
 
         [Header("Scene objects")]
         [SerializeField]

@@ -46,9 +46,9 @@ public static class CurrentGameState
                     gameState.Rooms[roomId] = new RoomState();
                 if (!gameState.Rooms[roomId].exhibitIds.ContainsKey(node))
                     gameState.Rooms[roomId].exhibitIds[node] = exhibit.DisplayName;
-                foreach (var vector in gameState.Rooms[roomId].exhibitIds.Keys)
+                foreach (var vector in gameState.Rooms[roomId].exhibitIds.Keys.ToList())
                     state.Rooms[roomId].exhibitIds[vector] = exhibit.DisplayName;
-                foreach (var vector in state.Rooms[roomId].exhibitIds.Keys)
+                foreach (var vector in state.Rooms[roomId].exhibitIds.Keys.ToList())
                 {
                     var directions = new Vector2Int[] { node + Vector2Int.up, node + Vector2Int.left, node + Vector2Int.left, node + Vector2Int.right };
                     if (directions.Any(x => x == vector))

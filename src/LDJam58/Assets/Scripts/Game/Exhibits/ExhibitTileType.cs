@@ -6,7 +6,7 @@ using UnityEngine;
 public class ExhibitTileType
 {
     public string DisplayName;        
-    public List<ExhibitTag> Tags;
+    public List<ExhibitTag> Tags = new List<ExhibitTag>();
     public Vector2Int Size;
     public ExhibitRarity Rarity;
     public int Enjoyment;
