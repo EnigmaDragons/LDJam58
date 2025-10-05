@@ -9,4 +9,9 @@ public class EventPublisher : ScriptableObject
 
     public static void StartExhibitPick() => Message.Publish(new StartExhibitPick());
     public static void OpenMuseum() => Message.Publish(new OpenMuseum());
+
+    public static void PublishGameLost() => Message.Publish(new GameLost());
+
+    public static void PublishGameWon() => Message.Publish(new GameWon());
+
 }
