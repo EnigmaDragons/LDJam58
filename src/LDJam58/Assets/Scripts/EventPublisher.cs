@@ -8,4 +8,5 @@ public class EventPublisher : ScriptableObject
     public static void FadeOutScene() => Message.Publish(new UiFadeOutRequested());
 
     public static void StartExhibitPick() => Message.Publish(new StartExhibitPick());
+    public static void OpenMuseum() => Message.Publish(new OpenMuseum());
 }

@@ -57,6 +57,7 @@ public static class CurrentGameState
             }
             state.Exhibits[exhibit.DisplayName] = new ExhibitState
             {
+                name = exhibit.DisplayName,
                 roomId = roomId,
                 tags = exhibit.Tags,
                 baseEnjoyment = exhibit.Enjoyment,
@@ -66,20 +67,6 @@ public static class CurrentGameState
         CalculateExhibitEnjoyment(roomId);
     }
 
-    public static int CalculateRoundScore()
-        => gameState.currentGroups.Sum(CalculateGroupScore);
-
-    public static int CalculateGroupScore(Group group)
-        => gameState.Exhibits.Values.Sum(x => CalculateGroupExhibitScore(group, x));
-
-    public static int CalculateGroupExhibitScore(Group group, ExhibitState exhibit)
-    {
-        var groupInterest = 1 + group.Fascinations.Count(x => exhibit.tags.Contains(x)) - group.Disinterests.Count(x => exhibit.tags.Contains(x));
-        if (groupInterest < 0)
-            groupInterest = 0;
-        return group.peopleCount * groupInterest * exhibit.calculatedEnjoyment;
-    }
-    
     public static void CalculateExhibitEnjoyment(string roomId)
     {
         UpdateState(state =>
@@ -115,5 +102,33 @@ public static class CurrentGameState
             }
         }
         return synergy > 0 ? synergy : disynergy;
+    }
+
+    public static void CalculateRoundScore()
+    {
+        var groups = gameState.currentGroups.ToArray();
+        foreach (var group in groups)
+            CalculateGroupScore(group);
+    }
+
+    public static void CalculateGroupScore(Group group)
+    {
+        var exhibits = gameState.Exhibits.Values.ToArray();
+        foreach (var exhibit in exhibits)
+            ScoreGroupExhibit(group, exhibit);
+    }
+
+    public static void ScoreGroupExhibit(Group group, ExhibitState exhibit)
+    {
+        UpdateState(state =>
+        {
+            var groupInterest = 1 + group.Fascinations.Count(x => exhibit.tags.Contains(x)) - group.Disinterests.Count(x => exhibit.tags.Contains(x));
+            if (groupInterest < 0)
+                groupInterest = 0;
+            var score = group.peopleCount * groupInterest * exhibit.calculatedEnjoyment;
+            state.seasonScore += score;
+            group.seasonScore += score;
+            exhibit.seasonScore += score;
+        });
     }
 }

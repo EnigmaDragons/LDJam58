@@ -3,7 +3,7 @@ using System.Linq;
 using Game.Messages;
 using UnityEngine;
 
-public class GameManager : OnMessage<AdvancePeriod, BeginPickThree, StartPlacement, StopPlacement, ExhibitPlaced>
+public class GameManager : OnMessage<AdvancePeriod, BeginPickThree, StartPlacement, StopPlacement, ExhibitPlaced, OpenMuseum>
 {
     [SerializeField] private ProgressionConfig _progressionConfig;
 
@@ -84,5 +84,11 @@ public class GameManager : OnMessage<AdvancePeriod, BeginPickThree, StartPlaceme
             gs.isPlacing = false;
             return gs;
         });
+    }
+
+    protected override void Execute(OpenMuseum msg)
+    {
+        CurrentGameState.CalculateRoundScore();
+        Message.Publish(new SummarizeSeason());
     }
 }
