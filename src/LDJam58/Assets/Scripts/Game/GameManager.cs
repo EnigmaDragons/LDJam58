@@ -10,6 +10,10 @@ public class GameManager : OnMessage<AdvancePeriod, BeginPickThree, StartPlaceme
 
     private void Start()
     {
+        CurrentGameState.UpdateState(gs => {
+            gs.progressionConfig = _progressionConfig;
+            return gs;
+        });
         InitStateForCurrentPeriod();
     }
 
@@ -26,7 +30,7 @@ public class GameManager : OnMessage<AdvancePeriod, BeginPickThree, StartPlaceme
             return gs;
         });
 
-        Message.Publish(new PeriodInitiatized(currentPeriod));
+        Message.Publish(new SeasonInitialized(currentPeriod));
     }
 
     private ProgressionPeriodConfig GetCurrentPeriod()
@@ -44,6 +48,7 @@ public class GameManager : OnMessage<AdvancePeriod, BeginPickThree, StartPlaceme
 
         CurrentGameState.UpdateState(gs => {
             gs.currentSeasonIndex++;
+            gs.isShowingMuseum = false;
             return gs;
         });
 

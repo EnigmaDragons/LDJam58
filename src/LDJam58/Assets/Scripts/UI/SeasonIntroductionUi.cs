@@ -3,7 +3,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
-public class SeasonIntroductionUi : OnMessage<PeriodInitiatized>
+public class SeasonIntroductionUi : OnMessage<SeasonInitialized>
 {
     [SerializeField] private CanvasGroup _mainGroup;
     [SerializeField] private TextMeshProUGUI _seasonTitle;
@@ -16,7 +16,12 @@ public class SeasonIntroductionUi : OnMessage<PeriodInitiatized>
 
     private Sequence _sequence;
 
-    protected override void Execute(PeriodInitiatized msg)
+    protected override void Execute(SeasonInitialized msg)
+    {
+        Init(msg.Period);
+    }
+
+    public void Init(ProgressionPeriodConfig period)
     {
         _sequence?.Kill(true);
 

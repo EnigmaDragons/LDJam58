@@ -48,7 +48,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 354540942045490257}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -244,7 +244,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SquareImageRotator
   animationSpeed: 2
   hideDelay: 0.1
-  targetTransform: {fileID: 1791534933088848147}
+  targetRectTransform: {fileID: 0}
 --- !u!222 &1985569388795508575
 CanvasRenderer:
   m_ObjectHideFlags: 0

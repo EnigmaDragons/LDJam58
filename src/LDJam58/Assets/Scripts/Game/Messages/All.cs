@@ -25,11 +25,11 @@ public class ExhibitPicked
     }
 }
 
-public class PeriodInitiatized 
+public class SeasonInitialized 
 {
     public ProgressionPeriodConfig Period;
 
-    public PeriodInitiatized(ProgressionPeriodConfig period)
+    public SeasonInitialized(ProgressionPeriodConfig period)
     {
         Period = period;
     }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
 public class SquareImageRotator : MonoBehaviour
 {
@@ -8,114 +9,105 @@ public class SquareImageRotator : MonoBehaviour
     [SerializeField] private float hideDelay = 0.1f; // delay before hiding during transition
     
     [Header("Target Transform")]
-    [SerializeField] private Transform targetTransform; // the square image to animate
+    [SerializeField] private RectTransform targetRectTransform; // the square image to animate
     
     private bool isAnimating = false;
     private int currentAnimationPhase = 0; // 0: Y, 1: X, 2: Y again
     private Vector3 originalScale;
+    private Sequence animationSequence;
     
     private void Start()
     {
-        if (targetTransform == null)
-            targetTransform = transform;
+        if (targetRectTransform == null)
+            targetRectTransform = GetComponent<RectTransform>();
         
-        originalScale = targetTransform.localScale;
+        originalScale = targetRectTransform.localScale;
     }
     
     public void StartAnimationSequence()
     {
         if (!isAnimating)
         {
-            StartCoroutine(AnimationSequence());
+            StartDOTweenSequence();
         }
     }
     
-    private IEnumerator AnimationSequence()
+    private void StartDOTweenSequence()
     {
         isAnimating = true;
         currentAnimationPhase = 0;
         
-        // Phase 1: Scale Y to simulate Y-axis rotation
-        yield return StartCoroutine(ScaleAxis(Vector3.up, 0f));
+        // Kill any existing sequence
+        animationSequence?.Kill();
         
-        // Hide and transition to X scale
-        SetVisibility(false);
-        yield return new WaitForSeconds(hideDelay);
+        // Create new sequence
+        animationSequence = DOTween.Sequence();
         
-        // Phase 2: Scale X to simulate X-axis rotation
-        currentAnimationPhase = 1;
-        SetVisibility(true);
-        yield return StartCoroutine(ScaleAxis(Vector3.right, 0f));
-        
-        // Hide and transition to final Y scale
-        SetVisibility(false);
-        yield return new WaitForSeconds(hideDelay);
-        
-        // Phase 3: Scale Y again to simulate Y-axis rotation
-        currentAnimationPhase = 2;
-        SetVisibility(true);
-        yield return StartCoroutine(ScaleAxis(Vector3.up, 0f));
-        
-        isAnimating = false;
-    }
-    
-    private IEnumerator ScaleAxis(Vector3 axis, float targetScale)
-    {
-        var startScale = targetTransform.localScale;
-        var targetScaleVector = originalScale;
-        
-        // Modify the target scale based on the axis
-        if (axis == Vector3.up)
-        {
-            targetScaleVector.y = targetScale;
-        }
-        else if (axis == Vector3.right)
-        {
-            targetScaleVector.x = targetScale;
-        }
-        
-        var elapsedTime = 0f;
         var animationDuration = 1f / animationSpeed;
         
-        while (elapsedTime < animationDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            var progress = elapsedTime / animationDuration;
-            targetTransform.localScale = Vector3.Lerp(startScale, targetScaleVector, progress);
-            yield return null;
-        }
+        // Phase 1: Scale Y to simulate Y-axis rotation
+        animationSequence.Append(targetRectTransform.DOScaleY(0f, animationDuration))
+            .OnComplete(() => currentAnimationPhase = 0);
         
-        targetTransform.localScale = targetScaleVector;
+        // Hide and transition to X scale
+        animationSequence.AppendCallback(() => SetVisibility(false))
+            .AppendInterval(hideDelay);
+        
+        // Phase 2: Scale X to simulate X-axis rotation
+        animationSequence.AppendCallback(() => {
+            currentAnimationPhase = 1;
+            SetVisibility(true);
+        });
+        animationSequence.Append(targetRectTransform.DOScaleX(0f, animationDuration));
+        
+        // Hide and transition to final Y scale
+        animationSequence.AppendCallback(() => SetVisibility(false))
+            .AppendInterval(hideDelay);
+        
+        // Phase 3: Scale Y again to simulate Y-axis rotation
+        animationSequence.AppendCallback(() => {
+            currentAnimationPhase = 2;
+            SetVisibility(true);
+        });
+        animationSequence.Append(targetRectTransform.DOScaleY(0f, animationDuration));
+        
+        // Complete the sequence
+        animationSequence.OnComplete(() => {
+            isAnimating = false;
+        });
     }
+    
     
     private void SetVisibility(bool visible)
     {
-        if (targetTransform.TryGetComponent<Renderer>(out var renderer))
+        if (targetRectTransform.TryGetComponent<Renderer>(out var renderer))
         {
             renderer.enabled = visible;
         }
-        else if (targetTransform.TryGetComponent<CanvasGroup>(out var canvasGroup))
+        else if (targetRectTransform.TryGetComponent<CanvasGroup>(out var canvasGroup))
         {
             canvasGroup.alpha = visible ? 1f : 0f;
         }
-        else if (targetTransform.TryGetComponent<UnityEngine.UI.Image>(out var image))
+        else if (targetRectTransform.TryGetComponent<UnityEngine.UI.Image>(out var image))
         {
             image.enabled = visible;
         }
         else
         {
             // Fallback: disable/enable the entire GameObject
-            targetTransform.gameObject.SetActive(visible);
+            targetRectTransform.gameObject.SetActive(visible);
         }
     }
     
     // Public methods for external control
     public void ResetAnimation()
     {
-        if (targetTransform != null)
+        if (targetRectTransform != null)
         {
-            targetTransform.localScale = originalScale;
+            animationSequence?.Kill();
+            targetRectTransform.localScale = originalScale;
             SetVisibility(true);
+            isAnimating = false;
         }
     }
     
@@ -134,5 +126,10 @@ public class SquareImageRotator : MonoBehaviour
     private void TestAnimationSequence()
     {
         StartAnimationSequence();
+    }
+    
+    private void OnDestroy()
+    {
+        animationSequence?.Kill();
     }
 }
