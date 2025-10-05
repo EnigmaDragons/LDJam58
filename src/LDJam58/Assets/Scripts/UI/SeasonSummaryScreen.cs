@@ -61,8 +61,9 @@ public class SeasonSummaryScreen : OnMessage<SummarizeSeason>
 
     private void Continue()
     {
+        ui.SetActive(false);
         if (CurrentGameState.ReadOnly.seasonScore >= CurrentGameState.ReadOnly.currentTargetAppeal)
-            Message.Publish(new NavigateToSceneRequested("CreditsScene"));
+            Message.Publish(new AdvancePeriod());
         else
             Message.Publish(new GameLost());
     }
