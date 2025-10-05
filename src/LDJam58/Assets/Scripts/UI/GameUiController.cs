@@ -12,6 +12,7 @@ public class GameUiController : MonoBehaviour
         Message.Subscribe<StartPlacement>(OnStartPlacement, this);
         Message.Subscribe<StopPlacement>(OnStopPlacement, this);
         Message.Subscribe<ExhibitPlaced>(OnExhibitPlaced, this);
+        Message.Subscribe<OpenMuseum>(OnOpenMuseum, this);
     }
 
     private void OnDisable()
@@ -45,11 +46,18 @@ public class GameUiController : MonoBehaviour
         UpdateButtonVisibility();
     }
 
+    private void OnOpenMuseum(OpenMuseum msg)
+    {
+        CurrentGameState.UpdateState(x => x.isShowingMuseum = true);
+        UpdateButtonVisibility();
+    }
+
     private void UpdateButtonVisibility()
     {
         var gameState = CurrentGameState.ReadOnly;
         var exhibitsRemaining = gameState.currentNumExhibitsToPickThisPeriod;
         var isPlacing = gameState.isPlacing;
+        var isShowingMuseum = gameState.isShowingMuseum;
 
         // Add Exhibit Button: Show when not placing AND when there are exhibits left to place
         var showAddExhibitButton = !isPlacing && exhibitsRemaining > 0;
@@ -57,7 +65,7 @@ public class GameUiController : MonoBehaviour
             addExhibitButton.SetActive(showAddExhibitButton);
 
         // Open Museum Button: Show when not placing AND when there are 0 exhibits left
-        var showOpenMuseumButton = !isPlacing && exhibitsRemaining == 0;
+        var showOpenMuseumButton = !isPlacing && exhibitsRemaining == 0 && !isShowingMuseum;
         if (openMuseumButton != null)
             openMuseumButton.SetActive(showOpenMuseumButton);
     }

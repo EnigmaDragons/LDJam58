@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Game.ExhibitPool
 {
     
-    public class ExhibitPoolPicker : OnMessage<StartExhibitPick>
+    public class ExhibitPoolPicker : OnMessage<StartExhibitPick, ExhibitPicked>
     {
         [SerializeField] private int outputSize;
         [SerializeField] private ExhibitPoolObject exhibitPoolObject;
@@ -145,6 +145,11 @@ namespace Game.ExhibitPool
             var list = PickRandomExhibits();
             var payload = new BeginPickThree(list.ToArray());
             Message.Publish(payload);
+        }
+
+        protected override void Execute(ExhibitPicked msg)
+        {
+            RemoveFromPool(msg.Exhibit);
         }
     }
 }

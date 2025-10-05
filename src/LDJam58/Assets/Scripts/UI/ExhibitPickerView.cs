@@ -48,6 +48,7 @@ public class ExhibitPickerView : MonoBehaviour
     private void PickExhibit()
     {
         Message.Publish(new StartPlacement(_exhibitTileType));
+        Message.Publish(new ExhibitPicked(_exhibitTileType));
         Message.Publish(new ClosePickMenu());
     }
 }

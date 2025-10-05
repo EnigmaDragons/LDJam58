@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.Utilities;
 using UnityEngine;
 
 public static class CurrentGameState
@@ -29,6 +31,11 @@ public static class CurrentGameState
         Message.Publish(new GameStateChanged(gameState));
     }
 
+    public static void InitRoom(string roomId, bool open, Vector2Int[] nodes)
+    {
+        UpdateState(state => state.Rooms[roomId] = new RoomState { open = open, exhibitIds = nodes.ToDictionary(x => x, _ => "")});
+    }
+
     public static void UpdatePlacedExhibit(ExhibitTileType exhibit, string roomId, Vector2Int[] nodes)
     {
         if (roomId == null)
@@ -39,29 +46,22 @@ public static class CurrentGameState
 
         UpdateState(state =>
         {
+            if (!state.Rooms.ContainsKey(roomId))
+                state.Rooms[roomId] = new RoomState {open = true, exhibitIds = new Dictionary<Vector2Int, string>() };
             var adjacencies = new HashSet<Vector2Int>(); 
             foreach (var node in nodes)
             {
-                if (!gameState.Rooms.ContainsKey(roomId))
-                    gameState.Rooms[roomId] = new RoomState();
-                if (!gameState.Rooms[roomId].exhibitIds.ContainsKey(node))
-                    gameState.Rooms[roomId].exhibitIds[node] = exhibit.DisplayName;
-                foreach (var vector in gameState.Rooms[roomId].exhibitIds.Keys.ToList())
-                    state.Rooms[roomId].exhibitIds[vector] = exhibit.DisplayName;
-                foreach (var vector in state.Rooms[roomId].exhibitIds.Keys.ToList())
-                {
-                    var directions = new Vector2Int[] { node + Vector2Int.up, node + Vector2Int.left, node + Vector2Int.left, node + Vector2Int.right };
-                    if (directions.Any(x => x == vector))
-                        adjacencies.Add(vector);
-                }
+                gameState.Rooms[roomId].exhibitIds[node] = exhibit.DisplayName;
+                adjacencies.AddRange(new Vector2Int[] { node + Vector2Int.up, node + Vector2Int.left, node + Vector2Int.down, node + Vector2Int.right });
             }
+            var filteredAdjacentNodes = adjacencies.Where(x => nodes.All(node => node != x)).ToArray();
             state.Exhibits[exhibit.DisplayName] = new ExhibitState
             {
                 name = exhibit.DisplayName,
                 roomId = roomId,
                 tags = exhibit.Tags,
                 baseEnjoyment = exhibit.Enjoyment,
-                adjacencies = adjacencies.Where(x => nodes.All(node => node != x)).ToArray()
+                adjacencies = filteredAdjacentNodes
             };
         });
         CalculateExhibitEnjoyment(roomId);
@@ -72,18 +72,19 @@ public static class CurrentGameState
         UpdateState(state =>
         {
             var room = state.Rooms[roomId];
-            var exhibitIds = room.exhibitIds.Select(x => x.Value).Where(x => !string.IsNullOrEmpty(x)).Distinct();
+            var exhibitIds = room.exhibitIds.Select(x => x.Value).Where(x => !string.IsNullOrEmpty(x)).Distinct().ToArray();
             foreach (var exhibitId in exhibitIds)
             {
                 var exhibit = state.Exhibits[exhibitId];
                 var adjacentExhibits = exhibit.adjacencies
+                    .Where(x => room.exhibitIds.ContainsKey(x))
                     .Select(x => room.exhibitIds[x])
-                    .Where(x => !string.IsNullOrEmpty(x))
                     .Distinct()
                     .Select(x => state.Exhibits[x]);
-                exhibit.calculatedEnjoyment = exhibit.baseEnjoyment + adjacentExhibits.Sum(x => CalculateAdjacencyBonus(exhibit.tags, x.tags));
+                exhibit.calculatedEnjoyment = Math.Max(0, exhibit.baseEnjoyment + adjacentExhibits.Sum(x => CalculateAdjacencyBonus(exhibit.tags, x.tags)));
             }
         });
+        Message.Publish(new ScoresUpdated());
     }
 
     public static int CalculateAdjacencyBonus(List<ExhibitTag> exhibitTags, List<ExhibitTag> adjacentExhibitTags)

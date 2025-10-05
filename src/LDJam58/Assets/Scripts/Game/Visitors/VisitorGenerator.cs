@@ -25,7 +25,7 @@ public static class VisitorGenerator
         var fascinations = AllTags().Where(x => fascination != x).TakeRandom(takeAmount).ToList();
         if (fascination != ExhibitTag.None)
             fascinations.Add(fascination);
-        var disinterests = AllTags().Where(x => !exhibitTags.Contains(x)).TakeRandom(groupDisinterests).ToList();
+        var disinterests = AllTags().Where(x => !exhibitTags.Contains(x) && !fascinations.Contains(x)).TakeRandom(groupDisinterests).ToList();
         return new Group { peopleCount = Rng.Int(minPeople, maxPeople + 1), Fascinations = fascinations.ToArray(), Disinterests = disinterests.ToArray() };
     }
 }

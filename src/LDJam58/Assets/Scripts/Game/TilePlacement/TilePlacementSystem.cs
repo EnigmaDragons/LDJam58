@@ -130,6 +130,7 @@ namespace Game.TilePlacement
             Debug.Log("Placing Exhibit in Room " + roomId + " in " + string.Join(", ", placedNodes.Select(x => x.ToString())));
             currentState = PlacementState.NoTarget;
             var inst= Instantiate(exhibitTileType.ExhibitPrefab, ghostTile.transform.position, ghostTile.transform.rotation);
+            inst.GetComponent<ExhibitPrefab>().Init(exhibitTileType);
             inst.transform.SetParent(grid.transform);
             CurrentGameState.UpdatePlacedExhibit(exhibitTileType, roomId, placedNodes);
             Message.Publish(new ExhibitPlaced(inst, exhibitTileType));
