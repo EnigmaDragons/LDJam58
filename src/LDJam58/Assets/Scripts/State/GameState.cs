@@ -15,9 +15,9 @@ public sealed class GameState
     public int currentNumExhibitsToPickThisPeriod = 0;
     public int currentTargetAppeal = 0;
     public List<Group> currentGroups = new List<Group>();
+    public Dictionary<string, RoomState> Rooms = new Dictionary<string, RoomState>();
+    public Dictionary<string, ExhibitState> Exhibits = new Dictionary<string, ExhibitState>();
 
     public bool isPicking = false;
     public bool isPlacing = false;
-    
-    
 }
