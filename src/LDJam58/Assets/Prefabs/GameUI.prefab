@@ -1285,7 +1285,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: 2f8cc7b12289a422097ea5995bc035e3, type: 2}
         m_TargetAssemblyTypeName: EventPublisher, Assembly-CSharp
-        m_MethodName: StartExhibitPick
+        m_MethodName: OpenMuseum
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
