@@ -126,7 +126,8 @@ public static class CurrentGameState
                 groupInterest = 0;
             var score = group.peopleCount * groupInterest * exhibit.calculatedEnjoyment;
             state.seasonScore += score;
-            group.ScoredExhibts[exhibit.name] = score;
+            //group.ExhibitReactions[exhibit.name];
+            group.ScoredExhibits[exhibit.name] = score;
             exhibit.seasonScore += score;
         });
     }
