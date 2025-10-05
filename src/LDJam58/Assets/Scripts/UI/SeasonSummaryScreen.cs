@@ -31,23 +31,23 @@ public class SeasonSummaryScreen : OnMessage<SummarizeSeason>
         
         //Top Group
         var topGroup = gameState.currentGroups.OrderBy(x => x.seasonScore).First();
-        topGroupQuantity.text = topGroup.peopleCount.ToString();
-        topGroupFascinations.text = DisplayTags(topGroup.Fascinations);
-        topGroupDisinterests.text = DisplayTags(topGroup.Disinterests);
-        topGroupScore.text = topGroup.seasonScore.ToString();
+        topGroupQuantity.text = $"Visitors: {topGroup.peopleCount.ToString()}";
+        topGroupFascinations.text = $"Fascinations: {DisplayTags(topGroup.Fascinations)}";
+        topGroupDisinterests.text = $"Disinterests: {DisplayTags(topGroup.Disinterests)}";
+        topGroupScore.text = $"Total Appeal: {topGroup.seasonScore.ToString()}" ;
         
         //Top Exhibit
         var topExhibit = gameState.Exhibits.Values.OrderBy(x => x.seasonScore).First();
-        topExhibitName.text = topExhibit.name;
-        topExhibitTags.text = DisplayTags(topExhibit.tags);
-        topExhibitAppeal.text = topExhibit.seasonScore.ToString();
+        topExhibitName.text = $"Top Exhibit: {topExhibit.name}";
+        topExhibitTags.text = $"{DisplayTags(topExhibit.tags)}";
+        topExhibitAppeal.text = $"Appeal: {topExhibit.seasonScore.ToString()}";
         
         //Totals
-        targetAppeal.text = gameState.currentTargetAppeal.ToString();
-        totalAppeal.text = gameState.seasonScore.ToString();
-        exhibitRatings.text = gameState.Exhibits.Values.Sum(x => x.calculatedEnjoyment).ToString();
-        peopleCount.text = gameState.currentGroups.Sum(x => x.peopleCount).ToString();
-        groupCount.text = gameState.currentGroups.Count.ToString();
+        groupCount.text = $"Groups: gameState.currentGroups.Count.ToString()";
+        peopleCount.text = $"Visitors: gameState.currentGroups.Sum(x => x.peopleCount).ToString()";
+        exhibitRatings.text = $"Total Exhibit Appeal: gameState.Exhibits.Values.Sum(x => x.calculatedEnjoyment).ToString()";
+        targetAppeal.text = $"Required Appeal: {gameState.currentTargetAppeal.ToString()}";
+        totalAppeal.text = $"Total Appeal: {gameState.seasonScore.ToString()}";
     }
     
     private string DisplayTags(IEnumerable<ExhibitTag> tags)
