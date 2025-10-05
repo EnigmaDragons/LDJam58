@@ -165,9 +165,9 @@ public class ExhibitSourceEditorWindow : OdinEditorWindow
                 
                 if (fields.Length > 4 && int.TryParse(fields[4], out var enjoyment)) exhibit.SetEnjoyment(enjoyment);
                 if (fields.Length > 5 && int.TryParse(fields[5], out var popularity)) exhibit.SetPopularity(popularity);
-                if (fields.Length > 6) exhibit.SetArtistNotes(fields[6]);
-                if (fields.Length > 7 && int.TryParse(fields[7], out var artistEffort)) exhibit.SetArtistEffort(artistEffort);
-                if (fields.Length > 8 && int.TryParse(fields[8], out var vfxEffort)) exhibit.SetVfxEffort(vfxEffort);
+                if (fields.Length > 6 && int.TryParse(fields[6], out var artistEffort)) exhibit.SetArtistEffort(artistEffort);
+                if (fields.Length > 7 && int.TryParse(fields[7], out var vfxEffort)) exhibit.SetVfxEffort(vfxEffort);
+                if (fields.Length > 8) exhibit.SetArtistNotes(fields[8]);
 
                 _exhibits.Add(exhibit);
             }
@@ -177,7 +177,7 @@ public class ExhibitSourceEditorWindow : OdinEditorWindow
     private string GenerateCsvContent()
     {
         var csv = new System.Text.StringBuilder();
-        csv.AppendLine("Name,Theme,Size,Rarity,Enjoyment,Popularity,Artist Notes,Artist Effort,VFX Effort");
+        csv.AppendLine("Name,Theme,Size,Rarity,Enjoyment,Popularity,Artist Effort,VFX Effort,Artist Notes");
         
         foreach (var exhibit in _exhibits)
         {
@@ -187,11 +187,11 @@ public class ExhibitSourceEditorWindow : OdinEditorWindow
             var rarity = EscapeCsvField(exhibit.Rarity);
             var enjoyment = exhibit.Enjoyment.ToString();
             var popularity = exhibit.Popularity.ToString();
-            var artistNotes = EscapeCsvField(exhibit.ArtistNotes);
             var artistEffort = exhibit.ArtistEffort.ToString();
             var vfxEffort = exhibit.VfxEffort.ToString();
+            var artistNotes = EscapeCsvField(exhibit.ArtistNotes);
             
-            csv.AppendLine($"{exhibitName},{theme},{size},{rarity},{enjoyment},{popularity},{artistNotes},{artistEffort},{vfxEffort}");
+            csv.AppendLine($"{exhibitName},{theme},{size},{rarity},{enjoyment},{popularity},{artistEffort},{vfxEffort},{artistNotes}");
         }
         
         return csv.ToString();

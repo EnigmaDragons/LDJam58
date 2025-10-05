@@ -83,6 +83,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5342764348128277423}
   - component: {fileID: 4407771001831803368}
+  - component: {fileID: 935716459802275450}
   m_Layer: 0
   m_Name: RoomB
   m_TagString: Untagged
@@ -179,6 +180,18 @@ MonoBehaviour:
     position: {x: 0, y: 0, z: 0}
     rotation: {x: 0, y: 0, z: 0, w: 1}
   fileVersion: 3
+--- !u!114 &935716459802275450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3269636539856492634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 157c70277238d46df961fc189cf7e472, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoomId
 --- !u!1001 &264014789374400397
 PrefabInstance:
   m_ObjectHideFlags: 0

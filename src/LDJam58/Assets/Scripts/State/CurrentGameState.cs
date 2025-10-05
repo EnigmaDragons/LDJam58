@@ -31,13 +31,24 @@ public static class CurrentGameState
 
     public static void UpdatePlacedExhibit(ExhibitTileType exhibit, string roomId, Vector2Int[] nodes)
     {
+        if (roomId == null)
+        {
+            Debug.LogError("Game State: UpdatePlacedExhibit: RoomId is null");
+            return;
+        }
+
         UpdateState(state =>
         {
             var adjacencies = new HashSet<Vector2Int>(); 
             foreach (var node in nodes)
             {
-                state.Rooms[roomId].exhibitIds[node] = exhibit.DisplayName;
-                foreach (var vector in state.Rooms[roomId].exhibitIds.Keys)
+                if (!gameState.Rooms.ContainsKey(roomId))
+                    gameState.Rooms[roomId] = new RoomState();
+                if (!gameState.Rooms[roomId].exhibitIds.ContainsKey(node))
+                    gameState.Rooms[roomId].exhibitIds[node] = exhibit.DisplayName;
+                foreach (var vector in gameState.Rooms[roomId].exhibitIds.Keys.ToList())
+                    state.Rooms[roomId].exhibitIds[vector] = exhibit.DisplayName;
+                foreach (var vector in state.Rooms[roomId].exhibitIds.Keys.ToList())
                 {
                     var directions = new Vector2Int[] { node + Vector2Int.up, node + Vector2Int.left, node + Vector2Int.left, node + Vector2Int.right };
                     if (directions.Any(x => x == vector))

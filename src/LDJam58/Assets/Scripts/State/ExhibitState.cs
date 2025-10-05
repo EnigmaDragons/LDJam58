@@ -7,9 +7,9 @@ public class ExhibitState
 {
     public string name;
     public int baseEnjoyment;
-    public List<ExhibitTag> tags;
+    public List<ExhibitTag> tags = new List<ExhibitTag>();
     public string roomId;
-    public Vector2Int[] adjacencies;
+    public Vector2Int[] adjacencies = new Vector2Int[0];
     public int calculatedEnjoyment;
 
     public int seasonScore;

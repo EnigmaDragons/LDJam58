@@ -43,12 +43,12 @@ public static class ExhibitCsvLoader
                         exhibit.SetEnjoyment(enjoyment);
                     if (fields.Length > 5 && int.TryParse(fields[5], out var popularity)) 
                         exhibit.SetPopularity(popularity);
-                    if (fields.Length > 6) 
-                        exhibit.SetArtistNotes(fields[6]);
-                    if (fields.Length > 7 && int.TryParse(fields[7], out var artistEffort)) 
+                    if (fields.Length > 6 && int.TryParse(fields[6], out var artistEffort)) 
                         exhibit.SetArtistEffort(artistEffort);
-                    if (fields.Length > 8 && int.TryParse(fields[8], out var vfxEffort)) 
+                    if (fields.Length > 7 && int.TryParse(fields[7], out var vfxEffort)) 
                         exhibit.SetVfxEffort(vfxEffort);
+                    if (fields.Length > 8) 
+                        exhibit.SetArtistNotes(fields[8]);
 
                     exhibits.Add(exhibit);
                 }

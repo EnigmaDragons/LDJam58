@@ -59,6 +59,13 @@ public class GameManager : OnMessage<AdvancePeriod, BeginPickThree, StartPlaceme
         CurrentGameState.UpdateState(gs => {
             gs.isPicking = false;
             gs.isPlacing = true;
+            Enumerable.Range(0, msg.exhibit.Popularity).ToList().ForEach(_ => {
+                gs.currentGroups.Add(VisitorGenerator.Generate(
+                    msg.exhibit.Tags.Count > 0 
+                        ? msg.exhibit.Tags.First() 
+                        : ExhibitTag.None, 
+                    msg.exhibit.Tags.ToHashSet()));
+            });
             return gs;
         });
     }

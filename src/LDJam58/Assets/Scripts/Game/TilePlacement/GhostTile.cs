@@ -19,7 +19,6 @@ namespace Game.TilePlacement
         private List<Renderer> ghostRenderers;
 
         public bool IsOverlapping { get; private set; }
-        
         private void OnTriggerEnter(Collider other)
         {
             IsOverlapping = true;
