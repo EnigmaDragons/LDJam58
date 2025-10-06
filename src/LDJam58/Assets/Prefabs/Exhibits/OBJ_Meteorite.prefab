@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3122198428506538331}
   m_Layer: 0
-  m_Name: OBJ_Meteroite
+  m_Name: OBJ_Meteorite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
