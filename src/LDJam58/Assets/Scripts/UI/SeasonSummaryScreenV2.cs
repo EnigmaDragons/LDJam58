@@ -19,6 +19,9 @@ public class SeasonSummaryScreenV2 : OnMessage<SummarizeSeason>
     [SerializeField] private TextMeshProUGUI peopleCount;
     [SerializeField] private TextMeshProUGUI groupCount;
     [SerializeField] private Button continueButton;
+    [SerializeField] private Image resultIcon;
+    [SerializeField] private Sprite ratingUpSprite;
+    [SerializeField] private Sprite ratingDownSprite;
 
     private Sequence _sequence;
 
@@ -31,6 +34,7 @@ public class SeasonSummaryScreenV2 : OnMessage<SummarizeSeason>
     {
         var gameState = CurrentGameState.ReadOnly;
         ui.SetActive(true);
+        continueButton.gameObject.SetActive(false);
         
         // Kill any existing animations
         _sequence?.Kill(true);
@@ -42,6 +46,7 @@ public class SeasonSummaryScreenV2 : OnMessage<SummarizeSeason>
         exhibitRatings?.DOKill();
         peopleCount?.DOKill();
         groupCount?.DOKill();
+        resultIcon?.DOKill();
         
         // Initialize animation states
         var lineScale = decorLine.localScale;
@@ -53,6 +58,11 @@ public class SeasonSummaryScreenV2 : OnMessage<SummarizeSeason>
         title.transform.localScale = new Vector3(0f, titleScale.y, titleScale.z);
         
         minRatingWidget.alpha = 0f;
+        if (resultIcon != null)
+        {
+            resultIcon.gameObject.SetActive(false);
+            resultIcon.transform.localScale = Vector3.zero;
+        }
         
         // Store final values for counting animation
         var finalGroupCount = gameState.currentGroups.Count;
@@ -60,6 +70,7 @@ public class SeasonSummaryScreenV2 : OnMessage<SummarizeSeason>
         var finalExhibitRatings = gameState.Exhibits.Values.Sum(x => x.calculatedEnjoyment);
         var finalTargetAppeal = gameState.currentTargetAppeal;
         var finalTotalAppeal = gameState.seasonScore;
+        var passedTarget = finalTotalAppeal >= finalTargetAppeal;
         
         // Initialize text with starting values
         groupCount.text = "<sprite name=\"Visitors\">";
@@ -81,34 +92,52 @@ public class SeasonSummaryScreenV2 : OnMessage<SummarizeSeason>
         seq.Append(minRatingWidget.DOFade(1f, 0.5f));
         
         // Progressive value animations with counting up and punch scale
-        seq.AppendCallback(() => AnimateValue(groupCount, finalGroupCount, "<sprite name=\"Visitors\"> ", 0.8f));
+        seq.Append(AnimateValue(groupCount, finalGroupCount, "<sprite name=\"Visitors\"> ", 0.8f));
         seq.AppendInterval(0.3f);
         
-        seq.AppendCallback(() => AnimateValue(peopleCount, finalPeopleCount, "<sprite name=\"Visitor\"> ", 0.8f));
+        seq.Append(AnimateValue(peopleCount, finalPeopleCount, "<sprite name=\"Visitor\"> ", 0.8f));
         seq.AppendInterval(0.3f);
         
-        seq.AppendCallback(() => AnimateValue(exhibitRatings, finalExhibitRatings, "Exhibit <sprite name=\"Joy\"> ", 0.8f));
+        seq.Append(AnimateValue(exhibitRatings, finalExhibitRatings, "Exhibit <sprite name=\"Joy\"> ", 0.8f));
         seq.AppendInterval(0.3f);
         
         // Skip animating targetAppeal; it's already set
         
-        seq.AppendCallback(() => AnimateValue(totalAppeal, finalTotalAppeal, "Total <sprite name=\"Rating\"> ", 0.8f));
+        seq.Append(AnimateValue(totalAppeal, finalTotalAppeal, "Total <sprite name=\"Rating\"> ", 0.8f));
+
+        // Result icon setup based on pass/fail and animation (scale in, then punch)
+        seq.AppendCallback(() => {
+            if (resultIcon != null)
+            {
+                resultIcon.sprite = passedTarget ? ratingUpSprite : ratingDownSprite;
+                resultIcon.transform.localScale = Vector3.zero;
+                resultIcon.gameObject.SetActive(true);
+            }
+        });
+        if (resultIcon != null)
+        {
+            seq.Append(resultIcon.transform.DOScale(1f, 0.6f).SetEase(Ease.OutBack));
+            seq.Append(resultIcon.transform.DOPunchScale(Vector3.one * 0.2f, 0.3f, 3, 0.5f));
+        }
+
+        // Finally, reveal the Continue button
+        seq.AppendCallback(() => { continueButton.gameObject.SetActive(true); });
         
         _sequence = seq;
     }
     
-    private void AnimateValue(TextMeshProUGUI textComponent, int finalValue, string prefix, float duration)
+    private Tween AnimateValue(TextMeshProUGUI textComponent, int finalValue, string prefix, float duration)
     {
         var startValue = 0;
-        DOTween.To(() => startValue, x => {
+        var countTween = DOTween.To(() => startValue, x => {
             startValue = x;
             textComponent.text = prefix + x.ToString();
-        }, finalValue, duration)
-        .SetEase(Ease.OutCubic)
-        .OnComplete(() => {
-            // Punch scale effect when animation completes
-            textComponent.transform.DOPunchScale(Vector3.one * 0.2f, 0.3f, 3, 0.5f);
-        });
+        }, finalValue, duration).SetEase(Ease.OutCubic);
+
+        var s = DOTween.Sequence();
+        s.Append(countTween);
+        s.Append(textComponent.transform.DOPunchScale(Vector3.one * 0.2f, 0.3f, 3, 0.5f));
+        return s;
     }
 
     private string DisplayTags(IEnumerable<ExhibitTag> tags)
@@ -134,5 +163,6 @@ public class SeasonSummaryScreenV2 : OnMessage<SummarizeSeason>
         exhibitRatings?.DOKill();
         peopleCount?.DOKill();
         groupCount?.DOKill();
+        resultIcon?.DOKill();
     }
 }
