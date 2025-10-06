@@ -156,7 +156,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4791252075977912042}
   m_Layer: 0
-  m_Name: OBJ_Blimp_Placeholder
+  m_Name: OBJ_BlimpModel_Placeholder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
