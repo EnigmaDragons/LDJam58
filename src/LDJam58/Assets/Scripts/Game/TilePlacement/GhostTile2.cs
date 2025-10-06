@@ -57,9 +57,15 @@ public class GhostTile2 : MonoBehaviour
     {
         var renderers = new List<Renderer>();
         var mainRend = _ghostPlaceable.GetComponent<Renderer>();
-        if (mainRend != null)
+        if (mainRend != null && !mainRend.gameObject.CompareTag("DontGhost"))
             renderers.Add(mainRend);
-        renderers.AddRange(_ghostPlaceable.GetComponentsInChildren<Renderer>());
+        
+        foreach (var rend in _ghostPlaceable.GetComponentsInChildren<Renderer>(true))
+        {
+            if (!rend.gameObject.CompareTag("DontGhost"))
+                renderers.Add(rend);
+        }
+        
         _ghostRenderers = renderers;
     }
     

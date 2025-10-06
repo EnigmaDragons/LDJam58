@@ -139,10 +139,18 @@ namespace Game.TilePlacement
         {
             ghostRenderers.Clear();
             var mainRend =  placeable.GetComponent<Renderer>();
-            var childRend = placeable.GetComponentsInChildren<Renderer>(placeable);
+            var childRend = placeable.GetComponentsInChildren<Renderer>(true);
             
-            if(mainRend) ghostRenderers.Add(mainRend);
-            ghostRenderers.AddRange(childRend);
+            if(mainRend && !mainRend.gameObject.CompareTag("DontGhost")) 
+                ghostRenderers.Add(mainRend);
+            
+            foreach (var rend in childRend)
+            {
+                if (!rend.gameObject.CompareTag("DontGhost"))
+                {
+                    ghostRenderers.Add(rend);
+                }
+            }
         }
         
         private void SetLayerRecursively(GameObject obj, int newLayer)
