@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SoundGuy
   player: {fileID: 11400000, guid: bfe56e3518f684c4387de97bd5db348d, type: 2}
   exhibitPlacedSound:
-    clip: {fileID: 8300000, guid: 1da3b84852101499a884883df61b41c7, type: 3}
+    clip: {fileID: 8300000, guid: a79c3d26e6a7b4100b7c9236b080c49b, type: 3}
     volume: 1
   exhibitPickedSound:
     clip: {fileID: 8300000, guid: 2f2de4a5209bf4ce586c71cac8708688, type: 3}
