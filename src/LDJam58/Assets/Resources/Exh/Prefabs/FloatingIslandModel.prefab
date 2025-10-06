@@ -31,7 +31,7 @@ PrefabInstance:
     - target: {fileID: 8355414509553401656, guid: 25b38211fbd05d947ac1a438780356c0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.99999976
+      value: -0.00000023841858
       objectReference: {fileID: 0}
     - target: {fileID: 8355414509553401656, guid: 25b38211fbd05d947ac1a438780356c0,
         type: 3}
@@ -41,7 +41,7 @@ PrefabInstance:
     - target: {fileID: 8355414509553401656, guid: 25b38211fbd05d947ac1a438780356c0,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.9999995
+      value: -0.00000047683716
       objectReference: {fileID: 0}
     - target: {fileID: 8355414509553401656, guid: 25b38211fbd05d947ac1a438780356c0,
         type: 3}
@@ -180,7 +180,7 @@ PrefabInstance:
     - target: {fileID: 3564686002410404768, guid: 78431ab87b3224e3cb2dbac3274e3a59,
         type: 3}
       propertyPath: m_Name
-      value: FloatingIslandModel Variant
+      value: FloatingIslandModel
       objectReference: {fileID: 0}
     - target: {fileID: 3564686002410404768, guid: 78431ab87b3224e3cb2dbac3274e3a59,
         type: 3}
