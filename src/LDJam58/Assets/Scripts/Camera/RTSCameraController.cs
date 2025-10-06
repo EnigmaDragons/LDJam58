@@ -151,47 +151,22 @@ namespace Assets.Scripts
             if (!_hasZoomInputThisFrame)
                 return;
 
-            if (_cachedCamera != null && _cachedCamera.orthographic)
-            {
-                _desiredZoom = Mathf.Clamp(_desiredZoom - wheel * (_zoomSpeed * 0.01f), _minZoom, _maxZoom);
-            }
-            else
-            {
-                // For perspective, adjust desired height based on scroll
-                _desiredZoom = Mathf.Clamp(_desiredZoom - wheel * (_zoomSpeed * 0.1f), _minZoom, _maxZoom);
-            }
+            // Use fixed increment regardless of current zoom level
+            float zoomIncrement = wheel * _zoomSpeed;
+            _desiredZoom = Mathf.Clamp(_desiredZoom - zoomIncrement, _minZoom, _maxZoom);
         }
 
         private void ApplyDesiredTransform()
         {
-            // Zoom application (orthographic and perspective)
+            // Zoom application (orthographic and perspective) - no smoothing
             if (_cachedCamera != null && _cachedCamera.orthographic)
             {
-                if (_hasZoomInputThisFrame && _zoomSmoothing > 0.0001f)
-                {
-                    float current = _cachedCamera.orthographicSize;
-                    float target = _desiredZoom;
-                    _cachedCamera.orthographicSize = Mathf.Lerp(current, target, 1f - Mathf.Exp(-Time.unscaledDeltaTime / Mathf.Max(0.0001f, _zoomSmoothing)));
-                }
-                else
-                {
-                    _cachedCamera.orthographicSize = _desiredZoom;
-                }
+                _cachedCamera.orthographicSize = _desiredZoom;
             }
             else
             {
                 // For perspective: only adjust Y while zoom input is active; otherwise freeze Y
-                if (_hasZoomInputThisFrame && _zoomSmoothing > 0.0001f)
-                {
-                    float currentY = transform.position.y;
-                    float targetY = _desiredZoom;
-                    float newY = Mathf.Lerp(currentY, targetY, 1f - Mathf.Exp(-Time.unscaledDeltaTime / Mathf.Max(0.0001f, _zoomSmoothing)));
-                    _desiredPosition.y = newY;
-                }
-                else
-                {
-                    _desiredPosition.y = _hasZoomInputThisFrame ? _desiredZoom : transform.position.y;
-                }
+                _desiredPosition.y = _hasZoomInputThisFrame ? _desiredZoom : transform.position.y;
             }
 
             // Position smoothing (freeze when neutral: no movement, no zoom)
