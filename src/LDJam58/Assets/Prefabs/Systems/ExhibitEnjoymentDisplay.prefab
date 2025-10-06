@@ -757,3 +757,4 @@ MonoBehaviour:
   rareSprite: {fileID: 21300000, guid: f27c58a5673d58648a7283e6b4949e0c, type: 3}
   exoticSprite: {fileID: 21300000, guid: b1bcd9a746661a847ba920a09df497b0, type: 3}
   mythicSprite: {fileID: 21300000, guid: 4a4b1cdd2a8242046899e3416eb30335, type: 3}
+  displayOffset: {fileID: 11400000, guid: 922f8f929c56b4fbcb8582958e66bdd1, type: 2}

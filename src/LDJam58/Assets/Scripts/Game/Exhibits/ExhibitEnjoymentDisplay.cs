@@ -31,10 +31,20 @@ namespace Game.Exhibits
         [SerializeField]
         private Sprite mythicSprite;
         
+        [SerializeField]
+        private Vector3Variable displayOffset;
+        
         private ExhibitPrefab exhibitPrefab;
         public void SetDisplayPosition(Vector3 hitPoint)
         {
-            transform.position = hitPoint;
+            if (displayOffset == null)
+            {
+                displayOffset = new Vector3Variable {
+                    Value = new Vector3(-3f, 1.5f, 0)
+                };
+            }
+
+            transform.position = hitPoint + displayOffset.Value;
         }
         
         public void SetDisplayExhibit(ExhibitPrefab exhibitInstance, bool deBurgirHasAGhost = false)
