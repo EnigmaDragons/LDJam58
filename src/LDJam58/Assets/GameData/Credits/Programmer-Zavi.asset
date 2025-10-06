@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95e24bf5005ad284cbf3dc477865d8f4, type: 3}
-  m_Name: LeadDesigner-Zavi
+  m_Name: Programmer-Zavi
   m_EditorClassIdentifier: Assembly-CSharp::RoleCredit
-  role: Gameplay Lead
+  role: Programmer
   personName: Zavi Reinagel
   link: 
