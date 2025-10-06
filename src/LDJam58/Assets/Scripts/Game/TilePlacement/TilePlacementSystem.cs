@@ -45,6 +45,7 @@ namespace Game.TilePlacement
         {
             CurrentGameState.UpdateState(gs => {
                 gs.isPlacing = true;
+                
                 return gs;
             });
             if(raycastCamera == null) raycastCamera = Camera.main;
@@ -99,7 +100,11 @@ namespace Game.TilePlacement
             var isHit = Physics.Raycast(ray, out hit,  Mathf.Infinity, placementLayerMask);
             if (!isHit)
             {
-                if(currentState == PlacementState.GhostPlacement) DisableGhostObject();
+                if (currentState == PlacementState.GhostPlacement)
+                {
+                    CurrentGameState.InvalidGhostPlacement(exhibitTileType);
+                    DisableGhostObject();
+                }
                 currentState = PlacementState.NoTarget;
                 return;
             }
@@ -144,7 +149,6 @@ namespace Game.TilePlacement
             var inst= Instantiate(exhibitTileType.ExhibitPrefab, ghostTile.transform.position, ghostTile.transform.rotation);
             inst.GetComponent<ExhibitPrefab>().Init(exhibitTileType);
             inst.transform.SetParent(grid.transform);
-            CurrentGameState.CallGhostBusters();
             CurrentGameState.UpdatePlacedExhibit(exhibitTileType, roomId, placedNodes, false);
             Message.Publish(new ExhibitPlaced(inst, exhibitTileType));
             DisableGhostObject();

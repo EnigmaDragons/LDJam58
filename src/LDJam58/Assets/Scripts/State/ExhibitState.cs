@@ -13,6 +13,5 @@ public class ExhibitState
     public Vector2Int[] adjacencies = new Vector2Int[0];
     public int calculatedEnjoyment;
     public int ghostEnjoyment;
-
     public int seasonScore;
 }

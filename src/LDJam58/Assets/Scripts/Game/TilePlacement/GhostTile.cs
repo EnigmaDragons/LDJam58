@@ -39,7 +39,7 @@ namespace Game.TilePlacement
         {
             IsOverlapping = true;
             stateChanged = true;
-            textVisuals.SetActive(false);
+            //textVisuals.SetActive(false);
             UpdateMaterial(errorMaterial);
         }
 
@@ -54,7 +54,7 @@ namespace Game.TilePlacement
         {
             if (!IsOverlapping)
             {
-                textVisuals.SetActive(false);
+                //textVisuals.SetActive(false);
                 UpdateMaterial(errorMaterial);
                 stateChanged = true;
             }
@@ -74,7 +74,8 @@ namespace Game.TilePlacement
             ghostPlaceable = Instantiate(exhibitTileType.ExhibitPrefab, transform);
             ghostPrefab = ghostPlaceable.GetComponent<ExhibitPrefab>();
             ghostPrefab.Init(exhibitTileType);
-            enjoymentDisplay.SetDisplayExhibit(ghostPrefab, true);
+            CurrentGameState.InvalidGhostPlacement(exhibitTileType);
+            //enjoymentDisplay.SetDisplayExhibit(ghostPrefab, true);
             //change all the instance layers to Ghost
             SetLayerRecursively(ghostPlaceable, LayerMask.NameToLayer(ghostLayerMask));
             CollectRenderers(ghostPlaceable);
@@ -86,13 +87,13 @@ namespace Game.TilePlacement
         public void DisablePlaceable()
         {
             if(ghostPlaceable != null) ghostPlaceable.SetActive(false);
-            textVisuals.SetActive(false);
+            //textVisuals.SetActive(false);
         }
 
         public void EnablePlaceable()
         {
             if(ghostPlaceable != null) ghostPlaceable.SetActive(true);
-            textVisuals.SetActive(true);
+            //textVisuals.SetActive(true);
         }
         
         private void UpdateMaterial(Material material)
@@ -105,8 +106,8 @@ namespace Game.TilePlacement
 
         public void UpdateGhostScore(int baseScore, int newGhostScore)
         {
-            textVisuals.SetActive(true);
-            enjoymentDisplay.DoGhostBusters(newGhostScore);
+            //textVisuals.SetActive(true);
+            //enjoymentDisplay.DoGhostBusters(newGhostScore);
             
             if(newGhostScore > baseScore) UpdateMaterial(highScoreMaterial);
             else if (newGhostScore < baseScore)  UpdateMaterial(lowScoreMaterial);

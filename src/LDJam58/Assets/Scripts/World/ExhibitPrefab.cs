@@ -1,20 +1,139 @@
-﻿
+﻿using System;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 
-public class ExhibitPrefab : MonoBehaviour
+public class ExhibitPrefab : OnMessage<GameStateChanged>
 {
-    [SerializeField] private WorldExhibitUI worldUi;
-
+    [SerializeField] private Canvas canvas;
+    [SerializeField] private RectTransform panel;
+    [SerializeField] private TextMeshProUGUI exhibitNameLabel;
+    [SerializeField] private TextMeshProUGUI joyLabel;
+    [SerializeField] private TextMeshProUGUI tagsLabel;
+    [SerializeField] private GameObject target;
+    
     private ExhibitTileType exhibitTileType;
-    
-    
+
     public ExhibitTileType ExhibitTileType => exhibitTileType;
     
     public void Init(ExhibitTileType exhibit)
     {
-         worldUi.Init(exhibit);
-         exhibitTileType = exhibit;
-         //worldUi.gameObject.SetActive(true);
+        canvas.worldCamera = Camera.current;
+        exhibitTileType = exhibit;
     }
+
+    public void Update()
+    {
+        panel.transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.TransformPoint(Vector3.zero));
+    }
+
+    private void SetDisplay(string exhibitName, string joy, string tags)
+    {
+        SetLabel(exhibitNameLabel, exhibitName);
+        SetLabel(joyLabel, joy);
+        SetLabel(tagsLabel, tags);
+    }
+
+    //performance
+    private void SetLabel(TextMeshProUGUI label, string text)
+    {
+        if (string.IsNullOrEmpty(text))
+        {
+            if (label.gameObject.activeSelf)
+                label.gameObject.SetActive(false);
+        }
+        else
+        {
+            if (!label.gameObject.activeSelf)
+                label.gameObject.SetActive(true);
+            if (label.text != text)
+                label.text = text;
+        }
+    }
+
+    private void UpdateDisplay()
+    {
+        var state = CurrentGameState.ReadOnly;
+        var exhibit = state.Exhibits[exhibitTileType.DisplayName];
+
+        if (state.isPicking)
+        {
+            SetDisplay(string.Empty, string.Empty, string.Empty);
+        }
+        else if (state.isPlacing)
+        {
+            //invalid ghost placement
+            if (exhibit.isGhost)
+            {
+                if (string.IsNullOrEmpty(exhibit.roomId))
+                    SetDisplay(string.Empty, Neutral(exhibitTileType.Enjoyment.ToString()), exhibitTileType.Tags.Sprites());
+                else
+                {
+                    var joy = Neutral(exhibit.baseEnjoyment.ToString());
+                    if (exhibit.calculatedEnjoyment > exhibit.baseEnjoyment)
+                        joy += Positive($"+{exhibit.calculatedEnjoyment-exhibit.baseEnjoyment}");
+                    else if (exhibit.calculatedEnjoyment < exhibit.baseEnjoyment)
+                        joy += Negative($"-{exhibit.baseEnjoyment-exhibit.calculatedEnjoyment}");
+                    SetDisplay(string.Empty, Neutral(joy), exhibitTileType.Tags.Sprites());
+                }
+            }
+            else if (exhibit.roomId == state.focusedRoom)
+            {
+                var ghostExhibit = state.Exhibits[state.focusedExhibit];
+                var synergies = CurrentGameState.CalculateAdjacencyBonus(ghostExhibit.tags, exhibit.tags);
+                var tags = "";
+                var joy = Neutral(exhibit.calculatedEnjoyment.ToString());
+                if (synergies.Any(x => x.Item2 > 0))
+                {
+                    tags = synergies.Select(x => x.Item1).Sprites();
+                    joy = Positive(exhibit.calculatedEnjoyment.ToString());
+                }
+                else if (synergies.Any(x => x.Item2 < 0))
+                {
+                    tags = synergies.Select(x => x.Item1).Sprites();
+                    joy = Negative(exhibit.calculatedEnjoyment.ToString());
+                }
+                if (exhibit.ghostEnjoyment > exhibit.calculatedEnjoyment)
+                    joy += Positive($"+{exhibit.ghostEnjoyment-exhibit.calculatedEnjoyment}");
+                else if (exhibit.ghostEnjoyment < exhibit.calculatedEnjoyment)
+                    joy += Negative($"-{exhibit.calculatedEnjoyment-exhibit.ghostEnjoyment}");
+                SetDisplay(string.Empty, joy, tags);   
+            }
+            else
+            {
+                SetDisplay(string.Empty, string.Empty, string.Empty);
+            }
+        }
+        else if (state.isShowingMuseum)
+        {
+            SetDisplay(string.Empty, string.Empty, string.Empty);
+        }
+        else
+        {
+            //hovering
+            if (state.focusedExhibit == exhibit.name)
+                SetDisplay(exhibit.name, Neutral(exhibit.calculatedEnjoyment.ToString()), exhibit.tags.Sprites());
+            //hovering room & show details
+            if (state.showDetails && state.focusedRoom == exhibit.roomId)
+            {
+                SetDisplay("", Neutral(exhibit.calculatedEnjoyment.ToString()), exhibit.tags.Sprites());
+            }
+            else 
+                SetDisplay(string.Empty, string.Empty, string.Empty);
+        }
+    }
+
+    private string Neutral(string strToWrap)
+        => $"<color=black>{strToWrap}</color>";
     
+    private string Positive(string strToWrap)
+        => $"<color=green>{strToWrap}</color>";
+
+    private string Negative(string strToWrap)
+        => $"<color=red>{strToWrap}</color>";
+
+    protected override void Execute(GameStateChanged msg)
+    {
+        UpdateDisplay();
+    }
 }

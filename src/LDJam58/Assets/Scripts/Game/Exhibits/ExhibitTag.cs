@@ -1,3 +1,4 @@
+    using System.Collections.Generic;
     using System.Linq;
 
     public enum ExhibitTag
@@ -28,5 +29,9 @@
 
     public static class ExhibitTagExtensions
     {
-        public static string UserFriendlyText(this ExhibitTag tag) => tag.ToString().Split('_').Last();
+        public static string Sprites(this IEnumerable<ExhibitTag> tags)
+            => string.Join("", tags.Select(x => x.Sprite()));
+
+        public static string Sprite(this ExhibitTag tag) 
+            => $"<sprite name=\"{tag}\">";
     }
