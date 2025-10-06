@@ -8,7 +8,7 @@ public class ShowChildrenDuringPlacing : OnMessage<StartPlacement, StopPlacement
     protected override void AfterEnable()
     {
         cachedRenderers = GetComponentsInChildren<Renderer>();
-        var shouldBeActive = CurrentGameState.ReadOnly.isPlacing;
+        var shouldBeActive = CurrentGameState.ReadOnly == null || CurrentGameState.ReadOnly.isPlacing;
         foreach (var renderer in cachedRenderers)
             renderer.enabled = shouldBeActive;
     }

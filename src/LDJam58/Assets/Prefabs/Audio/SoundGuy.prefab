@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4673384442953206712
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4481296750428131540}
+  - component: {fileID: 8941038492038131298}
+  m_Layer: 0
+  m_Name: SoundGuy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4481296750428131540
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4673384442953206712}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8941038492038131298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4673384442953206712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d7fb2679547e4a8aa7e926e782a2d02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundGuy
+  player: {fileID: 11400000, guid: bfe56e3518f684c4387de97bd5db348d, type: 2}
+  exhibitPlacedSound:
+    clip: {fileID: 8300000, guid: 1da3b84852101499a884883df61b41c7, type: 3}
+    volume: 1
+  exhibitPickedSound:
+    clip: {fileID: 8300000, guid: 2f2de4a5209bf4ce586c71cac8708688, type: 3}
+    volume: 0.5
+  exhibitPickingBeganSound:
+    clip: {fileID: 8300000, guid: 16839232fe73d4e96ac5c0b27c081a0f, type: 3}
+    volume: 0.5
+  exhibitShownCommonSound:
+    clip: {fileID: 8300000, guid: cc719cb87c65b44a1a8ffcd67250fc28, type: 3}
+    volume: 0.5
+  exhibitShownRareSound:
+    clip: {fileID: 8300000, guid: 8de246e274a114ba6b3999e8297b43f3, type: 3}
+    volume: 0.5
+  exhibitShownExoticSound:
+    clip: {fileID: 8300000, guid: 5f87ec7b6a43f4d73ac5b2bb240a2668, type: 3}
+    volume: 0.5
+  exhibitShownMythicSound:
+    clip: {fileID: 8300000, guid: ba528c159db99441d87b947b34bb13a4, type: 3}
+    volume: 0.5

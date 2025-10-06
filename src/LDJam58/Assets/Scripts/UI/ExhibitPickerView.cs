@@ -39,6 +39,8 @@ public class ExhibitPickerView : MonoBehaviour, IPointerEnterHandler, IPointerEx
     [SerializeField] private Material _mythicMaterial;
     
     [SerializeField] private Image _hoverImage;
+
+    private ExhibitRarity _rarity;
     
     private ExhibitTileType _exhibitTileType;
     
@@ -58,6 +60,25 @@ public class ExhibitPickerView : MonoBehaviour, IPointerEnterHandler, IPointerEx
             _pickButton.onClick.RemoveListener(PickExhibit);
     }
     
+
+    private SoundType GetSoundTypeForRarity(ExhibitRarity rarity)
+    {
+        return rarity switch
+        {
+            ExhibitRarity.Common => SoundType.ExhibitShownCommon,
+            ExhibitRarity.Rare => SoundType.ExhibitShownRare,
+            ExhibitRarity.Exotic => SoundType.ExhibitShownExotic,
+            ExhibitRarity.Mythic => SoundType.ExhibitShownMythic,
+            _ => SoundType.ExhibitShownCommon
+        };
+    }
+
+    public void PlayRaritySound()
+    {
+        var uiRect = transform as RectTransform;
+        Message.Publish(new PlaySoundRequested(GetSoundTypeForRarity(_rarity), uiRect, null));
+    }
+
     public void Init(ExhibitTileType exhibits)
     {
         _exhibitTileType = exhibits;
@@ -67,6 +88,7 @@ public class ExhibitPickerView : MonoBehaviour, IPointerEnterHandler, IPointerEx
             _pickButton.onClick.AddListener(PickExhibit);
         }
         
+        _rarity = exhibits.Rarity;
         // Handle missing sprite gracefully
         _exhibitImage.sprite = exhibits.ExhibitSprite ?? GetDefaultSprite();
         
@@ -163,6 +185,8 @@ public class ExhibitPickerView : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     private void PickExhibit()
     {
+        var uiRect = transform as RectTransform;
+        Message.Publish(new PlaySoundRequested(SoundType.ExhibitPicked, uiRect, null));
         Message.Publish(new StartPlacement(_exhibitTileType));
         Message.Publish(new ExhibitPicked(_exhibitTileType));
         Message.Publish(new ClosePickMenu());

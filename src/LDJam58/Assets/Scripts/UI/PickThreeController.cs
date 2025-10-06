@@ -60,13 +60,27 @@ public class PickThreeController : OnMessage<BeginPickThree, ClosePickMenu>
         // Create sequence for scale bounce-in animations
         var sequence = DOTween.Sequence();
         
-        // First option bounces in
-        sequence.Append(_one.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack));
+        // First option bounces in (play rarity sound at start)
+        sequence.Append(
+            _one.transform
+                .DOScale(Vector3.one, 0.5f)
+                .SetEase(Ease.OutBack)
+                .OnStart(_one.PlayRaritySound));
         
-        // Second option bounces in after a short delay
-        sequence.Append(_two.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack).SetDelay(0.1f));
+        // Second option bounces in after a short delay (play rarity sound at start)
+        sequence.Append(
+            _two.transform
+                .DOScale(Vector3.one, 0.5f)
+                .SetEase(Ease.OutBack)
+                .SetDelay(0.1f)
+                .OnStart(_two.PlayRaritySound));
         
-        // Third option bounces in after another short delay
-        sequence.Append(_three.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack).SetDelay(0.1f));
+        // Third option bounces in after another short delay (play rarity sound at start)
+        sequence.Append(
+            _three.transform
+                .DOScale(Vector3.one, 0.5f)
+                .SetEase(Ease.OutBack)
+                .SetDelay(0.1f)
+                .OnStart(_three.PlayRaritySound));
     }
 }
