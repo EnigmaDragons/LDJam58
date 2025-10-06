@@ -8,6 +8,7 @@ public class IntroLoopAudioPlayer : ScriptableObject
     [SerializeField] private IntroloopAudio currentClip;
     [SerializeField] private AudioMixer mixer;
     [SerializeField] private string volumeValueName = "MusicVolume";
+    [SerializeField] private FloatReference reductionDb = new FloatReference(0f);
 
     public void Init()
     {
@@ -22,7 +23,8 @@ public class IntroLoopAudioPlayer : ScriptableObject
         currentClip = clipToPlay;
         IntroloopPlayer.Instance.Play(clipToPlay);
     
-        var volume = PlayerPrefs.GetFloat(volumeValueName, 0.75f);
-        mixer.SetFloat(volumeValueName, Mathf.Log10(volume) * 20);
+        var volume = PlayerPrefs.GetFloat(volumeValueName, 0.5f);
+        var mixerVolume = (Mathf.Log10(volume) * 20) - reductionDb;
+        mixer.SetFloat(volumeValueName, mixerVolume);
     }
 }
