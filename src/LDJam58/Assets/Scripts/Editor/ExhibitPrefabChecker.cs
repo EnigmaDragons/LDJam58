@@ -195,7 +195,7 @@ public class ExhibitPrefabChecker : EditorWindow
             var path = AssetDatabase.GUIDToAssetPath(guid);
             var name = Path.GetFileNameWithoutExtension(path);
             
-            if (name.StartsWith("OBJ_"))
+            if (name.StartsWith("OBJ_") && !name.StartsWith("OBJ_Empty"))
             {
                 names.Add(name);
             }
