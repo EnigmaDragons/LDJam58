@@ -16,6 +16,11 @@ public class ExhibitPrefab : OnMessage<GameStateChanged>
 
     public ExhibitTileType ExhibitTileType => exhibitTileType;
     
+    private void Awake()
+    {
+        SetDisplay(string.Empty, string.Empty, string.Empty);
+    }
+
     public void Init(ExhibitTileType exhibit)
     {
         canvas.worldCamera = Camera.current;
