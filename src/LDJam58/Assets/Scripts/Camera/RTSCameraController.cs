@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -13,12 +17,13 @@ namespace Assets.Scripts
     /// - Smoothing and world-bounds clamping
     /// Attach to a Camera. For top-down, set a tilt (e.g., 60°) and position above ground.
     /// </summary>
-    public class RtsCameraController : OnMessage<LockCameraMovement, UnlockCameraMovement>
+    public class RtsCameraController : OnMessage<LockCameraMovement, UnlockCameraMovement, RoomOpened>
     {
         private bool _movementEnabled = true;
         
         [Header("Movement (Planar)")]
         [SerializeField] private float _moveSpeed = 20f;
+        [SerializeField] private float _mouseMoveSpeed = 1f;
         [SerializeField] private bool _useEdgeScroll = true;
         [SerializeField, Range(0f, 0.5f)] private float _edgeThicknessPercent = 0.04f; // % of screen
 
@@ -30,18 +35,25 @@ namespace Assets.Scripts
         [SerializeField] private float _zoomSpeed = 200f; // wheel delta applied to distance/size
         [SerializeField] private float _minZoom = 10f;     // for perspective: min distance; for ortho: min size
         [SerializeField] private float _maxZoom = 120f;    // for perspective: max distance; for ortho: max size
-        [SerializeField] private float _zoomSmoothing = 0.12f; // 0: instant, higher = smoother
 
         [Header("Smoothing")]
         [SerializeField] private float _positionSmoothing = 0.08f; // 0: instant
 
-        [Header("Bounds (World-space)")]
-        [SerializeField] private bool _clampToBounds;
-        [SerializeField] private Vector2 _xBounds = new Vector2(-200f, 200f);
-        [SerializeField] private Vector2 _zBounds = new Vector2(-200f, 200f);
+        [Header("Bounds Offsets")]
+        [SerializeField] private float rightReduction = 0;
+        [SerializeField] private float leftReduction = 0;
+        [SerializeField] private float topReduction = 0;
+        [SerializeField] private float bottomReduction = 0;
+        [SerializeField] private float xBoundsOffset = 0;
+        [SerializeField] private float zBoundsOffset = 0;
+        
+        private bool _clampToBounds = false;
+        private Vector2 _xBounds = new Vector2(-200f, 200f);
+        private Vector2 _zBounds = new Vector2(-200f, 200f);
 
         private Camera _cachedCamera;
         private Vector3 _desiredPosition;
+        private float _startZoom;
         private float _desiredZoom; // perspective: desired height; ortho: size
         private bool _hasMoveInputThisFrame;
         private bool _hasZoomInputThisFrame;
@@ -65,6 +77,7 @@ namespace Assets.Scripts
             {
                 // For perspective, treat desired zoom as desired height
                 _desiredZoom = Mathf.Clamp(transform.position.y, _minZoom, _maxZoom);
+                _startZoom = _desiredZoom;
             }
         }
 
@@ -125,8 +138,39 @@ namespace Assets.Scripts
 
             if (_clampToBounds)
             {
-                _desiredPosition.x = Mathf.Clamp(_desiredPosition.x, _xBounds.x, _xBounds.y);
-                _desiredPosition.z = Mathf.Clamp(_desiredPosition.z, _zBounds.x, _zBounds.y);
+                var mult = transform.position.y / _startZoom;
+                var adjustedRightReduction = rightReduction * mult;
+                var adjustedLeftReduction = leftReduction * mult;
+                var adjustedTopReduction = topReduction * mult;
+                var adjustedBottomReduction = bottomReduction * mult;
+                
+                //the below lines work with extremely specific ranges and cannot be trusted
+                var zRotationRatio = (90 - transform.rotation.eulerAngles.x) / 45;
+                var multChangeAmount = Math.Abs(mult - 1);
+                var adjustedZMultChangeAmount = multChangeAmount * zRotationRatio;
+                var adjustedOffsetZMult = mult > 1 ? 1 + adjustedZMultChangeAmount : 1 - adjustedZMultChangeAmount;
+                var adjustedXBoundsOffset = xBoundsOffset;
+                var adjustedZBoundsOffset = zBoundsOffset * adjustedOffsetZMult;
+
+                var minX = _xBounds.x + adjustedXBoundsOffset + adjustedRightReduction;
+                var maxX = _xBounds.y + adjustedXBoundsOffset - adjustedLeftReduction;
+                if (minX > maxX)
+                {
+                    var average = (minX + maxX) / 2;
+                    minX = average;
+                    maxX = average;
+                }
+                var minY = _zBounds.x + adjustedZBoundsOffset + adjustedBottomReduction;
+                var maxY = _zBounds.y + adjustedZBoundsOffset - adjustedTopReduction;
+                if (minY > maxY)
+                {
+                    var average = (minY + maxY) / 2;
+                    minY = average;
+                    maxY = average;
+                }
+
+                _desiredPosition.x = Mathf.Clamp(_desiredPosition.x, minX, maxX);
+                _desiredPosition.z = Mathf.Clamp(_desiredPosition.z, minY, maxY);
             }
         }
 
@@ -202,7 +246,7 @@ namespace Assets.Scripts
 
         private Vector2 GetEdgeScrollDirection2D()
         {
-            if (!Application.isFocused)
+            if (!Application.isFocused || !MouseScreenCheck())
                 return Vector2.zero;
 
             Vector2 dir = Vector2.zero;
@@ -213,13 +257,33 @@ namespace Assets.Scripts
             float tX = Mathf.Max(1f, w * pct);
             float tY = Mathf.Max(1f, h * pct);
 
-            if (mouse.x <= tX) dir.x = -(tX - mouse.x) / tX; // -1..0
-            else if (mouse.x >= w - tX) dir.x = (mouse.x - (w - tX)) / tX; // 0..1
+            if (mouse.x <= tX) dir.x = -_mouseMoveSpeed; // -1..0
+            else if (mouse.x >= w - tX) dir.x = _mouseMoveSpeed; // 0..1
 
-            if (mouse.y <= tY) dir.y = -(tY - mouse.y) / tY; // -1..0 (down)
-            else if (mouse.y >= h - tY) dir.y = (mouse.y - (h - tY)) / tY; // 0..1 (up)
+            if (mouse.y <= tY) dir.y = -_mouseMoveSpeed; // -1..0 (down)
+            else if (mouse.y >= h - tY) dir.y = _mouseMoveSpeed; // 0..1 (up)
 
             return dir;
+        }
+
+        public bool MouseScreenCheck()
+        {
+#if UNITY_EDITOR
+            if (Input.mousePosition.x == 0 || Input.mousePosition.y == 0 ||
+                Input.mousePosition.x >= Handles.GetMainGameViewSize().x - 1 ||
+                Input.mousePosition.y >= Handles.GetMainGameViewSize().y - 1)
+            {
+                return false;
+            }
+#else
+        if (Input.mousePosition.x == 0 || Input.mousePosition.y == 0 || Input.mousePosition.x >= Screen.width - 1 || Input.mousePosition.y >= Screen.height - 1) {
+        return false;
+        }
+#endif
+            else
+            {
+                return true;
+            }
         }
 
         // Public API
@@ -240,6 +304,17 @@ namespace Assets.Scripts
         {
             _movementEnabled = true;
             Debug.Log("UnlockCameraMovement");
+        }
+
+        private List<Bounds> _roomBounds = new List<Bounds>();
+
+        protected override void Execute(RoomOpened msg)
+        {
+            _roomBounds.Add(msg.Bounds);
+            var bound = _roomBounds[0];
+            foreach (var room in _roomBounds.Skip(1))
+                bound.Encapsulate(room);
+            SetBounds(new Vector2(bound.min.x, bound.max.x), new Vector2(bound.min.z, bound.max.z));
         }
     }
 }

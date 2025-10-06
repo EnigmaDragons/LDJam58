@@ -151,15 +151,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RTSCameraController
   _moveSpeed: 20
-  _useEdgeScroll: 0
+  _mouseMoveSpeed: 1
+  _useEdgeScroll: 1
   _edgeThicknessPercent: 0.1
-  _allowRotation: 1
+  _allowRotation: 0
   _rotationSpeed: 90
-  _zoomSpeed: 600
-  _minZoom: 20
-  _maxZoom: 60
-  _zoomSmoothing: 0.12
-  _positionSmoothing: 0.08
-  _clampToBounds: 0
-  _xBounds: {x: -200, y: 200}
-  _zBounds: {x: -200, y: 200}
+  _zoomSpeed: 1000
+  _minZoom: 30
+  _maxZoom: 90
+  _positionSmoothing: 0.1
+  rightReduction: 16
+  leftReduction: 16
+  topReduction: 8
+  bottomReduction: 8
+  xBoundsOffset: 0
+  zBoundsOffset: -16
