@@ -201,7 +201,7 @@ public static class ExhibitDataConverter
             "warfare" => ExhibitTag.Theme_Warfare,
             "treasure" => ExhibitTag.Theme_Treasure,
             "pirate" => ExhibitTag.Theme_Pirate,
-            "gothic" => ExhibitTag.Theme_Shadow, // Map Gothic to Shadow for now
+            "gothic" => ExhibitTag.Theme_Gothic,
             _ => ExhibitTag.None
         };
     }
