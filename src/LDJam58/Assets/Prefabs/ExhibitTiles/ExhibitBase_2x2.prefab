@@ -548,6 +548,7 @@ MonoBehaviour:
   exhibitNameLabel: {fileID: 5496388698165600249}
   joyLabel: {fileID: 5899976089936311727}
   tagsLabel: {fileID: 7263093940455721643}
+  target: {fileID: 0}
 --- !u!1 &9136768436123711089
 GameObject:
   m_ObjectHideFlags: 0
@@ -700,7 +701,7 @@ PrefabInstance:
     - target: {fileID: 192307279226021421, guid: 606f92b6db63a4f5fa4ac8df87cfb0e1,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.2
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 192307279226021421, guid: 606f92b6db63a4f5fa4ac8df87cfb0e1,
         type: 3}
