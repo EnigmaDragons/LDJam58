@@ -17,6 +17,12 @@ public class GameManager : OnMessage<AdvancePeriod, BeginPickThree, StartPlaceme
         InitStateForCurrentPeriod();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+            CurrentGameState.UpdateState(x => x.showDetails = !x.showDetails);
+    }
+
     private void InitStateForCurrentPeriod()
     {
         var currentPeriod = GetCurrentPeriod();

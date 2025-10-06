@@ -24,6 +24,10 @@ public class Room : OnMessage<StartPlacement, RotationChanged, StopPlacement>
             foreach (Transform node in child)
                 nodes.Add(new Vector2Int((int)node.position.x, (int)node.position.z));
         CurrentGameState.UpdateState(state => state.Rooms[id.Id] = new RoomState { exhibitIds = nodes.ToDictionary(x => x, _ => "") });
+        twoTwoTargets.gameObject.SetActive(false);
+        twoThreeTargets.gameObject.SetActive(false);
+        threeTwoTargets.gameObject.SetActive(false);
+        threeThreeTargets.gameObject.SetActive(false);
     }
 
     protected override void Execute(StartPlacement msg)

@@ -48,7 +48,7 @@ public static class CurrentGameState
             foreach (var room in state.Rooms.Values)
             {
                 var nodes = room.exhibitIds.ToArray();
-                foreach (var node in nodes)
+                foreach (var node in nodes.Where(x => !string.IsNullOrEmpty(x.Value)))
                 {
                     var exhibit = state.Exhibits[node.Value];
                     if (exhibit.isGhost)
@@ -175,7 +175,7 @@ public static class CurrentGameState
                 var room = state.Rooms[roomId];
                 var nodes = room.exhibitIds.ToArray();
                     foreach (var node in nodes.Where(x => x.Value == exhibit.DisplayName))
-                        room.exhibitIds.Remove(node.Key);
+                        room.exhibitIds[node.Key] = "";
             }
             state.Exhibits[exhibit.DisplayName] = new ExhibitState
             {

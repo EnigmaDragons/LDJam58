@@ -13,7 +13,7 @@ public class TilePlacementSystem2 : OnMessage<StartPlacement>
     
     private void Update()
     {
-        if (!CurrentGameState.ReadOnly.isPlacing)
+        if (!CurrentGameState.ReadOnly.isPlacing || _exhibit == null)
             return;
 
         if (Input.GetKeyDown(KeyCode.R) || Input.GetMouseButtonDown(1))
@@ -29,23 +29,27 @@ public class TilePlacementSystem2 : OnMessage<StartPlacement>
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, placementLayerMask))
         {
             var newTarget = hit.collider.GetComponent<RoomTargettingCollider>();
-            if (_target == newTarget)
-                return;
-            _target = hit.collider.GetComponent<RoomTargettingCollider>();
-            var room = CurrentGameState.ReadOnly.Rooms[_target.RoomId];
-            if (_target.Nodes.All(x => string.IsNullOrEmpty(room.exhibitIds[x]) || room.exhibitIds[x] == _exhibit.DisplayName))
+            if (_target != newTarget)
             {
-                ghostTile.Valid();
-                _valid = true;
-                ghostTile.transform.position = _target.Center;
-                CurrentGameState.GetGhostExhibitEnjoymentScore(_exhibit, _target.RoomId, _target.Nodes);
-            }
-            else
-            {
-                ghostTile.Invalid();
-                _valid = false;
-                ghostTile.transform.position = _target.Center;
-                CurrentGameState.InvalidGhostPlacement(_exhibit);
+                _target = newTarget;
+                _target = hit.collider.GetComponent<RoomTargettingCollider>();
+                var room = CurrentGameState.ReadOnly.Rooms[_target.RoomId];
+                if (CurrentGameState.ReadOnly.focusedRoom != _target.RoomId)
+                    CurrentGameState.UpdateState(x => x.focusedRoom = _target.RoomId);
+                if (_target.Nodes.All(x => string.IsNullOrEmpty(room.exhibitIds[x]) || room.exhibitIds[x] == _exhibit.DisplayName))
+                {
+                    ghostTile.Valid();
+                    _valid = true;
+                    ghostTile.transform.position = _target.Center;
+                    CurrentGameState.GetGhostExhibitEnjoymentScore(_exhibit, _target.RoomId, _target.Nodes);
+                }
+                else
+                {
+                    ghostTile.Invalid();
+                    _valid = false;
+                    ghostTile.transform.position = _target.Center;
+                    CurrentGameState.InvalidGhostPlacement(_exhibit);
+                }
             }
         }
         else
@@ -69,12 +73,14 @@ public class TilePlacementSystem2 : OnMessage<StartPlacement>
             {
                 state.isPlacing = false;
             });
+            _exhibit = null;
             Message.Publish(new StopPlacement());
         }
     }
 
     protected override void Execute(StartPlacement msg)
     {
+        _exhibit = msg.exhibit;
         CurrentGameState.UpdateState(gs =>
         {
             gs.isPlacing = true;

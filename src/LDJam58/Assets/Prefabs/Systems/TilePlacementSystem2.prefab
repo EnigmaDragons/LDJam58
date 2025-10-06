@@ -93,8 +93,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0861b58340704c3db3385fe287f1a9df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GhostTile2
-  ghostLayerMask:
-    serializedVersion: 2
-    m_Bits: 128
-  errorMaterial: {fileID: 2100000, guid: 447aa21b7d2972449bb7c4e83c9a2d81, type: 2}
-  ghostMaterial: {fileID: 2100000, guid: e74834ba16a1b134194339ebb525adf0, type: 2}
+  errorMaterial: {fileID: 2100000, guid: e74834ba16a1b134194339ebb525adf0, type: 2}
+  ghostMaterial: {fileID: 2100000, guid: 447aa21b7d2972449bb7c4e83c9a2d81, type: 2}

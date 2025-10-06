@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class GhostTile2 : MonoBehaviour
 {
-    [SerializeField] private LayerMask ghostLayerMask;
     [SerializeField] private Material errorMaterial;
     [SerializeField] private Material ghostMaterial;
 
@@ -17,7 +16,7 @@ public class GhostTile2 : MonoBehaviour
         transform.rotation = Quaternion.identity;
         _ghostPlaceable = Instantiate(exhibitTileType.ExhibitPrefab, transform);
         _ghostPlaceable.GetComponent<ExhibitPrefab>().Init(exhibitTileType);
-        SetLayerRecursively(_ghostPlaceable, ghostLayerMask);
+        SetLayerRecursively(_ghostPlaceable, LayerMask.NameToLayer("Ghost"));
         CollectRenderers();
         SetCollidersToTrigger();
         UpdateMaterial(errorMaterial);

@@ -54,6 +54,8 @@ public class ExhibitPrefab : OnMessage<GameStateChanged>
     private void UpdateDisplay()
     {
         var state = CurrentGameState.ReadOnly;
+        if (!state.Exhibits.ContainsKey(exhibitTileType.DisplayName))
+            return;
         var exhibit = state.Exhibits[exhibitTileType.DisplayName];
 
         if (state.isPicking)
@@ -77,7 +79,7 @@ public class ExhibitPrefab : OnMessage<GameStateChanged>
                     SetDisplay(string.Empty, Neutral(joy), exhibitTileType.Tags.Sprites());
                 }
             }
-            else if (exhibit.roomId == state.focusedRoom)
+            else if (exhibit.roomId == state.focusedRoom && string.IsNullOrEmpty(state.focusedExhibit))
             {
                 var ghostExhibit = state.Exhibits[state.focusedExhibit];
                 var synergies = CurrentGameState.CalculateAdjacencyBonus(ghostExhibit.tags, exhibit.tags);
