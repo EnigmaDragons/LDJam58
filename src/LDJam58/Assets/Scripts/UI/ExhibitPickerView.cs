@@ -50,6 +50,11 @@ public class ExhibitPickerView : MonoBehaviour, IPointerEnterHandler, IPointerEx
             _hoverImage.gameObject.SetActive(false);
         }
     }
+
+    private void OnDisable()
+    {
+        _hoverImage.gameObject.SetActive(false);
+    }
     
     public void Init(ExhibitTileType exhibits)
     {
@@ -59,6 +64,7 @@ public class ExhibitPickerView : MonoBehaviour, IPointerEnterHandler, IPointerEx
         // Handle missing sprite gracefully
         _exhibitImage.sprite = exhibits.ExhibitSprite ?? GetDefaultSprite();
         
+        _hoverImage.gameObject.SetActive(false);
         _exhibitNameLabel.text = exhibits.DisplayName;
         _sizeLabel.text = exhibits.Size.x + "x" + exhibits.Size.y;
         _enjoymentMeter.SetValue(exhibits.Enjoyment);
