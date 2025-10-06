@@ -66,3 +66,12 @@ MonoBehaviour:
   exhibitShownMythicSound:
     clip: {fileID: 8300000, guid: ba528c159db99441d87b947b34bb13a4, type: 3}
     volume: 0.5
+  seasonSummaryScoringBeganSound:
+    clip: {fileID: 8300000, guid: bf0e057088a9f43349af30737ee2f486, type: 3}
+    volume: 1
+  seasonSummaryVictorySound:
+    clip: {fileID: 8300000, guid: 6d47204ed7dd54376aab5d40f4bc7452, type: 3}
+    volume: 1
+  seasonSummaryDefeatSound:
+    clip: {fileID: 8300000, guid: 78b21d20153e94303a0e6249e52a8d83, type: 3}
+    volume: 1

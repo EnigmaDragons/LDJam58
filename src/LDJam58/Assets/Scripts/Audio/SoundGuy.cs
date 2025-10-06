@@ -31,6 +31,9 @@ public enum SoundType
     ExhibitShownExotic = 4,
     ExhibitShownMythic = 5,
     ExhibitPicked = 6,
+    SeasonSummaryScoringBegan = 70,
+    SeasonSummaryVictory = 71,
+    SeasonSummaryDefeat = 72,
 } 
 
 public class SoundGuy : MonoBehaviour 
@@ -45,6 +48,9 @@ public class SoundGuy : MonoBehaviour
     [SerializeField] private AudioClipVolume exhibitShownExoticSound;
     [SerializeField] private AudioClipVolume exhibitShownMythicSound;
 
+    [SerializeField] private AudioClipVolume seasonSummaryScoringBeganSound;
+    [SerializeField] private AudioClipVolume seasonSummaryVictorySound;
+    [SerializeField] private AudioClipVolume seasonSummaryDefeatSound;
 
 
     private void OnEnable()
@@ -96,6 +102,9 @@ public class SoundGuy : MonoBehaviour
             case SoundType.ExhibitShownExotic: return exhibitShownExoticSound;
             case SoundType.ExhibitShownMythic: return exhibitShownMythicSound;
             case SoundType.ExhibitPicked: return exhibitPickedSound;
+            case SoundType.SeasonSummaryScoringBegan: return seasonSummaryScoringBeganSound;
+            case SoundType.SeasonSummaryVictory: return seasonSummaryVictorySound;
+            case SoundType.SeasonSummaryDefeat: return seasonSummaryDefeatSound;
             default: return null;
         }
     }
