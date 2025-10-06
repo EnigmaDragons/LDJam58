@@ -54,12 +54,18 @@ public class ExhibitPickerView : MonoBehaviour, IPointerEnterHandler, IPointerEx
     private void OnDisable()
     {
         _hoverImage.gameObject.SetActive(false);
+        if (_pickButton != null)
+            _pickButton.onClick.RemoveListener(PickExhibit);
     }
     
     public void Init(ExhibitTileType exhibits)
     {
         _exhibitTileType = exhibits;
-        _pickButton.onClick.AddListener(PickExhibit);
+        if (_pickButton != null)
+        {
+            _pickButton.onClick.RemoveListener(PickExhibit);
+            _pickButton.onClick.AddListener(PickExhibit);
+        }
         
         // Handle missing sprite gracefully
         _exhibitImage.sprite = exhibits.ExhibitSprite ?? GetDefaultSprite();
