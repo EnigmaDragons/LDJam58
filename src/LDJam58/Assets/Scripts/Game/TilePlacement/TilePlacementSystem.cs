@@ -121,9 +121,13 @@ namespace Game.TilePlacement
             
             ghostTile.transform.position = targetPosition;
             ghostTile.PositionWasUpdated(targetCell);
-            
-            if(ghostTile.IsOverlapping) return;
-            
+
+            if (ghostTile.IsOverlapping)
+            {
+                CurrentGameState.InvalidGhostPlacement(exhibitTileType);
+                return;
+            }
+
             if (ghostTile.StateChanged())
             {
                 var roomId = RoomId.GetRoomId(hit.collider.transform);

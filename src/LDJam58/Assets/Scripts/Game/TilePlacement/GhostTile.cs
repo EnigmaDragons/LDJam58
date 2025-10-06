@@ -109,9 +109,9 @@ namespace Game.TilePlacement
             //textVisuals.SetActive(true);
             //enjoymentDisplay.DoGhostBusters(newGhostScore);
             
-            if(newGhostScore > baseScore) UpdateMaterial(highScoreMaterial);
-            else if (newGhostScore < baseScore)  UpdateMaterial(lowScoreMaterial);
-            else UpdateMaterial(ghostMaterial);
+            //if(newGhostScore > baseScore) UpdateMaterial(highScoreMaterial);
+            //else if (newGhostScore < baseScore)  UpdateMaterial(lowScoreMaterial);
+            UpdateMaterial(ghostMaterial);
         }
         
         private void SetCollidersToTrigger()

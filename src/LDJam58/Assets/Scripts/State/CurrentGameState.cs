@@ -43,8 +43,6 @@ public static class CurrentGameState
 
         UpdateState(state =>
         {
-            if (!state.Rooms.ContainsKey(roomId))
-                state.Rooms[roomId] = new RoomState {open = true, exhibitIds = new Dictionary<Vector2Int, string>() };
             state.focusedRoom = roomId;
             //remove ghosts
             foreach (var room in state.Rooms.Values)
@@ -56,7 +54,7 @@ public static class CurrentGameState
                     if (exhibit.isGhost)
                     {
                         roomsToRecalculate.Add(exhibit.roomId);                        
-                        room.exhibitIds.Remove(node.Key);
+                        room.exhibitIds[node.Key] = "";
                     }
                 }
             }
@@ -64,7 +62,7 @@ public static class CurrentGameState
             var adjacencies = new HashSet<Vector2Int>(); 
             foreach (var node in nodes)
             {
-                gameState.Rooms[roomId].exhibitIds[node] = exhibit.DisplayName;
+                state.Rooms[roomId].exhibitIds[node] = exhibit.DisplayName;
                 adjacencies.AddRange(new Vector2Int[] { node + Vector2Int.up, node + Vector2Int.left, node + Vector2Int.down, node + Vector2Int.right });
             }
             var filteredAdjacentNodes = adjacencies.Where(x => nodes.All(node => node != x)).ToArray();
