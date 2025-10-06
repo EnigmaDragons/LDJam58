@@ -685,6 +685,7 @@ MonoBehaviour:
   joyLabel: {fileID: 2914849993305606843}
   tagsLabel: {fileID: 6232577028012467902}
   target: {fileID: 0}
+  offset: {x: 0, y: 2.5, z: 0}
 --- !u!1001 &1926614307541829064
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -7,8 +7,8 @@ public class Room : OnMessage<StartPlacement, RotationChanged, StopPlacement>
     [SerializeField] private RoomId id;
     [SerializeField] private GameObject nodeParentParent;
     [SerializeField] private RoomTargettingGrid twoTwoTargets;
-    [SerializeField] private RoomTargettingGrid twoThreeTargets;
-    [SerializeField] private RoomTargettingGrid threeTwoTargets;
+    [SerializeField] private RoomTargettingGrid twoThreeTargets; //opposite name
+    [SerializeField] private RoomTargettingGrid threeTwoTargets; //opposite name
     [SerializeField] private RoomTargettingGrid threeThreeTargets;
 
     private Vector2Int _target;
@@ -36,9 +36,9 @@ public class Room : OnMessage<StartPlacement, RotationChanged, StopPlacement>
         if (msg.exhibit.Size == new Vector2Int(2, 2))
             twoTwoTargets.gameObject.SetActive(true);
         else if (msg.exhibit.Size == new Vector2Int(2, 3))
-            twoThreeTargets.gameObject.SetActive(true);
-        else if (msg.exhibit.Size == new Vector2Int(3, 2))
             threeTwoTargets.gameObject.SetActive(true);
+        else if (msg.exhibit.Size == new Vector2Int(3, 2))
+            twoThreeTargets.gameObject.SetActive(true);
         else if (msg.exhibit.Size == new Vector2Int(3, 3))
             threeThreeTargets.gameObject.SetActive(true);
     }
@@ -48,14 +48,14 @@ public class Room : OnMessage<StartPlacement, RotationChanged, StopPlacement>
         if (_target == new Vector2Int(2, 3))
         {
             _target = new Vector2Int(3, 2);
-            twoThreeTargets.gameObject.SetActive(false);
-            threeTwoTargets.gameObject.SetActive(true);
+            threeTwoTargets.gameObject.SetActive(false);
+            twoThreeTargets.gameObject.SetActive(true);
         }
         else if (_target == new Vector2Int(3, 2))
         {
             _target = new Vector2Int(2, 3);
-            twoThreeTargets.gameObject.SetActive(true);
-            threeTwoTargets.gameObject.SetActive(false);
+            threeTwoTargets.gameObject.SetActive(true);
+            twoThreeTargets.gameObject.SetActive(false);
         }
     }
 

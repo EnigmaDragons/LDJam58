@@ -549,6 +549,7 @@ MonoBehaviour:
   joyLabel: {fileID: 5899976089936311727}
   tagsLabel: {fileID: 7263093940455721643}
   target: {fileID: 0}
+  offset: {x: 0, y: 2.5, z: 0}
 --- !u!1 &9136768436123711089
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,6 +20,7 @@ public class TilePlacementSystem2 : OnMessage<StartPlacement>
         {
             ghostTile.transform.rotation *= Quaternion.Euler(0f, -90f, 0f);
             _target = null;
+            Message.Publish(new RotationChanged(-90f));
             return;
         }
         
@@ -67,13 +68,13 @@ public class TilePlacementSystem2 : OnMessage<StartPlacement>
             inst.GetComponent<ExhibitPrefab>().Init(_exhibit);
             inst.transform.SetParent(transform);
             CurrentGameState.UpdatePlacedExhibit(_exhibit, _target.RoomId, _target.Nodes, false);
-            Message.Publish(new ExhibitPlaced(inst, _exhibit));
             ghostTile.CleanUp();
             CurrentGameState.UpdateState(state =>
             {
                 state.isPlacing = false;
             });
             _exhibit = null;
+            Message.Publish(new ExhibitPlaced(inst, _exhibit));
             Message.Publish(new StopPlacement());
         }
     }
@@ -81,6 +82,7 @@ public class TilePlacementSystem2 : OnMessage<StartPlacement>
     protected override void Execute(StartPlacement msg)
     {
         _exhibit = msg.exhibit;
+        CurrentGameState.InvalidGhostPlacement(_exhibit);
         CurrentGameState.UpdateState(gs =>
         {
             gs.isPlacing = true;

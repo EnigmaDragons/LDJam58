@@ -11,6 +11,7 @@ public class ExhibitPrefab : OnMessage<GameStateChanged>
     [SerializeField] private TextMeshProUGUI joyLabel;
     [SerializeField] private TextMeshProUGUI tagsLabel;
     [SerializeField] private GameObject target;
+    [SerializeField] private Vector3 offset;
     
     private ExhibitTileType exhibitTileType;
 
@@ -29,7 +30,7 @@ public class ExhibitPrefab : OnMessage<GameStateChanged>
 
     public void Update()
     {
-        panel.transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.TransformPoint(Vector3.zero));
+        panel.transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.TransformPoint(offset));
     }
 
     private void SetDisplay(string exhibitName, string joy, string tags)
@@ -84,7 +85,7 @@ public class ExhibitPrefab : OnMessage<GameStateChanged>
                     SetDisplay(string.Empty, Neutral(joy), exhibitTileType.Tags.Sprites());
                 }
             }
-            else if (exhibit.roomId == state.focusedRoom && string.IsNullOrEmpty(state.focusedExhibit))
+            else if (exhibit.roomId == state.focusedRoom && !string.IsNullOrEmpty(state.focusedExhibit))
             {
                 var ghostExhibit = state.Exhibits[state.focusedExhibit];
                 var synergies = CurrentGameState.CalculateAdjacencyBonus(ghostExhibit.tags, exhibit.tags);
