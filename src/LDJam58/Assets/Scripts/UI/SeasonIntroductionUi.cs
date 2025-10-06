@@ -37,7 +37,7 @@ public class SeasonIntroductionUi : OnMessage<SeasonInitialized>
         _decorLine.localScale = new Vector3(0f, lineScale.y, lineScale.z);
 
         var title = _seasonTitle;
-        title.SetText("Season " + (CurrentGameState.ReadOnly.currentSeasonIndex + 1) + " Started");
+        title.SetText("SEASON " + (CurrentGameState.ReadOnly.currentSeasonIndex + 1));
         var titleScale = title.transform.localScale;
         title.transform.localScale = new Vector3(0f, titleScale.y, titleScale.z);
         Message.Publish(new LockCameraMovement());

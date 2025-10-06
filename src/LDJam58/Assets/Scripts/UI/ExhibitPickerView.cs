@@ -33,6 +33,11 @@ public class ExhibitPickerView : MonoBehaviour, IPointerEnterHandler, IPointerEx
     [SerializeField] private Sprite _exoticHoverSprite;
     [SerializeField] private Sprite _mythicHoverSprite;
     
+    [SerializeField] private Material _commonMaterial;
+    [SerializeField] private Material _rareMaterial;
+    [SerializeField] private Material _exoticMaterial;
+    [SerializeField] private Material _mythicMaterial;
+    
     [SerializeField] private Image _hoverImage;
     
     private ExhibitTileType _exhibitTileType;
@@ -45,6 +50,11 @@ public class ExhibitPickerView : MonoBehaviour, IPointerEnterHandler, IPointerEx
             _hoverImage.gameObject.SetActive(false);
         }
     }
+
+    private void OnDisable()
+    {
+        _hoverImage.gameObject.SetActive(false);
+    }
     
     public void Init(ExhibitTileType exhibits)
     {
@@ -54,6 +64,7 @@ public class ExhibitPickerView : MonoBehaviour, IPointerEnterHandler, IPointerEx
         // Handle missing sprite gracefully
         _exhibitImage.sprite = exhibits.ExhibitSprite ?? GetDefaultSprite();
         
+        _hoverImage.gameObject.SetActive(false);
         _exhibitNameLabel.text = exhibits.DisplayName;
         _sizeLabel.text = exhibits.Size.x + "x" + exhibits.Size.y;
         _enjoymentMeter.SetValue(exhibits.Enjoyment);
@@ -94,6 +105,23 @@ public class ExhibitPickerView : MonoBehaviour, IPointerEnterHandler, IPointerEx
                 ExhibitRarity.Exotic => _exoticBackFrameSprite,
                 ExhibitRarity.Mythic => _mythicBackFrameSprite,
                 _ => _commonBackFrameSprite
+            };
+        }
+        
+        UpdateFrontPanelMaterial();
+    }
+    
+    private void UpdateFrontPanelMaterial()
+    {
+        if (_frameImage != null)
+        {
+            _frameImage.material = _exhibitTileType.Rarity switch
+            {
+                ExhibitRarity.Common => _commonMaterial,
+                ExhibitRarity.Rare => _rareMaterial,
+                ExhibitRarity.Exotic => _exoticMaterial,
+                ExhibitRarity.Mythic => _mythicMaterial,
+                _ => _commonMaterial
             };
         }
     }

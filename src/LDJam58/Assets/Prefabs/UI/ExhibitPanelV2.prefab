@@ -361,7 +361,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 0e9b62d28e9db4aa1898931d4c0d6c18, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -690,6 +690,10 @@ MonoBehaviour:
   _rareHoverSprite: {fileID: 21300000, guid: 81a52b323010443fba9442af4c01cdce, type: 3}
   _exoticHoverSprite: {fileID: 21300000, guid: 1506bd18ad3a546fea37c481d8fe5538, type: 3}
   _mythicHoverSprite: {fileID: 21300000, guid: 9ddc014c431e247b2b154210d82eff48, type: 3}
+  _commonMaterial: {fileID: 2100000, guid: 0e9b62d28e9db4aa1898931d4c0d6c18, type: 2}
+  _rareMaterial: {fileID: 2100000, guid: 7ec8fe509b5f147d595aaba7d58fb12d, type: 2}
+  _exoticMaterial: {fileID: 2100000, guid: 6fd9d19c4274f4999a30e8f5bcc5f14b, type: 2}
+  _mythicMaterial: {fileID: 2100000, guid: d81d1f3ddbf144386a1d4868e9ea6235, type: 2}
   _hoverImage: {fileID: 4436231622288320430}
 --- !u!1 &2520100448522228177
 GameObject:
