@@ -4,7 +4,7 @@ using Game.Messages;
 using Sirenix.Utilities;
 using UnityEngine;
 
-public class GameManager : OnMessage<AdvancePeriod, BeginPickThree, StartPlacement, StopPlacement, ExhibitPlaced, OpenMuseum>
+public class GameManager : OnMessage<AdvancePeriod, BeginPickThree, StartPlacement, StopPlacement, ExhibitPlaced, OpenMuseum, GameWon>
 {
     [SerializeField] private ProgressionConfig _progressionConfig;
 
@@ -100,5 +100,10 @@ public class GameManager : OnMessage<AdvancePeriod, BeginPickThree, StartPlaceme
         CurrentGameState.UpdateState(x => x.isShowingMuseum = true);
         CurrentGameState.CalculateRoundScore();
         Message.Publish(new SummarizeSeason());
+    }
+
+    protected override void Execute(GameWon msg)
+    {
+        Message.Publish(new NavigateToSceneRequested("CreditsScene"));
     }
 }
