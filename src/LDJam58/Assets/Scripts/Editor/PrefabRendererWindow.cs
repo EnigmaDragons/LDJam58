@@ -12,7 +12,7 @@ public class PrefabRendererWindow : EditorWindow
     private string _statusMessage;
     private Vector2 _scrollPosition;
     
-    private const string PhotostudioScenePath = "Assets/Scenes/Pipeline/PhotoStudio.unity";
+    private const string PhotostudioScenePath = "Assets/Scenes/Pipeline/PhotoStudioV2.unity";
     
     // Batch processing variables
     private List<GameObject> _prefabsToProcess;
@@ -130,6 +130,13 @@ public class PrefabRendererWindow : EditorWindow
             {
                 prefabInstance.transform.position = photoSpot.transform.position;
                 prefabInstance.transform.rotation = photoSpot.transform.rotation;
+                
+                // Apply placement offset based on child size markers
+                var placementOffset = CalculatePlacementOffset(prefabInstance);
+                if (placementOffset != Vector3.zero)
+                {
+                    prefabInstance.transform.position += placementOffset;
+                }
                 
                 // Deactivate PlacementBase children
                 DeactivatePlacementBaseChildren(prefabInstance);
@@ -303,6 +310,13 @@ public class PrefabRendererWindow : EditorWindow
                 prefabInstance.transform.position = photoSpot.transform.position;
                 prefabInstance.transform.rotation = photoSpot.transform.rotation;
                 
+                // Apply placement offset based on child size markers
+                var placementOffset = CalculatePlacementOffset(prefabInstance);
+                if (placementOffset != Vector3.zero)
+                {
+                    prefabInstance.transform.position += placementOffset;
+                }
+
                 // Deactivate PlacementBase children
                 DeactivatePlacementBaseChildren(prefabInstance);
             }
@@ -391,6 +405,24 @@ public class PrefabRendererWindow : EditorWindow
         {
             child.SetActive(false);
         }
+    }
+
+    private Vector3 CalculatePlacementOffset(GameObject parent)
+    {
+        // Inspect direct children for specific size markers
+        for (int i = 0; i < parent.transform.childCount; i++)
+        {
+            var child = parent.transform.GetChild(i).gameObject;
+            if (child.name.StartsWith("PlacementBase-3x3"))
+            {
+                return new Vector3(-1f, 0f, -1f);
+            }
+            if (child.name.StartsWith("PlacementBase-3x2"))
+            {
+                return new Vector3(-1f, 0f, 0f);
+            }
+        }
+        return Vector3.zero;
     }
 
     private string SanitizeFileName(string fileName)
