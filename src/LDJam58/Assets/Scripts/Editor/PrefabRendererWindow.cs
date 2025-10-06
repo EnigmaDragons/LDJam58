@@ -140,6 +140,9 @@ public class PrefabRendererWindow : EditorWindow
                 
                 // Deactivate PlacementBase children
                 DeactivatePlacementBaseChildren(prefabInstance);
+
+                // If prefab contains particle systems, simulate 3 seconds before capture
+                HandleParticleSystems(prefabInstance);
             }
             
             // Force update to ensure prefab is positioned
@@ -319,6 +322,9 @@ public class PrefabRendererWindow : EditorWindow
 
                 // Deactivate PlacementBase children
                 DeactivatePlacementBaseChildren(prefabInstance);
+
+                // If prefab contains particle systems, simulate 3 seconds before capture
+                HandleParticleSystems(prefabInstance);
             }
             
             // Force update to ensure prefab is positioned
@@ -475,5 +481,26 @@ public class PrefabRendererWindow : EditorWindow
             
             Debug.Log($"Configured sprite import settings for: {relativePath}");
         }
+    }
+
+    private void HandleParticleSystems(GameObject root)
+    {
+        // If there are particle systems, simulate 3 seconds so effects are visible in the photo
+        var firstPs = root.GetComponentInChildren<ParticleSystem>(true);
+        if (firstPs == null)
+        {
+            return;
+        }
+
+        var particleSystems = root.GetComponentsInChildren<ParticleSystem>(true);
+        foreach (var ps in particleSystems)
+        {
+            ps.Clear(true);
+            // Simulate advances the particle system as if 3 seconds have passed
+            ps.Simulate(3f, true, true, true);
+        }
+
+        // Ensure editor updates any visuals before rendering
+        EditorApplication.QueuePlayerLoopUpdate();
     }
 }

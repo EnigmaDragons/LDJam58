@@ -105,7 +105,7 @@ public class GameOverMinimalUI : OnMessage<GameLost>
     private void OnQuit()
     {
         FadeOut(() => {
-            if (Application.platform == RuntimePlatform.WebGLPlayer)
+            if (Application.platform == RuntimePlatform.WebGLPlayer || Application.isEditor)
                 Message.Publish(new NavigateToSceneRequested("CreditsScene"));
             else
                 Application.Quit();

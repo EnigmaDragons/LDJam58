@@ -14,11 +14,11 @@ Beast In Ice,"Beast, Ice",3x3,Exhibit,6,1,0,0,"big ice block with hints of the b
 Steampunk Battery,"Steampunk, Invention, Lightning",2x2,Exhibit,2,0,0,0,
 Time Bomb,"Steampunk, Fire, Invention",2x2,Exhibit,2,1,0,0,
 Molten Forge,"Fire, Invention",3x3,Rare,8,1,0,0,
-Windmill,"Modern, Lightning, Invention",2x2,Exhibit,2,0,0,0,
+Wind Turbine,"Modern, Lightning, Invention",2x2,Exhibit,2,0,0,0,
 Solar Panel,"Modern, Lightning, Invention",2x3,Exhibit,3,0,0,0,
 Ghost Urn,"Gothic, Pirate",2x2,Rare,4,1,0,2,
 Throne,"Fantasy, Treasure",2x2,Exhibit,2,1,0,0,
-Witches Cauldron,"Gothic, Shadow",2x2,Exhibit,3,0,0,2,
+Witch's Cauldron,"Gothic, Shadow",2x2,Exhibit,3,0,0,2,
 Cursed Coins,"Pirate, Shadow, Treasure",2x2,Exhibit,2,1,0,0,
 Ice Crown,"Ice, Treasure, Fantasy",2x2,Rare,4,1,0,0,
 Jeweled Crown,"Fantasy, Treasure",2x2,Rare,3,1,0,0,
@@ -48,7 +48,7 @@ Shadow Knives,"Shadow, Gothic",2x2,Exhibit,3,1,0,0,
 Thunder Spear,"Warfare, Lightning, Fantasy",2x3,Exotic,7,2,0,0,
 Glowing Sword,"Fantasy, Warfare, Arcane",2x3,Rare,4,1,0,1,laying down
 Magic Staff,"Fantasy, Arcane",2x3,Exhibit,3,1,0,0,laying down
-Bow & Fire Arrows,"Fantasy, Warfare, Fire",2x2,Rare,3,1,0,0,
+Bow and Fire Arrows,"Fantasy, Warfare, Fire",2x2,Rare,3,1,0,0,
 Metal Shield,"Fantasy, Warfare",2x2,Exhibit,2,1,0,0,
 Ice Shield,"Ice, Fantasy, Warfare",2x2,Exhibit,3,1,0,0,
 Rifle,"Steampunk, Warfare, Invention",2x3,Exhibit,2,1,0,0,laying down
@@ -60,13 +60,13 @@ Nebula,"Arcane, Space",2x2,Exhibit,4,0,0,0,vfx only
 Eternal Snow Storm,"Lightning, Ice",2x2,Mythic,6,3,0,3,all vfx
 Black Hole,"Modern, Space, Shadow",2x2,Rare,2,2,0,3,all vfx
 Supernova,"Modern, Space, Fire",2x2,Rare,2,2,0,3,all vfx
-Lighting In A Bottle,"Lightning, Arcane",2x2,Rare,3,1,0,2,just make the bottle
+Lightning In A Bottle,"Lightning, Arcane",2x2,Rare,3,1,0,2,just make the bottle
 Mothman Wings,"Beast, Gothic",2x3,Exotic,7,2,0,0,standing up
 Unicorn Horn,"Beast, Light",2x2,Rare,4,1,0,1,
 Demon Horn,"Gothic, Beast, Shadow",2x2,Exhibit,3,0,0,0,
 Dragon Claw,"Beast, Warfare",2x2,Exhibit,3,1,0,0,
 Kraken Tentacle,"Beast, Pirate",2x3,Mythic,10,2,0,0,laying down
-Megladon Tooth,"Beast, Pirate",2x3,Exotic,6,2,0,0,laying down
+Megalodon Tooth,"Beast, Pirate",2x3,Exotic,6,2,0,0,laying down
 Phoenix Feather,"Beast, Fire",2x2,Rare,5,1,0,1,
 Dragon Egg,"Fantasy, Beast",2x2,Rare,4,2,0,0,
 Wizard Battle Model,"Fantasy, Model, Warfare",3x3,Mythic,6,4,0,0,minitures
