@@ -91,6 +91,9 @@ public class SeasonSummaryScreenV2 : OnMessage<SummarizeSeason>
         // Min rating widget fade in
         seq.Append(minRatingWidget.DOFade(1f, 0.5f));
         
+        seq.AppendCallback(() => { Message.Publish(new PlaySoundRequested(SoundType.SeasonSummaryScoringBegan, totalAppeal.rectTransform)); });
+
+        
         // Progressive value animations with counting up and punch scale
         seq.Append(AnimateValue(groupCount, finalGroupCount, "<sprite name=\"Visitors\"> ", 0.8f));
         seq.AppendInterval(0.3f);
@@ -117,6 +120,7 @@ public class SeasonSummaryScreenV2 : OnMessage<SummarizeSeason>
         if (resultIcon != null)
         {
             seq.Append(resultIcon.transform.DOScale(1f, 0.6f).SetEase(Ease.OutBack));
+            seq.AppendCallback(() => { Message.Publish(new PlaySoundRequested(passedTarget ? SoundType.SeasonSummaryVictory : SoundType.SeasonSummaryDefeat, resultIcon.rectTransform)); });
             seq.Append(resultIcon.transform.DOPunchScale(Vector3.one * 0.2f, 0.3f, 3, 0.5f));
         }
 
