@@ -10,3 +10,7 @@ public class UiFadeOutRequested
     public float Duration = 2.0f;
 }
 
+public class ShowGameGuideRequested
+{
+
+}

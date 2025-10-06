@@ -3,6 +3,7 @@
 public class StringVariable : ScriptableObject
 {
     [SerializeField]
+    [TextArea]
     private string value = "";
 
     public string Value

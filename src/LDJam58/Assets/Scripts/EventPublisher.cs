@@ -20,4 +20,6 @@ public class EventPublisher : ScriptableObject
 
     public static void PublishGameWon() => Message.Publish(new GameWon());
 
+    public static void ShowGameGuide() => Message.Publish(new ShowGameGuideRequested());
+
 }
