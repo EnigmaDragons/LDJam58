@@ -39,10 +39,28 @@ public static class CurrentGameState
             return;
         }
 
+        var roomsToRecalculate = new HashSet<string>() { roomId };
+
         UpdateState(state =>
         {
             if (!state.Rooms.ContainsKey(roomId))
                 state.Rooms[roomId] = new RoomState {open = true, exhibitIds = new Dictionary<Vector2Int, string>() };
+            state.focusedRoom = roomId;
+            //remove ghosts
+            foreach (var room in state.Rooms.Values)
+            {
+                var nodes = room.exhibitIds.ToArray();
+                foreach (var node in nodes)
+                {
+                    var exhibit = state.Exhibits[node.Value];
+                    if (exhibit.isGhost)
+                    {
+                        roomsToRecalculate.Add(exhibit.roomId);                        
+                        room.exhibitIds.Remove(node.Key);
+                    }
+                }
+            }
+            
             var adjacencies = new HashSet<Vector2Int>(); 
             foreach (var node in nodes)
             {
@@ -60,47 +78,58 @@ public static class CurrentGameState
                 isGhost = isGhost
             };
         });
-        CalculateExhibitEnjoyment(roomId);
+        CalculateExhibitEnjoyment(roomsToRecalculate);
     }
     
-    public static void CalculateExhibitEnjoyment(string roomId)
+    public static void CalculateExhibitEnjoyment(IEnumerable<string> roomIds)
     {
         UpdateState(state =>
         {
-            var room = state.Rooms[roomId];
-            var exhibitIds = room.exhibitIds.Select(x => x.Value).Where(x => !string.IsNullOrEmpty(x)).Distinct().ToArray();
-            foreach (var exhibitId in exhibitIds)
+            foreach (var room in state.Rooms.Where(x => roomIds.Contains(x.Key)).Select(x => x.Value))
             {
-                var exhibit = state.Exhibits[exhibitId];
-                var adjacentExhibits = exhibit.adjacencies
-                    .Where(x => room.exhibitIds.ContainsKey(x))
-                    .Select(x => room.exhibitIds[x])
-                    .Distinct()
-                    .Select(x => state.Exhibits[x])
-                    .ToArray();
-                exhibit.calculatedEnjoyment = Math.Max(0, exhibit.baseEnjoyment + adjacentExhibits.Where(x => !x.isGhost).Sum(x => CalculateAdjacencyBonus(exhibit.tags, x.tags)));
-                exhibit.ghostEnjoyment = exhibit.calculatedEnjoyment + Math.Max(0, exhibit.baseEnjoyment + adjacentExhibits.Where(x => x.isGhost).Sum(x => CalculateAdjacencyBonus(exhibit.tags, x.tags)));;
+                var exhibitIds = room.exhibitIds.Select(x => x.Value).Where(x => !string.IsNullOrEmpty(x)).Distinct().ToArray();
+                foreach (var exhibitId in exhibitIds)
+                {
+                    var exhibit = state.Exhibits[exhibitId];
+                    var adjacentExhibits = exhibit.adjacencies
+                        .Where(x => room.exhibitIds.ContainsKey(x))
+                        .Select(x => room.exhibitIds[x])
+                        .Distinct()
+                        .Select(x => state.Exhibits[x])
+                        .ToArray();
+                    exhibit.calculatedEnjoyment = Math.Max(0, exhibit.baseEnjoyment + adjacentExhibits
+                        .Where(x => !x.isGhost)
+                        .Sum(adjacentExhibit => CalculateAdjacencyBonus(exhibit.tags, adjacentExhibit.tags).Sum(x => x.Item2)));
+                    exhibit.ghostEnjoyment = Math.Max(0, exhibit.calculatedEnjoyment + adjacentExhibits
+                        .Where(x => x.isGhost)
+                        .Sum(adjacentExhibit => CalculateAdjacencyBonus(exhibit.tags, adjacentExhibit.tags).Sum(x => x.Item2)));
+                }
             }
         });
         Message.Publish(new ScoresUpdated());
     }
 
-    public static int CalculateAdjacencyBonus(List<ExhibitTag> exhibitTags, List<ExhibitTag> adjacentExhibitTags)
+    public static List<(ExhibitTag, int)> CalculateAdjacencyBonus(List<ExhibitTag> exhibitTags, List<ExhibitTag> adjacentExhibitTags)
     {
-        var synergy = 0;
-        var disynergy = 0;
-        foreach (var synergyTag in TagSynergies.All)
+        var positiveResults = new List<(ExhibitTag, int)>();
+        var negativeResults = new List<(ExhibitTag, int)>();
+        foreach (var adjacentTag in adjacentExhibitTags)
         {
-            if ((exhibitTags.Contains(synergyTag.Tag1) && adjacentExhibitTags.Contains(synergyTag.Tag2)) 
-                    || (exhibitTags.Contains(synergyTag.Tag2) && adjacentExhibitTags.Contains(synergyTag.Tag1)))
+            var synergies = TagSynergies.All.Where(x 
+                => (x.Tag1 == adjacentTag && exhibitTags.Contains(x.Tag2)) 
+                || (x.Tag2 == adjacentTag && exhibitTags.Contains(x.Tag2))).ToArray();
+            if (!synergies.Any())
+                continue;
+            var bestSynergy = synergies.Max(x => x.SynergyValue);
+            if (bestSynergy > 0)
+                positiveResults.Add(new (adjacentTag, bestSynergy));
+            else
             {
-                if (synergyTag.SynergyValue > 0)
-                    synergy += synergyTag.SynergyValue;
-                else
-                    disynergy += synergyTag.SynergyValue;
+                var worstDisynergy = synergies.Min(x => x.SynergyValue);
+                negativeResults.Add(new (adjacentTag, worstDisynergy));
             }
         }
-        return synergy > 0 ? synergy : disynergy;
+        return positiveResults.Any() ? positiveResults : negativeResults;
     }
 
     public static void CalculateRoundScore()
@@ -137,29 +166,36 @@ public static class CurrentGameState
         return ReadOnly.Exhibits[exhibit.ExhibitTileType.DisplayName].calculatedEnjoyment;
     }
 
-    // This one as well so I can display new score on the ghost object
+    public static void InvalidGhostPlacement(ExhibitTileType exhibit)
+    {
+        string roomId = "";
+        UpdateState(state =>
+        {
+            if (state.Exhibits.ContainsKey(exhibit.DisplayName) && !string.IsNullOrEmpty(state.Exhibits[exhibit.DisplayName].roomId))
+            {
+                roomId = state.Exhibits[exhibit.DisplayName].roomId;
+                var room = state.Rooms[roomId];
+                var nodes = room.exhibitIds.ToArray();
+                    foreach (var node in nodes.Where(x => x.Value == exhibit.DisplayName))
+                        room.exhibitIds.Remove(node.Key);
+            }
+            state.Exhibits[exhibit.DisplayName] = new ExhibitState
+            {
+                name = exhibit.DisplayName,
+                tags = exhibit.Tags,
+                baseEnjoyment = exhibit.Enjoyment,
+                isGhost = true
+            };
+            state.focusedExhibit = exhibit.DisplayName;
+        });
+        if (string.IsNullOrEmpty(roomId))
+            CalculateExhibitEnjoyment(new [] { roomId });
+    }
+
     public static int GetGhostExhibitEnjoymentScore(ExhibitTileType exhibit, string roomId, Vector2Int[] nodes)
     {
         UpdatePlacedExhibit(exhibit, roomId, nodes, true);
         return ReadOnly.Exhibits[exhibit.DisplayName].calculatedEnjoyment;
-    }
-
-    public static void CallGhostBusters()
-    {
-        //Ghostbusters remove ghosts
-        UpdateState(state =>
-        {
-            foreach (var room in state.Rooms.Values)
-            {
-                var nodes = room.exhibitIds.ToArray();
-                foreach (var node in nodes)
-                {
-                    var exhibit = state.Exhibits[node.Value];
-                    if (exhibit.isGhost)
-                        room.exhibitIds.Remove(node.Key);
-                }
-            }
-        });
     }
 
     public static int GetExhibitBaseScore(ExhibitTileType exhibit)

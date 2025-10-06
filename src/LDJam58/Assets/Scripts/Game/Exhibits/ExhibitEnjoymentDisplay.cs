@@ -70,20 +70,7 @@ namespace Game.Exhibits
         {
             nameText.text = exhibitPrefab.ExhibitTileType.DisplayName;
             exhibitImage.sprite = exhibitPrefab.ExhibitTileType.ExhibitSprite;
-            tagText.text = GetTagString();
-        }
-
-        private string GetTagString()
-        {
-            var tags = exhibitPrefab.ExhibitTileType.Tags;
-
-            var fullString = "";
-            foreach (var tag in tags)
-            {
-                fullString += $"<sprite name=\"{tag}\">";
-            }
-
-            return fullString;
+            tagText.text = exhibitPrefab.ExhibitTileType.Tags.Sprites();
         }
         
         private void UpdateRarity()
