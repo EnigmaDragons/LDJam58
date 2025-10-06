@@ -157,12 +157,12 @@ MonoBehaviour:
     m_Unicode: 65534
     m_GlyphIndex: 23
     m_Scale: 1.2
-    m_Name: Visitor
+    m_Name: Visitors
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 24
     m_Scale: 1.2
-    m_Name: IconAtlas_24
+    m_Name: Visitor
   m_GlyphTable:
   - m_Index: 0
     m_Metrics:
