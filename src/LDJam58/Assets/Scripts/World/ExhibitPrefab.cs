@@ -60,6 +60,9 @@ public class ExhibitPrefab : OnMessage<GameStateChanged>
     private void UpdateDisplay()
     {
         var state = CurrentGameState.ReadOnly;
+        if (state == null || state.Exhibits == null)
+            return;
+
         if (!state.Exhibits.ContainsKey(exhibitTileType.DisplayName))
             return;
         var exhibit = state.Exhibits[exhibitTileType.DisplayName];
