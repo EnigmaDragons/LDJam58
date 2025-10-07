@@ -9,6 +9,7 @@ TagManager:
   - Loader
   - AppManagers
   - PhotoSpot
+  - DontGhost
   layers:
   - Default
   - TransparentFX

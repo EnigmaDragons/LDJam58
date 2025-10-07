@@ -204,6 +204,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Explosion_14
       objectReference: {fileID: 0}
+    - target: {fileID: 9081936100587595377, guid: 5d6d664f7540faa4882e203b820ffb50,
+        type: 3}
+      propertyPath: m_TagString
+      value: DontGhost
+      objectReference: {fileID: 0}
     - target: {fileID: 9081936100587595390, guid: 5d6d664f7540faa4882e203b820ffb50,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -345,7 +350,7 @@ PrefabInstance:
     - target: {fileID: 6877865858966603183, guid: cea2ed23fa49d4b01a92da6ab26b6dcc,
         type: 3}
       propertyPath: m_Name
-      value: OBJ_SuperNova Variant
+      value: OBJ_Supernova
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

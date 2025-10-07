@@ -912,11 +912,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 1827418395}
-  sound: {fileID: 8300000, guid: d2d3358d72218ef4798f1ca2b15e1b1e, type: 3}
+  sound: {fileID: 8300000, guid: 457c39befa0714fb887cd149f5338a67, type: 3}
   player: {fileID: 11400000, guid: bfe56e3518f684c4387de97bd5db348d, type: 2}
   volume:
     UseConstant: 1
-    ConstantValue: 1
+    ConstantValue: 0.4
     FloatVariable: {fileID: 0}
 --- !u!1 &1909727429
 GameObject:
@@ -1053,11 +1053,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 1909727431}
-  sound: {fileID: 8300000, guid: d2d3358d72218ef4798f1ca2b15e1b1e, type: 3}
+  sound: {fileID: 8300000, guid: 457c39befa0714fb887cd149f5338a67, type: 3}
   player: {fileID: 11400000, guid: bfe56e3518f684c4387de97bd5db348d, type: 2}
   volume:
     UseConstant: 1
-    ConstantValue: 1
+    ConstantValue: 0.4
     FloatVariable: {fileID: 0}
 --- !u!1 &1928257303
 GameObject:
