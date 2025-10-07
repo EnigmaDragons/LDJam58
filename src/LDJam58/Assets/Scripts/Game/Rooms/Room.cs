@@ -32,6 +32,8 @@ public class Room : OnMessage<StartPlacement, RotationChanged, StopPlacement>
 
     protected override void Execute(StartPlacement msg)
     {
+        if (!CurrentGameState.ReadOnly.Rooms[id.Id].open)
+            return;
         _target = msg.exhibit.Size;
         if (msg.exhibit.Size == new Vector2Int(2, 2))
             twoTwoTargets.gameObject.SetActive(true);
@@ -45,6 +47,8 @@ public class Room : OnMessage<StartPlacement, RotationChanged, StopPlacement>
 
     protected override void Execute(RotationChanged msg)
     {
+        if (!CurrentGameState.ReadOnly.Rooms[id.Id].open)
+            return;
         if (_target == new Vector2Int(2, 3))
         {
             _target = new Vector2Int(3, 2);

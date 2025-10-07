@@ -122,7 +122,7 @@ public class ExhibitPrefab : OnMessage<GameStateChanged>
             if (state.focusedExhibit == exhibit.name)
                 SetDisplay(exhibit.name, Neutral(exhibit.calculatedEnjoyment.ToString()), exhibit.tags.Sprites());
             //hovering room & show details
-            if (state.showDetails && state.focusedRoom == exhibit.roomId)
+            else if (state.showDetails && state.focusedRoom == exhibit.roomId)
             {
                 SetDisplay("", Neutral(exhibit.calculatedEnjoyment.ToString()), exhibit.tags.Sprites());
             }

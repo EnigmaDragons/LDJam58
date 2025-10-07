@@ -59,6 +59,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   _progressionConfig: {fileID: 11400000, guid: e078d58b74ff0493ea0762893f210ba4, type: 2}
+  hover:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!114 &1752604711542815175
 MonoBehaviour:
   m_ObjectHideFlags: 0

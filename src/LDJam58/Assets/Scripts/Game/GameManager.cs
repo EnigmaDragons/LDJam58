@@ -7,6 +7,9 @@ using UnityEngine;
 public class GameManager : OnMessage<AdvancePeriod, BeginPickThree, StartPlacement, StopPlacement, ExhibitPlaced, OpenMuseum, GameWon>
 {
     [SerializeField] private ProgressionConfig _progressionConfig;
+    [SerializeField] private LayerMask hover;
+    
+    private Camera _camera;
 
     private void Start()
     {
@@ -21,6 +24,25 @@ public class GameManager : OnMessage<AdvancePeriod, BeginPickThree, StartPlaceme
     {
         if (Input.GetKeyDown(KeyCode.Tab))
             CurrentGameState.UpdateState(x => x.showDetails = !x.showDetails);
+        
+        if (CurrentGameState.ReadOnly.isPlacing || CurrentGameState.ReadOnly.isPicking || CurrentGameState.ReadOnly.isShowingMuseum)
+            return;
+        if(_camera == null) 
+            _camera = Camera.main;
+        var ray = _camera.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, hover))
+        {
+            if (CurrentGameState.ReadOnly.isPlacing || CurrentGameState.ReadOnly.isPicking || CurrentGameState.ReadOnly.isShowingMuseum)
+                return;
+            var newTarget = hit.collider.GetComponentInParent<ExhibitPrefab>();
+            var state = CurrentGameState.ReadOnly;
+            if (state.focusedExhibit != newTarget.ExhibitTileType.DisplayName || state.focusedRoom != state.Exhibits[newTarget.ExhibitTileType.DisplayName].roomId)
+                CurrentGameState.UpdateState(x =>
+                {
+                    x.focusedExhibit = newTarget.ExhibitTileType.DisplayName;
+                    x.focusedRoom = x.Exhibits[newTarget.ExhibitTileType.DisplayName].roomId;
+                });
+        }
     }
 
     private void InitStateForCurrentPeriod()
