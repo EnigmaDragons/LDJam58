@@ -59,20 +59,28 @@ public static class CurrentGameState
                 }
             }
             
-            var adjacencies = new HashSet<Vector2Int>(); 
+            var exhibitRoom = state.Rooms[roomId];
+            var adjacencies = new HashSet<Vector2Int>();
             foreach (var node in nodes)
             {
-                state.Rooms[roomId].exhibitIds[node] = exhibit.DisplayName;
-                adjacencies.AddRange(new Vector2Int[] { node + Vector2Int.up, node + Vector2Int.left, node + Vector2Int.down, node + Vector2Int.right });
+                exhibitRoom.exhibitIds[node] = exhibit.DisplayName;
+                var directionsFromNode = new[] {node + Vector2Int.down * 2, node + Vector2Int.right * 2, node + Vector2Int.left * 2, node + Vector2Int.up * 2};
+                foreach (var potentialAdjacent in directionsFromNode)
+                {
+                    if (nodes.Any(x => x == potentialAdjacent))
+                        continue;
+                    if (!exhibitRoom.exhibitIds.ContainsKey(potentialAdjacent))
+                        continue;
+                    adjacencies.Add(potentialAdjacent);
+                }
             }
-            var filteredAdjacentNodes = adjacencies.Where(x => nodes.All(node => node != x)).ToArray();
             state.Exhibits[exhibit.DisplayName] = new ExhibitState
             {
                 name = exhibit.DisplayName,
                 roomId = roomId,
                 tags = exhibit.Tags,
                 baseEnjoyment = exhibit.Enjoyment,
-                adjacencies = filteredAdjacentNodes,
+                adjacencies = adjacencies.ToArray(),
                 isGhost = isGhost
             };
         });
@@ -90,7 +98,7 @@ public static class CurrentGameState
                 {
                     var exhibit = state.Exhibits[exhibitId];
                     var adjacentExhibits = exhibit.adjacencies
-                        .Where(x => room.exhibitIds.ContainsKey(x))
+                        .Where(x => !string.IsNullOrEmpty(room.exhibitIds[x]))
                         .Select(x => room.exhibitIds[x])
                         .Distinct()
                         .Select(x => state.Exhibits[x])
@@ -115,7 +123,7 @@ public static class CurrentGameState
         {
             var synergies = TagSynergies.All.Where(x 
                 => (x.Tag1 == adjacentTag && exhibitTags.Contains(x.Tag2)) 
-                || (x.Tag2 == adjacentTag && exhibitTags.Contains(x.Tag2))).ToArray();
+                || (x.Tag2 == adjacentTag && exhibitTags.Contains(x.Tag1))).ToArray();
             if (!synergies.Any())
                 continue;
             var bestSynergy = synergies.Max(x => x.SynergyValue);

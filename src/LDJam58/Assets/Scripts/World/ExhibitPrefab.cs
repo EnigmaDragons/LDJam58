@@ -82,7 +82,7 @@ public class ExhibitPrefab : OnMessage<GameStateChanged>
                         joy += Positive($"+{exhibit.calculatedEnjoyment-exhibit.baseEnjoyment}");
                     else if (exhibit.calculatedEnjoyment < exhibit.baseEnjoyment)
                         joy += Negative($"-{exhibit.baseEnjoyment-exhibit.calculatedEnjoyment}");
-                    SetDisplay(string.Empty, Neutral(joy), exhibitTileType.Tags.Sprites());
+                    SetDisplay(string.Empty, joy, exhibitTileType.Tags.Sprites());
                 }
             }
             else if (exhibit.roomId == state.focusedRoom && !string.IsNullOrEmpty(state.focusedExhibit))

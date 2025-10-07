@@ -10,6 +10,7 @@ public class TilePlacementSystem2 : OnMessage<StartPlacement>
     private ExhibitTileType _exhibit;
     private RoomTargettingCollider _target;
     private bool _valid;
+    private bool _outOfBounds = true;
     
     private void Update()
     {
@@ -32,6 +33,7 @@ public class TilePlacementSystem2 : OnMessage<StartPlacement>
             var newTarget = hit.collider.GetComponent<RoomTargettingCollider>();
             if (_target != newTarget)
             {
+                _outOfBounds = false;
                 _target = newTarget;
                 _target = hit.collider.GetComponent<RoomTargettingCollider>();
                 var room = CurrentGameState.ReadOnly.Rooms[_target.RoomId];
@@ -46,20 +48,23 @@ public class TilePlacementSystem2 : OnMessage<StartPlacement>
                 }
                 else
                 {
+                    if (_valid)
+                        CurrentGameState.InvalidGhostPlacement(_exhibit);
                     ghostTile.Invalid();
                     _valid = false;
                     ghostTile.transform.position = _target.Center;
-                    CurrentGameState.InvalidGhostPlacement(_exhibit);
                 }
             }
         }
         else
         {
+            if (!_outOfBounds)
+                CurrentGameState.InvalidGhostPlacement(_exhibit);
+            _outOfBounds = true;
             _valid = false;
             _target = null;
             ghostTile.OutOfBounds();
             ghostTile.transform.position = Input.mousePosition; //TODO
-            CurrentGameState.InvalidGhostPlacement(_exhibit);
         }
 
         if (Input.GetMouseButtonDown(0) && _valid)
