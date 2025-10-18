@@ -22,6 +22,10 @@ public sealed class GameState
     public string focusedRoom;
     public bool showDetails;
     public int seasonScore;
+    public string GuaranteedPick;
+    public int MythicChance;
+    public int ExoticChance;
+    public int RareChance;
     
     public bool isPicking = false;
     public bool isPlacing = false;

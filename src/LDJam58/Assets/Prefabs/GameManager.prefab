@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4004128838669767420}
   - component: {fileID: 9195235719473551465}
   - component: {fileID: 2752209597691752132}
-  - component: {fileID: 1752604711542815175}
+  - component: {fileID: 3175300847081151670}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d2df190033f40eb8b28f4493b852b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InitCurrentGameState
+  poolRules: {fileID: 11400000, guid: 643c493fa837a734a943aa3124979c4a, type: 2}
 --- !u!114 &2752209597691752132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,7 +63,7 @@ MonoBehaviour:
   hover:
     serializedVersion: 2
     m_Bits: 1024
---- !u!114 &1752604711542815175
+--- !u!114 &3175300847081151670
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -71,7 +72,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1654443693298657062}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 233a87394ad0a4510bca7d78639df930, type: 3}
+  m_Script: {fileID: 11500000, guid: 3806951fb5ba45c583267d619cdbf3fa, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.ExhibitPool.ExhibitPoolPickerV2
+  m_EditorClassIdentifier: Assembly-CSharp::Game.ExhibitPool.ExhibitPoolPickerV3
   exhibitPoolObject: {fileID: 11400000, guid: 47a8574bf4adc6b4bb209bed5c25378e, type: 2}

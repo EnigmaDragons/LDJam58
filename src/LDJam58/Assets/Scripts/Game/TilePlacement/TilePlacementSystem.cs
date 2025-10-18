@@ -130,7 +130,7 @@ namespace Game.TilePlacement
 
             if (ghostTile.StateChanged())
             {
-                var roomId = RoomId.GetRoomId(hit.collider.transform);
+                var roomId = "";
                 var placedNodes = GetGhostOccupiedCells();
                 var baseScore = CurrentGameState.GetExhibitBaseScore(exhibitTileType);
                 var ghostScore = CurrentGameState.GetGhostExhibitEnjoymentScore(exhibitTileType, roomId, placedNodes);
@@ -140,7 +140,7 @@ namespace Game.TilePlacement
             //unghost on click
             if (Input.GetMouseButtonDown(0))
             {
-                var roomId = RoomId.GetRoomId(hit.collider.transform);
+                var roomId = "";
                 var placedNodes = GetGhostOccupiedCells();
                 PlaceExhibit(roomId, placedNodes);
             }
