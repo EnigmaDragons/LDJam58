@@ -23,7 +23,12 @@ public class Room : OnMessage<StartPlacement, RotationChanged, StopPlacement>
         foreach (Transform child in nodeParentParent.transform)
             foreach (Transform node in child)
                 nodes.Add(new Vector2Int((int)node.position.x, (int)node.position.z));
-        CurrentGameState.UpdateState(state => state.Rooms[id.Id] = new RoomState { exhibitIds = nodes.ToDictionary(x => x, _ => "") });
+        CurrentGameState.UpdateState(state => 
+        {
+            if (!state.Rooms.ContainsKey(id.Id))
+                state.Rooms[id.Id] = new RoomState();
+            state.Rooms[id.Id].exhibitIds = nodes.ToDictionary(x => x, _ => "");
+        });
         twoTwoTargets.gameObject.SetActive(false);
         twoThreeTargets.gameObject.SetActive(false);
         threeTwoTargets.gameObject.SetActive(false);
