@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 55713181428391154}
   m_Layer: 0
   m_Name: CursedGlow
-  m_TagString: Untagged
+  m_TagString: DontGhost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4849,7 +4849,7 @@ GameObject:
   - component: {fileID: 198938329635644137}
   m_Layer: 0
   m_Name: EvilGlow
-  m_TagString: Untagged
+  m_TagString: DontGhost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9694,7 +9694,7 @@ GameObject:
   - component: {fileID: 3966134132525061794}
   m_Layer: 0
   m_Name: VFX
-  m_TagString: Untagged
+  m_TagString: DontGhost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
