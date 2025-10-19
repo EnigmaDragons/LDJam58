@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea975810a83e4aef8aa494d1ef020cbc, type: 3}
   m_Name: ExhibitPoolRules
   m_EditorClassIdentifier: Assembly-CSharp::PoolRules
-  pickExhibitCheat: 
+  pickExhibitCheat: Magic Staff
   mythicPercent: 3
   exoticPercent: 9
   rarePercent: 27
