@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3831806656938497503}
   m_Layer: 0
   m_Name: VFX
-  m_TagString: Untagged
+  m_TagString: DontGhost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
