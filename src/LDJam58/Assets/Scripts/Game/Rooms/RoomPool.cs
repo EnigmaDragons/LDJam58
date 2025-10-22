@@ -2,6 +2,8 @@ using System.Collections.Generic;
 
 public static class RoomPool
 {
+    public static readonly RoomType Basic = MakeRoom("Basic Room", new ExhibitTag[] { }, 1);
+    
     public static List<RoomType> All = new List<RoomType>
     {
         MakeRoom("A Room of Ice & Fire", new ExhibitTag[] { ExhibitTag.Theme_Ice, ExhibitTag.Theme_Ice, ExhibitTag.Theme_Ice, ExhibitTag.Theme_Fire, ExhibitTag.Theme_Fire, ExhibitTag.Theme_Fire }, 2),

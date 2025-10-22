@@ -1,4 +1,3 @@
-using Assets.Scripts;
 
 public class AdvancePeriod
 {
@@ -52,5 +51,17 @@ public class RotationChanged
     public RotationChanged(float rotationAngle)
     {
         RotationAngle = rotationAngle;
+    }
+}
+
+public class RoomTransformed
+{
+    public string RoomId;
+    public RoomType RoomType;
+
+    public RoomTransformed(string roomId, RoomType roomType)
+    {
+        RoomId = roomId;
+        RoomType = roomType;
     }
 }

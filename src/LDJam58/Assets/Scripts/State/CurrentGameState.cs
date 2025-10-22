@@ -84,7 +84,73 @@ public static class CurrentGameState
                 isGhost = isGhost
             };
         });
+        
+        // Check for room transformation (only if not ghost placement)
+        if (!isGhost)
+            CheckAndApplyRoomTransformation(roomId);
+        
         CalculateExhibitEnjoyment(roomsToRecalculate);
+    }
+    
+    private static void CheckAndApplyRoomTransformation(string roomId)
+    {
+        UpdateState(state =>
+        {
+            var room = state.Rooms[roomId];
+            if (room.roomType != RoomPool.Basic) // Already transformed (permanent)
+                return;
+            
+            // Count all tags from all exhibits in room (single iteration)
+            var tagCounts = new Dictionary<ExhibitTag, int>();
+            foreach (var exhibitId in room.exhibitIds.Values.Where(x => !string.IsNullOrEmpty(x)).Distinct())
+            {
+                var exhibit = state.Exhibits[exhibitId];
+                if (exhibit.isGhost) continue;
+                
+                foreach (var tag in exhibit.tags)
+                {
+                    if (!tagCounts.ContainsKey(tag))
+                        tagCounts[tag] = 0;
+                    tagCounts[tag]++;
+                }
+            }
+            
+            // Check RoomPool.All in order, take first match that isn't already assigned
+            foreach (var roomType in RoomPool.All)
+            {
+                // Skip if this room type is already assigned to another room (each type can only exist once)
+                var isAlreadyAssigned = state.Rooms.Values.Any(r => r.roomType == roomType && r != room);
+                if (isAlreadyAssigned)
+                    continue;
+                
+                // Check if all requirements met by counting required tags
+                var meetsRequirements = true;
+                var requirementCounts = new Dictionary<ExhibitTag, int>();
+                
+                foreach (var tag in roomType.Requirement)
+                {
+                    if (!requirementCounts.ContainsKey(tag))
+                        requirementCounts[tag] = 0;
+                    requirementCounts[tag]++;
+                }
+                
+                foreach (var requirement in requirementCounts)
+                {
+                    if (!tagCounts.ContainsKey(requirement.Key) || tagCounts[requirement.Key] < requirement.Value)
+                    {
+                        meetsRequirements = false;
+                        break;
+                    }
+                }
+                
+                if (meetsRequirements)
+                {
+                    room.roomType = roomType;
+                    Message.Publish(new RoomTransformed(roomId, roomType));
+                    return;
+                }
+            }
+        });
     }
     
     public static void CalculateExhibitEnjoyment(IEnumerable<string> roomIds)
@@ -159,7 +225,19 @@ public static class CurrentGameState
             var groupInterest = 1 + group.Fascinations.Count(x => exhibit.tags.Contains(x)) - group.Disinterests.Count(x => exhibit.tags.Contains(x));
             if (groupInterest < 0)
                 groupInterest = 0;
-            var score = group.peopleCount * groupInterest * exhibit.calculatedEnjoyment;
+            
+            // Apply room transformation multiplier ONLY if exhibit has one of the room's feature tags
+            var room = state.Rooms[exhibit.roomId];
+            var multiplier = 1;
+            if (room.roomType != RoomPool.Basic)
+            {
+                var roomFeatureTags = room.roomType.Requirement.Distinct();
+                var hasFeatureTag = exhibit.tags.Any(tag => roomFeatureTags.Contains(tag));
+                if (hasFeatureTag)
+                    multiplier = room.roomType.Multiplier;
+            }
+            
+            var score = group.peopleCount * groupInterest * exhibit.calculatedEnjoyment * multiplier;
             state.seasonScore += score;
             //group.ExhibitReactions[exhibit.name];
             group.ScoredExhibits[exhibit.name] = score;
