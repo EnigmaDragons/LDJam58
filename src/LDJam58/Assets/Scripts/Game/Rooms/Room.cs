@@ -10,6 +10,9 @@ public class Room : OnMessage<StartPlacement, RotationChanged, StopPlacement>
     [SerializeField] private RoomTargettingGrid twoThreeTargets; //opposite name
     [SerializeField] private RoomTargettingGrid threeTwoTargets; //opposite name
     [SerializeField] private RoomTargettingGrid threeThreeTargets;
+    [SerializeField] private RoomUI ui;
+    [SerializeField] private int width;
+    [SerializeField] private int height;
 
     private Vector2Int _target;
     
@@ -29,6 +32,7 @@ public class Room : OnMessage<StartPlacement, RotationChanged, StopPlacement>
                 state.Rooms[id.Id] = new RoomState();
             state.Rooms[id.Id].exhibitIds = nodes.ToDictionary(x => x, _ => "");
         });
+        ui.Init(id.Id, width, height);
         twoTwoTargets.gameObject.SetActive(false);
         twoThreeTargets.gameObject.SetActive(false);
         threeTwoTargets.gameObject.SetActive(false);

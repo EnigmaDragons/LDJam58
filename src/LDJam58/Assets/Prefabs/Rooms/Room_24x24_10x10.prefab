@@ -87440,6 +87440,16 @@ PrefabInstance:
       propertyPath: 'targets.Array.data[63]'
       value: 
       objectReference: {fileID: 9173377758069512571}
+    - target: {fileID: 9075086453875975024, guid: b545a974ed02d674eaf202b7e55578fa,
+        type: 3}
+      propertyPath: width
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 9075086453875975024, guid: b545a974ed02d674eaf202b7e55578fa,
+        type: 3}
+      propertyPath: height
+      value: 24
+      objectReference: {fileID: 0}
     - target: {fileID: 9114071255446246369, guid: b545a974ed02d674eaf202b7e55578fa,
         type: 3}
       propertyPath: m_LocalPosition.x
