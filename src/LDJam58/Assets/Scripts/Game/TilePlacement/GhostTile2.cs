@@ -6,14 +6,20 @@ public class GhostTile2 : MonoBehaviour
     [SerializeField] private Material errorMaterial;
     [SerializeField] private Material ghostMaterial;
 
+    private Vector3 _startingRotation;
     private Material _material;
     private GameObject _ghostPlaceable;
     private Vector3 _snapTo;
     private List<Renderer> _ghostRenderers = new List<Renderer>();
 
+    void Start()
+    {
+        _startingRotation = transform.rotation.eulerAngles;
+    }
+    
     public void Init(ExhibitTileType exhibitTileType)
     {
-        transform.rotation = Quaternion.identity;
+        transform.rotation = Quaternion.Euler(_startingRotation);
         _ghostPlaceable = Instantiate(exhibitTileType.ExhibitPrefab, transform);
         _ghostPlaceable.GetComponent<ExhibitPrefab>().Init(exhibitTileType);
         SetLayerRecursively(_ghostPlaceable, LayerMask.NameToLayer("Ghost"));
@@ -24,7 +30,7 @@ public class GhostTile2 : MonoBehaviour
 
     public void CleanUp()
     {
-        transform.rotation = Quaternion.identity;
+        transform.rotation = Quaternion.Euler(_startingRotation);
         Destroy(_ghostPlaceable);
         _ghostPlaceable = null;
         _ghostRenderers = new List<Renderer>();

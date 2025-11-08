@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Game.Messages;
+using Game.NPC;
 using Sirenix.Utilities;
 using UnityEngine;
 
@@ -24,7 +25,9 @@ public class GameManager : OnMessage<AdvancePeriod, BeginPickThree, StartPlaceme
     {
         if (Input.GetKeyDown(KeyCode.Tab))
             CurrentGameState.UpdateState(x => x.showDetails = !x.showDetails);
-        
+        if (Input.GetKeyDown(KeyCode.V))
+            Message.Publish(new SpawnNpcs(1));
+
         if (CurrentGameState.ReadOnly.isPlacing || CurrentGameState.ReadOnly.isPicking || CurrentGameState.ReadOnly.isShowingMuseum)
             return;
         if(_camera == null) 
