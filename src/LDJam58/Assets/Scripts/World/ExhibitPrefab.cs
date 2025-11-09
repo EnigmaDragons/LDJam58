@@ -77,14 +77,14 @@ public class ExhibitPrefab : OnMessage<GameStateChanged>
             if (exhibit.isGhost)
             {
                 if (string.IsNullOrEmpty(exhibit.roomId))
-                    SetDisplay(string.Empty, Neutral(exhibitTileType.Enjoyment.ToString()), exhibitTileType.Tags.Sprites());
+                    SetDisplay(string.Empty, GameText.Neutral(exhibitTileType.Enjoyment.ToString()), exhibitTileType.Tags.Sprites());
                 else
                 {
-                    var joy = Neutral(exhibit.baseEnjoyment.ToString());
+                    var joy = GameText.Neutral(exhibit.baseEnjoyment.ToString());
                     if (exhibit.calculatedEnjoyment > exhibit.baseEnjoyment)
-                        joy += Positive($"+{exhibit.calculatedEnjoyment-exhibit.baseEnjoyment}");
+                        joy += GameText.Positive($"+{exhibit.calculatedEnjoyment-exhibit.baseEnjoyment}");
                     else if (exhibit.calculatedEnjoyment < exhibit.baseEnjoyment)
-                        joy += Negative($"-{exhibit.baseEnjoyment-exhibit.calculatedEnjoyment}");
+                        joy += GameText.Negative($"-{exhibit.baseEnjoyment-exhibit.calculatedEnjoyment}");
                     SetDisplay(string.Empty, joy, exhibitTileType.Tags.Sprites());
                 }
             }
@@ -93,21 +93,21 @@ public class ExhibitPrefab : OnMessage<GameStateChanged>
                 var ghostExhibit = state.Exhibits[state.focusedExhibit];
                 var synergies = CurrentGameState.CalculateAdjacencyBonus(ghostExhibit.tags, exhibit.tags);
                 var tags = "";
-                var joy = Neutral(exhibit.calculatedEnjoyment.ToString());
+                var joy = GameText.Neutral(exhibit.calculatedEnjoyment.ToString());
                 if (synergies.Any(x => x.Item2 > 0))
                 {
                     tags = synergies.Select(x => x.Item1).Sprites();
-                    joy = Positive(exhibit.calculatedEnjoyment.ToString());
+                    joy = GameText.Positive(exhibit.calculatedEnjoyment.ToString());
                 }
                 else if (synergies.Any(x => x.Item2 < 0))
                 {
                     tags = synergies.Select(x => x.Item1).Sprites();
-                    joy = Negative(exhibit.calculatedEnjoyment.ToString());
+                    joy = GameText.Negative(exhibit.calculatedEnjoyment.ToString());
                 }
                 if (exhibit.ghostEnjoyment > exhibit.calculatedEnjoyment)
-                    joy += Positive($"+{exhibit.ghostEnjoyment-exhibit.calculatedEnjoyment}");
+                    joy += GameText.Positive($"+{exhibit.ghostEnjoyment-exhibit.calculatedEnjoyment}");
                 else if (exhibit.ghostEnjoyment < exhibit.calculatedEnjoyment)
-                    joy += Negative($"-{exhibit.calculatedEnjoyment-exhibit.ghostEnjoyment}");
+                    joy += GameText.Negative($"-{exhibit.calculatedEnjoyment-exhibit.ghostEnjoyment}");
                 SetDisplay(string.Empty, joy, tags);   
             }
             else
@@ -123,25 +123,16 @@ public class ExhibitPrefab : OnMessage<GameStateChanged>
         {
             //hovering
             if (state.focusedExhibit == exhibit.name)
-                SetDisplay(exhibit.name, Neutral(exhibit.calculatedEnjoyment.ToString()), exhibit.tags.Sprites());
+                SetDisplay(exhibit.name, GameText.Neutral(exhibit.calculatedEnjoyment.ToString()), exhibit.tags.Sprites());
             //hovering room & show details
             else if (state.showDetails && state.focusedRoom == exhibit.roomId)
             {
-                SetDisplay("", Neutral(exhibit.calculatedEnjoyment.ToString()), exhibit.tags.Sprites());
+                SetDisplay("", GameText.Neutral(exhibit.calculatedEnjoyment.ToString()), exhibit.tags.Sprites());
             }
             else 
                 SetDisplay(string.Empty, string.Empty, string.Empty);
         }
     }
-
-    private string Neutral(string strToWrap)
-        => $"<color=black>{strToWrap}</color>";
-    
-    private string Positive(string strToWrap)
-        => $"<color=green>{strToWrap}</color>";
-
-    private string Negative(string strToWrap)
-        => $"<color=red>{strToWrap}</color>";
 
     protected override void Execute(GameStateChanged msg)
     {

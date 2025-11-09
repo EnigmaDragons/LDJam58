@@ -60,7 +60,7 @@ public class GameManager : OnMessage<AdvancePeriod, BeginPickThree, StartPlaceme
             gs.Exhibits.Values.ForEach(x => x.seasonScore = 0);
             return gs;
         });
-
+        Message.Publish(new GroupCountChanged());
         Message.Publish(new SeasonInitialized(currentPeriod));
     }
 
@@ -108,6 +108,7 @@ public class GameManager : OnMessage<AdvancePeriod, BeginPickThree, StartPlaceme
             });
             return gs;
         });
+        Message.Publish(new ChangeGroupCount { Amount = msg.exhibit.Popularity, UiNumberPosition = msg.UiNumberPosition });
     }
 
     protected override void Execute(StopPlacement msg)

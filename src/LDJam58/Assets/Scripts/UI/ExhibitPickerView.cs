@@ -187,7 +187,7 @@ public class ExhibitPickerView : MonoBehaviour, IPointerEnterHandler, IPointerEx
     {
         var uiRect = transform as RectTransform;
         Message.Publish(new PlaySoundRequested(SoundType.ExhibitPicked, uiRect, null));
-        Message.Publish(new StartPlacement(_exhibitTileType));
+        Message.Publish(new StartPlacement(_exhibitTileType, _popularityMeter.GetComponent<RectTransform>().position));
         Message.Publish(new ExhibitPicked(_exhibitTileType));
         Message.Publish(new ClosePickMenu());
     }

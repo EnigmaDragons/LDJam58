@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8098515773775334606}
   - component: {fileID: 1820102711960996174}
   - component: {fileID: 2021808842243307421}
+  - component: {fileID: 8671684127022981961}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -35,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -130.5, y: -104}
-  m_SizeDelta: {x: 180, y: 64}
+  m_SizeDelta: {x: 150, y: 90}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &1820102711960996174
 CanvasRenderer:
@@ -65,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 200
+  m_text: 500
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc5db2ea4cf5218459e85e2080b6fd13, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: dc5db2ea4cf5218459e85e2080b6fd13, type: 2}
@@ -93,13 +94,13 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontSize: 40
-  m_fontSizeBase: 52
+  m_fontSizeBase: 40
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 40
   m_fontStyle: 0
-  m_HorizontalAlignment: 4
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -136,6 +137,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8671684127022981961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163427937740192871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3012ab753b284b1eaf0f9c6dc65d538c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PoppingText
+  label: {fileID: 2021808842243307421}
+  fontSize: 40
+  popFontSize: 60
+  shrinkSeconds: 2
 --- !u!1 &1008606125748310439
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,6 +244,7 @@ GameObject:
   - component: {fileID: 277866991148735041}
   - component: {fileID: 8442360985654841213}
   - component: {fileID: 1240655428669331603}
+  - component: {fileID: 4871712550094480724}
   m_Layer: 5
   m_Name: GameUI
   m_TagString: Untagged
@@ -346,7 +364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30130fef0088f47f0aa6c2bc82b80523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CurrentGroupCounter
-  _counterText: {fileID: 2021808842243307421}
+  counter: {fileID: 4094737643251680292}
 --- !u!114 &8442360985654841213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,6 +392,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameUiController
   addExhibitButton: {fileID: 2197963917561079150}
   openMuseumButton: {fileID: 6444484958557053285}
+--- !u!114 &4871712550094480724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248908507783098123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 417d64c76c3c4e1d9fcab753ea9db3ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ImpactGameUI
+  groupCounter: {fileID: 2021808842243307421}
 --- !u!1 &1870968736284769563
 GameObject:
   m_ObjectHideFlags: 0
@@ -1238,6 +1269,7 @@ GameObject:
   - component: {fileID: 8833134221521155649}
   - component: {fileID: 1730402268597345497}
   - component: {fileID: 3189596366468840520}
+  - component: {fileID: 4094737643251680292}
   m_Layer: 5
   m_Name: VisitorsCounter
   m_TagString: Untagged
@@ -1260,6 +1292,7 @@ RectTransform:
   - {fileID: 2007337945437836389}
   - {fileID: 6457066083628997087}
   - {fileID: 8608704046903896701}
+  - {fileID: 2343358815390918333}
   - {fileID: 8098515773775334606}
   m_Father: {fileID: 1940526067241627947}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1306,6 +1339,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4094737643251680292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6485385995722887071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69d3a76792cc49b5b587a9c5bd8f9adf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JuicyNumber
+  target: {fileID: 2343358815390918333}
+  risingTextPrefab: {fileID: 1552597126539251424, guid: 092f33fc48e0ce04ba16d39e6a5221e1,
+    type: 3}
+  poppingText: {fileID: 8671684127022981961}
 --- !u!1 &6817035747749922269
 GameObject:
   m_ObjectHideFlags: 0
@@ -1442,6 +1491,41 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &6862780819732438218
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2343358815390918333}
+  m_Layer: 5
+  m_Name: RisingTextTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2343358815390918333
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6862780819732438218}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8833134221521155649}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -33, y: 15.3}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7010751939356621265
 GameObject:
   m_ObjectHideFlags: 0
