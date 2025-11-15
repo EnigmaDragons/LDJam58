@@ -296,7 +296,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4547264332511622633}
   - component: {fileID: 4576031809985255693}
-  - component: {fileID: 6742439695982874591}
+  - component: {fileID: 7926351284203973648}
   m_Layer: 5
   m_Name: Screen
   m_TagString: Untagged
@@ -342,7 +342,7 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &6742439695982874591
+--- !u!114 &7926351284203973648
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -351,11 +351,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6579869278286547082}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da0aa41f4a3ca426bb53a44b1fde9bd6, type: 3}
+  m_Script: {fileID: 11500000, guid: e0078c1bf6b994a02804009c8ac3c26c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::IntroLoopSceneBackgroundMusic
+  m_EditorClassIdentifier: Assembly-CSharp::PlayMusicOnEnable
   music: {fileID: 11400000, guid: f0d267cf5058d4e62b102d6bdbc01ac2, type: 2}
-  musicPlayer: {fileID: 11400000, guid: 95f47694e0b28ce48a808ae15f18f4d8, type: 2}
 --- !u!1 &6783230725042261002
 GameObject:
   m_ObjectHideFlags: 0

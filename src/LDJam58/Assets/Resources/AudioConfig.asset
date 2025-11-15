@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21205bbcc76c04218a83b99acab8a2f7, type: 3}
+  m_Name: AudioConfig
+  m_EditorClassIdentifier: Assembly-CSharp::AudioConfig
+  mixer: {fileID: 24100000, guid: d6eedae8265dd6146907e7ef03b80fb6, type: 2}
+  channels:
+  - channel: 1
+    mixerParameterName: MusicVolume
+    reductionDb:
+      UseConstant: 0
+      ConstantValue: 0
+      FloatVariable: {fileID: 11400000, guid: 9ac918dfd50115d40affcd6790d23bf9, type: 2}
+    previewClip: {fileID: 0}
+    mixerGroup: {fileID: -3629216175240539315, guid: d6eedae8265dd6146907e7ef03b80fb6,
+      type: 2}
+  - channel: 2
+    mixerParameterName: SoundVolume
+    reductionDb:
+      UseConstant: 0
+      ConstantValue: 0
+      FloatVariable: {fileID: 11400000, guid: f74bf7ab3b0f4ac4f9bdb09aa74c685c, type: 2}
+    previewClip: {fileID: 0}
+    mixerGroup: {fileID: -5586420925646639766, guid: d6eedae8265dd6146907e7ef03b80fb6,
+      type: 2}
+  sounds:
+  - id: 1
+    clip: {fileID: 8300000, guid: 16839232fe73d4e96ac5c0b27c081a0f, type: 3}
+    volume: 0.5
+  - id: 2
+    clip: {fileID: 8300000, guid: cc719cb87c65b44a1a8ffcd67250fc28, type: 3}
+    volume: 0.5
+  - id: 3
+    clip: {fileID: 8300000, guid: 8de246e274a114ba6b3999e8297b43f3, type: 3}
+    volume: 0.5
+  - id: 4
+    clip: {fileID: 8300000, guid: 5f87ec7b6a43f4d73ac5b2bb240a2668, type: 3}
+    volume: 0.5
+  - id: 5
+    clip: {fileID: 8300000, guid: ba528c159db99441d87b947b34bb13a4, type: 3}
+    volume: 0.5
+  - id: 6
+    clip: {fileID: 8300000, guid: 2f2de4a5209bf4ce586c71cac8708688, type: 3}
+    volume: 0.5
+  - id: 7
+    clip: {fileID: 8300000, guid: a79c3d26e6a7b4100b7c9236b080c49b, type: 3}
+    volume: 1
+  - id: 70
+    clip: {fileID: 8300000, guid: bf0e057088a9f43349af30737ee2f486, type: 3}
+    volume: 1
+  - id: 71
+    clip: {fileID: 8300000, guid: 6d47204ed7dd54376aab5d40f4bc7452, type: 3}
+    volume: 1
+  - id: 72
+    clip: {fileID: 8300000, guid: 78b21d20153e94303a0e6249e52a8d83, type: 3}
+    volume: 1
+  - id: 80
+    clip: {fileID: 8300000, guid: 457c39befa0714fb887cd149f5338a67, type: 3}
+    volume: 0.6
+  introLoopPlayer: {fileID: 11400000, guid: 95f47694e0b28ce48a808ae15f18f4d8, type: 2}
+  musicTracksByIndex:
+  - {fileID: 11400000, guid: 4383b549d38e04deda2db9e651c43822, type: 2}
+  - {fileID: 11400000, guid: a4c48b2313af3488e93f0b520b473743, type: 2}
+  - {fileID: 11400000, guid: a4c935dc771a5463186656aeae1bdca7, type: 2}
+  - {fileID: 11400000, guid: 33a1ad64f549b4d33a0488656226c9bf, type: 2}
+  - {fileID: 11400000, guid: 8fae421f462074e9883812950f9b5012, type: 2}
+  sceneMusicMappings:
+  - sceneName: LogoScene
+    music: {fileID: 11400000, guid: 385da5128fdfd44ed831173cf5c6e370, type: 2}
+  - sceneName: MainMenu
+    music: {fileID: 11400000, guid: bc0ae024edab747c39b06e8893990724, type: 2}
+  - sceneName: IntroScene
+    music: {fileID: 11400000, guid: 1c6897fb786a940b09c1162b2a5d8ddc, type: 2}
+  - sceneName: CreditsScene
+    music: {fileID: 11400000, guid: 67d0cc68b3dad43ad87b092d95127368, type: 2}

@@ -16,6 +16,28 @@ public static class CurrentGameState
     public static void Subscribe(Action<GameStateChanged> onChange, object owner) => Message.Subscribe(onChange, owner);
     public static void Unsubscribe(object owner) => Message.Unsubscribe(owner);
     
+    /// <summary>
+    /// Checks if two grid nodes are adjacent (touching edges).
+    /// Two nodes are adjacent if they are cardinal neighbors (north/south/east/west).
+    /// Since the grid uses 2-unit cells but nodes can be at 1-unit intervals,
+    /// we check for Manhattan distance of 1 or 2, but ONLY cardinal (not diagonal).
+    /// </summary>
+    /// <param name="node1">First node position</param>
+    /// <param name="node2">Second node position</param>
+    /// <returns>True if the nodes are adjacent (edge-touching), false otherwise</returns>
+    public static bool AreNodesAdjacent(Vector2Int node1, Vector2Int node2)
+    {
+        var dx = Mathf.Abs(node1.x - node2.x);
+        var dy = Mathf.Abs(node1.y - node2.y);
+        
+        // Cardinal neighbors: must be in same row (dy == 0) OR same column (dx == 0)
+        // And distance must be 1 or 2 units
+        var isCardinal = (dx == 0 && dy > 0) || (dy == 0 && dx > 0);
+        var distance = dx + dy;
+        
+        return isCardinal && (distance == 1 || distance == 2);
+    }
+    
     public static void UpdateState(Action<GameState> apply)
     {
         UpdateState(_ =>
@@ -61,19 +83,35 @@ public static class CurrentGameState
             
             var exhibitRoom = state.Rooms[roomId];
             var adjacencies = new HashSet<Vector2Int>();
+            Debug.Log($"UpdatePlacedExhibit: {exhibit.DisplayName} occupies nodes: {string.Join(", ", nodes.Select(n => n.ToString()))}");
             foreach (var node in nodes)
             {
                 exhibitRoom.exhibitIds[node] = exhibit.DisplayName;
-                var directionsFromNode = new[] {node + Vector2Int.down * 2, node + Vector2Int.right * 2, node + Vector2Int.left * 2, node + Vector2Int.up * 2};
-                foreach (var potentialAdjacent in directionsFromNode)
+            }
+            
+            // Check all room nodes to find adjacent exhibits
+            // Two exhibits are adjacent if any of their nodes are edge-touching (cardinal neighbors: distance 1 or 2, but not diagonal)
+            foreach (var node in nodes)
+            {
+                foreach (var roomNode in exhibitRoom.exhibitIds.Keys)
                 {
-                    if (nodes.Any(x => x == potentialAdjacent))
+                    // Skip if it's one of our own nodes
+                    if (nodes.Any(x => x == roomNode))
                         continue;
-                    if (!exhibitRoom.exhibitIds.ContainsKey(potentialAdjacent))
+                    
+                    // Check if this room node is adjacent (edge-touching)
+                    if (!AreNodesAdjacent(node, roomNode))
                         continue;
-                    adjacencies.Add(potentialAdjacent);
+                    
+                    var adjacentExhibitName = exhibitRoom.exhibitIds[roomNode];
+                    if (string.IsNullOrEmpty(adjacentExhibitName))
+                        continue;
+                    
+                    Debug.Log($"  Found adjacent exhibit '{adjacentExhibitName}' at {roomNode} (adjacent to {node})");
+                    adjacencies.Add(roomNode);
                 }
             }
+            Debug.Log($"  Total adjacencies found: {adjacencies.Count}");
             state.Exhibits[exhibit.DisplayName] = new ExhibitState
             {
                 name = exhibit.DisplayName,
@@ -163,18 +201,63 @@ public static class CurrentGameState
                 foreach (var exhibitId in exhibitIds)
                 {
                     var exhibit = state.Exhibits[exhibitId];
-                    var adjacentExhibits = exhibit.adjacencies
-                        .Where(x => !string.IsNullOrEmpty(room.exhibitIds[x]))
-                        .Select(x => room.exhibitIds[x])
-                        .Distinct()
-                        .Select(x => state.Exhibits[x])
-                        .ToArray();
-                    exhibit.calculatedEnjoyment = Math.Max(0, exhibit.baseEnjoyment + adjacentExhibits
+                    // Find all nodes that belong to this exhibit
+                    var exhibitNodes = room.exhibitIds.Where(x => x.Value == exhibitId).Select(x => x.Key).ToArray();
+                    Debug.Log($"CalculateEnjoyment for {exhibitId}: occupies nodes = {string.Join(", ", exhibitNodes.Select(a => a.ToString()))}");
+                    
+                    // Dynamically find adjacent exhibits by checking all room nodes
+                    // Two exhibits are adjacent if any of their nodes are edge-touching (cardinal neighbors: distance 1 or 2, but not diagonal)
+                    var adjacentExhibitNames = new HashSet<string>();
+                    foreach (var node in exhibitNodes)
+                    {
+                        foreach (var roomNode in room.exhibitIds.Keys)
+                        {
+                            // Skip if it's one of our own nodes
+                            if (exhibitNodes.Any(x => x == roomNode))
+                                continue;
+                            
+                            // Check if this room node is adjacent (edge-touching)
+                            var isAdjacent = AreNodesAdjacent(node, roomNode);
+                            if (!isAdjacent)
+                            {
+                                // Debug: log close but not adjacent nodes
+                                var distance = Mathf.Abs(node.x - roomNode.x) + Mathf.Abs(node.y - roomNode.y);
+                                if (distance <= 3)
+                                {
+                                    var nearbyExhibitName = room.exhibitIds[roomNode];
+                                    if (!string.IsNullOrEmpty(nearbyExhibitName))
+                                    {
+                                        var dx = Mathf.Abs(node.x - roomNode.x);
+                                        var dy = Mathf.Abs(node.y - roomNode.y);
+                                        var isDiagonal = dx == dy && dx > 0;
+                                        var reason = isDiagonal ? "diagonal (not cardinal)" : $"distance {distance} (needs 1 or 2, cardinal only)";
+                                        Debug.Log($"  Node {node} is distance {distance} from {roomNode} (exhibit: {nearbyExhibitName}) - NOT adjacent ({reason})");
+                                    }
+                                }
+                                continue;
+                            }
+                            
+                            var adjacentExhibitName = room.exhibitIds[roomNode];
+                            if (string.IsNullOrEmpty(adjacentExhibitName))
+                                continue;
+                            
+                            Debug.Log($"  Found adjacent node pair: {node} <-> {roomNode} (exhibit: {adjacentExhibitName})");
+                            adjacentExhibitNames.Add(adjacentExhibitName);
+                        }
+                    }
+                    
+                    var adjacentExhibits = adjacentExhibitNames.Select(x => state.Exhibits[x]).ToArray();
+                    Debug.Log($"  Adjacent exhibits: {string.Join(", ", adjacentExhibits.Select(e => e.name))}");
+                    var bonusTotal = adjacentExhibits
                         .Where(x => !x.isGhost)
-                        .Sum(adjacentExhibit => CalculateAdjacencyBonus(exhibit.tags, adjacentExhibit.tags).Sum(x => x.Item2)));
-                    exhibit.ghostEnjoyment = Math.Max(0, exhibit.calculatedEnjoyment + adjacentExhibits
+                        .Sum(adjacentExhibit => CalculateAdjacencyBonus(exhibit.tags, adjacentExhibit.tags).Sum(x => x.Item2));
+                    var ghostBonus = adjacentExhibits
                         .Where(x => x.isGhost)
-                        .Sum(adjacentExhibit => CalculateAdjacencyBonus(exhibit.tags, adjacentExhibit.tags).Sum(x => x.Item2)));
+                        .Sum(adjacentExhibit => CalculateAdjacencyBonus(exhibit.tags, adjacentExhibit.tags).Sum(x => x.Item2));
+                    Debug.Log($"  Base enjoyment: {exhibit.baseEnjoyment}, Bonus: {bonusTotal}, Ghost Bonus: {ghostBonus}, Total: {exhibit.baseEnjoyment + bonusTotal}");
+                    exhibit.calculatedEnjoyment = Math.Max(0, exhibit.baseEnjoyment + bonusTotal);
+                    exhibit.ghostEnjoyment = Math.Max(0, exhibit.calculatedEnjoyment + ghostBonus);
+                    Debug.Log($"  Final values - calculatedEnjoyment: {exhibit.calculatedEnjoyment}, ghostEnjoyment: {exhibit.ghostEnjoyment}");
                 }
             }
         });

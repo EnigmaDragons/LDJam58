@@ -155,6 +155,7 @@ namespace Game.TilePlacement
             inst.transform.SetParent(grid.transform);
             CurrentGameState.UpdatePlacedExhibit(exhibitTileType, roomId, placedNodes, false);
             Message.Publish(new ExhibitPlaced(inst, exhibitTileType));
+            Message.Publish(new PlaySoundRequested(SoundType.ExhibitPlaced, default));
             DisableGhostObject();
             StopPlacing();
         }

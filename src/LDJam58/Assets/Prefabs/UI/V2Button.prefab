@@ -148,7 +148,6 @@ GameObject:
   - component: {fileID: 770118938747804569}
   - component: {fileID: 3266360461075516186}
   - component: {fileID: 318613285629866975}
-  - component: {fileID: 6077724484713037909}
   m_Layer: 5
   m_Name: V2Button
   m_TagString: Untagged
@@ -258,22 +257,3 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6077724484713037909
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6494032195906536459}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f2f8fee63b8472cb49e686c5220708b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::OnClickPlayUiSound
-  button: {fileID: 318613285629866975}
-  sound: {fileID: 8300000, guid: 457c39befa0714fb887cd149f5338a67, type: 3}
-  player: {fileID: 11400000, guid: bfe56e3518f684c4387de97bd5db348d, type: 2}
-  volume:
-    UseConstant: 1
-    ConstantValue: 0.4
-    FloatVariable: {fileID: 0}

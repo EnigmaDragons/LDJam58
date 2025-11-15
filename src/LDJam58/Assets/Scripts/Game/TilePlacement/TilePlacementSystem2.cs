@@ -80,6 +80,7 @@ public class TilePlacementSystem2 : OnMessage<StartPlacement>
             });
             _exhibit = null;
             Message.Publish(new ExhibitPlaced(inst, _exhibit));
+            Message.Publish(new PlaySoundRequested(SoundType.ExhibitPlaced, default));
             Message.Publish(new StopPlacement());
         }
     }

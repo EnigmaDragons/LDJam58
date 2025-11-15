@@ -25,8 +25,8 @@
      // optional target folder
      public string folder;
 
-     public AudioClip screenshotSound;
-     public UiSfxPlayer soundPlayer;
+     // TODO: Add SoundType.Screenshot to AudioConfig and use AudioSystem here
+     // public SoundType screenshotSound = SoundType.Screenshot;
 
      public bool enableVideoCapture = false;
      
@@ -72,12 +72,11 @@
      {
          captureVideo = enableVideoCapture && Input.GetKey("v");
  
-         if (captureScreenshot || captureVideo)
-         {
-             if (soundPlayer != null && screenshotSound != null)
-                 soundPlayer.Play(screenshotSound);
-                     
-             captureScreenshot = false;
+        if (captureScreenshot || captureVideo)
+        {
+            // TODO: AudioSystem.Instance.Play(screenshotSound, default);
+                    
+            captureScreenshot = false;
  
              if (hideGameObject != null) 
                  hideGameObject.SetActive(false);

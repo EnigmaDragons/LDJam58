@@ -22,9 +22,5 @@ public class IntroLoopAudioPlayer : ScriptableObject
         
         currentClip = clipToPlay;
         IntroloopPlayer.Instance.Play(clipToPlay);
-    
-        var volume = PlayerPrefs.GetFloat(volumeValueName, 0.5f);
-        var mixerVolume = (Mathf.Log10(volume) * 20) - reductionDb;
-        mixer.SetFloat(volumeValueName, mixerVolume);
     }
 }

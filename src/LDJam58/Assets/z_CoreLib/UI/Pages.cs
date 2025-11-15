@@ -3,8 +3,8 @@ using UnityEngine;
 public sealed class Pages : MonoBehaviour
 {
     [SerializeField] private Page[] pages;
-    [SerializeField] private AudioClip pageSound;
-    [SerializeField] private UiSfxPlayer player;
+    // TODO: Add SoundType.PageTurn to AudioConfig and use AudioSystem here
+    // [SerializeField] private SoundType pageTurnSound = SoundType.PageTurn;
 
     private IndexSelector<Page> _pages;
     
@@ -29,13 +29,13 @@ public sealed class Pages : MonoBehaviour
     {
         _pages.Current.gameObject.SetActive(false);
         _pages.MoveNextWithoutLooping().gameObject.SetActive(true);
-        player.Play(pageSound);
+        // TODO: AudioSystem.Instance.Play(pageTurnSound, default);
     }
 
     public void MovePrevious()
     {
         _pages.Current.gameObject.SetActive(false);
         _pages.MovePrevious().gameObject.SetActive(true);
-        player.Play(pageSound);
+        // TODO: AudioSystem.Instance.Play(pageTurnSound, default);
     }
 }

@@ -305,6 +305,50 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72e6df70b1fbc47ad8d19eb5ef836963, type: 3}
+--- !u!1 &775891102
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 775891104}
+  - component: {fileID: 775891103}
+  m_Layer: 0
+  m_Name: SeasonMusic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &775891103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775891102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cc0b3ad004f8445b8254c1901414da4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlaySeasonMusic
+--- !u!4 &775891104
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775891102}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1074716860
 GameObject:
   m_ObjectHideFlags: 0
@@ -4187,73 +4231,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88fe5ff6600c94353b2e9787e3161498, type: 3}
---- !u!1001 &5220456379846330405
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1585748256982858, guid: dcb69d69410e84ab79787e973470d0b5, type: 3}
-      propertyPath: m_Name
-      value: SeasonMusic
-      objectReference: {fileID: 0}
-    - target: {fileID: 1686657989426740457, guid: dcb69d69410e84ab79787e973470d0b5,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1686657989426740457, guid: dcb69d69410e84ab79787e973470d0b5,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1686657989426740457, guid: dcb69d69410e84ab79787e973470d0b5,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1686657989426740457, guid: dcb69d69410e84ab79787e973470d0b5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1686657989426740457, guid: dcb69d69410e84ab79787e973470d0b5,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1686657989426740457, guid: dcb69d69410e84ab79787e973470d0b5,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1686657989426740457, guid: dcb69d69410e84ab79787e973470d0b5,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1686657989426740457, guid: dcb69d69410e84ab79787e973470d0b5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1686657989426740457, guid: dcb69d69410e84ab79787e973470d0b5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1686657989426740457, guid: dcb69d69410e84ab79787e973470d0b5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: dcb69d69410e84ab79787e973470d0b5, type: 3}
 --- !u!1001 &6840997736621290948
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4455,7 +4432,6 @@ SceneRoots:
   - {fileID: 2095171107125763228}
   - {fileID: 6840997736621290948}
   - {fileID: 183044285533184094}
-  - {fileID: 5220456379846330405}
   - {fileID: 1876417936785459302}
   - {fileID: 372873725}
   - {fileID: 2134244623}
@@ -4466,3 +4442,4 @@ SceneRoots:
   - {fileID: 1074716864}
   - {fileID: 267131821}
   - {fileID: 1685735932}
+  - {fileID: 775891104}
