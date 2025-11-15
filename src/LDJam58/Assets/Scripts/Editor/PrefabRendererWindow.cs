@@ -14,6 +14,10 @@ public class PrefabRendererWindow : EditorWindow
     
     private const string PhotostudioScenePath = "Assets/Scenes/Pipeline/PhotoStudioV2.unity";
     
+    // Placement offset configuration
+    private Vector3 _offset3x3 = new Vector3(0, 0f, 0f);
+    private Vector3 _offset3x2 = new Vector3(0, 0f, 0f);
+    
     // Batch processing variables
     private List<GameObject> _prefabsToProcess;
     private int _currentPrefabIndex;
@@ -42,6 +46,13 @@ public class PrefabRendererWindow : EditorWindow
             false
         );
 
+        EditorGUILayout.Space(10);
+        
+        // Placement offset configuration
+        EditorGUILayout.LabelField("Placement Offsets", EditorStyles.boldLabel);
+        _offset3x3 = EditorGUILayout.Vector3Field("3x3 Offset", _offset3x3);
+        _offset3x2 = EditorGUILayout.Vector3Field("3x2 Offset", _offset3x2);
+        
         EditorGUILayout.Space(10);
 
         // Render button
@@ -167,7 +178,7 @@ public class PrefabRendererWindow : EditorWindow
             RenderTexture.active = null;
             
             // Convert to JPG and save
-            var jpgData = texture2D.EncodeToJPG(80);
+            var jpgData = texture2D.EncodeToJPG(86);
             
             // Create output directory if it doesn't exist
             var outputDir = Path.Combine(Application.dataPath, "Resources", "Exh", "Sprites");
@@ -346,7 +357,7 @@ public class PrefabRendererWindow : EditorWindow
             RenderTexture.active = null;
             
             // Convert to JPG and save
-            var jpgData = texture2D.EncodeToJPG(80);
+            var jpgData = texture2D.EncodeToJPG(86);
             
             // Create output directory if it doesn't exist
             var outputDir = Path.Combine(Application.dataPath, "Resources", "Exh", "Sprites");
@@ -421,11 +432,11 @@ public class PrefabRendererWindow : EditorWindow
             var child = parent.transform.GetChild(i).gameObject;
             if (child.name.StartsWith("PlacementBase-3x3"))
             {
-                return new Vector3(-1f, 0f, -1f);
+                return _offset3x3;
             }
             if (child.name.StartsWith("PlacementBase-3x2"))
             {
-                return new Vector3(-1f, 0f, 0f);
+                return _offset3x2;
             }
         }
         return Vector3.zero;
